@@ -32,20 +32,28 @@ codex_usage_model as (
 {% endif %}
 
 -- Neither side alone is guaranteed to carry every (source_relation, day, user) combination,
--- so the grain is built from whichever side(s) actually have rows.
+-- so the grain is built from whichever side(s) actually have rows. codex_usage_model is at
+-- (day, user, model, speed) grain, so its contribution here must be de-duplicated down to
+-- (day, user) — the outer select distinct, not a plain union all, is what keeps this unique.
 spine as (
 
-    {% if codex_usage_enabled %}
-    select source_relation, usage_started_at, user_id
-    from codex_usage
-    {% endif %}
+    select distinct source_relation, usage_started_at, user_id
+    from (
 
-    {{ 'union all' if codex_usage_enabled and codex_usage_model_enabled }}
+        {% if codex_usage_enabled %}
+        select source_relation, usage_started_at, user_id
+        from codex_usage
+        {% endif %}
 
-    {% if codex_usage_model_enabled %}
-    select source_relation, usage_started_at, user_id
-    from codex_usage_model
-    {% endif %}
+        {{ 'union all' if codex_usage_enabled and codex_usage_model_enabled }}
+
+        {% if codex_usage_model_enabled %}
+        select source_relation, usage_started_at, user_id
+        from codex_usage_model
+        {% endif %}
+
+    ) as spine_keys
+
 ),
 
 {% if codex_usage_model_enabled %}
