@@ -1,0 +1,3 @@
+id,name,_fivetran_deleted,_fivetran_synced
+grp-engineering01,Engineering,false,2025-12-31 08:00:00
+grp-marketing02,Marketing,false,2025-12-31 08:00:00

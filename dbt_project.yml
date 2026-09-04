@@ -1,0 +1,43 @@
+name: 'openai'
+version: '0.1.0'
+
+config-version: 2
+require-dbt-version: [">=1.3.0", "<3.0.0"]
+
+models:
+  openai:
+    +schema: openai_reports
+    +materialized: table
+    staging:
+      +schema: openai_staging
+      +materialized: view
+      tmp:
+        +schema: openai_staging
+        +materialized: view
+    intermediate:
+      +schema: openai_staging
+      +materialized: ephemeral
+
+vars:
+  openai_sources: []
+
+  openai_using_cost: true
+  openai_using_completion: true
+  openai_using_embedding: true
+  openai_using_audio_transcription: true
+  openai_using_audio_speech: true
+  openai_using_image: true
+  openai_using_moderation: true
+  openai_using_web_search_call: true
+  openai_using_file_search_call: true
+  openai_using_codex_usage: true
+  openai_using_codex_usage_model: true
+  openai_using_project: true
+  openai_using_project_api_key: true
+  openai_using_users: true
+  openai_using_project_user: true
+  openai_using_project_user_role: true
+  openai_using_project_role: true
+  openai_using_users_role: true
+  openai_using_groups: true
+  openai_using_invite: true

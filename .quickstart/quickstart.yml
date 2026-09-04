@@ -1,0 +1,160 @@
+database_key: openai_database
+schema_key: openai_schema
+
+dbt_versions: ">=1.3.0 <3.0.0"
+
+table_variables:
+  openai_using_cost:
+    - cost
+  openai_using_completion:
+    - completion
+  openai_using_embedding:
+    - embedding
+  openai_using_audio_transcription:
+    - audio_transcription
+  openai_using_audio_speech:
+    - audio_speech
+  openai_using_image:
+    - image
+  openai_using_moderation:
+    - moderation
+  openai_using_web_search_call:
+    - web_search_call
+  openai_using_file_search_call:
+    - file_search_call
+  openai_using_codex_usage:
+    - codex_usage
+  openai_using_codex_usage_model:
+    - codex_usage_model
+  openai_using_project:
+    - project
+  openai_using_project_api_key:
+    - project_api_key
+  openai_using_users:
+    - users
+  openai_using_project_user:
+    - project_user
+  openai_using_project_user_role:
+    - project_user_role
+  openai_using_project_role:
+    - project_role
+  openai_using_users_role:
+    - users_role
+  openai_using_groups:
+    - groups
+  openai_using_invite:
+    - invite
+
+destination_configurations:
+  databricks:
+    dispatch:
+      - macro_namespace: dbt_utils
+        search_order: [ 'spark_utils', 'dbt_utils' ]
+
+public_models: [
+  "openai__cost_usage_report",
+  "openai__enterprise_user_report",
+  "openai__code_report",
+  "openai__user_summary"
+]
+
+supported_vars:
+  openai_using_cost:
+    type: boolean
+    description: "Enable if the connector syncs the `cost` table."
+    display_name: "Enable Cost"
+
+  openai_using_completion:
+    type: boolean
+    description: "Enable if the connector syncs the `completion` table."
+    display_name: "Enable Completion"
+
+  openai_using_embedding:
+    type: boolean
+    description: "Enable if the connector syncs the `embedding` table."
+    display_name: "Enable Embedding"
+
+  openai_using_audio_transcription:
+    type: boolean
+    description: "Enable if the connector syncs the `audio_transcription` table."
+    display_name: "Enable Audio Transcription"
+
+  openai_using_audio_speech:
+    type: boolean
+    description: "Enable if the connector syncs the `audio_speech` table."
+    display_name: "Enable Audio Speech"
+
+  openai_using_image:
+    type: boolean
+    description: "Enable if the connector syncs the `image` table."
+    display_name: "Enable Image"
+
+  openai_using_moderation:
+    type: boolean
+    description: "Enable if the connector syncs the `moderation` table."
+    display_name: "Enable Moderation"
+
+  openai_using_web_search_call:
+    type: boolean
+    description: "Enable if the connector syncs the `web_search_call` table."
+    display_name: "Enable Web Search Call"
+
+  openai_using_file_search_call:
+    type: boolean
+    description: "Enable if the connector syncs the `file_search_call` table."
+    display_name: "Enable File Search Call"
+
+  openai_using_codex_usage:
+    type: boolean
+    description: "Enable if the connector syncs the `codex_usage` table."
+    display_name: "Enable Codex Usage"
+
+  openai_using_codex_usage_model:
+    type: boolean
+    description: "Enable if the connector syncs the `codex_usage_model` table."
+    display_name: "Enable Codex Usage Model"
+
+  openai_using_project:
+    type: boolean
+    description: "Enable if the connector syncs the `project` table."
+    display_name: "Enable Project"
+
+  openai_using_project_api_key:
+    type: boolean
+    description: "Enable if the connector syncs the `project_api_key` table."
+    display_name: "Enable Project API Key"
+
+  openai_using_users:
+    type: boolean
+    description: "Enable if the connector syncs the `users` table."
+    display_name: "Enable Users"
+
+  openai_using_project_user:
+    type: boolean
+    description: "Enable if the connector syncs the `project_user` table."
+    display_name: "Enable Project User"
+
+  openai_using_project_user_role:
+    type: boolean
+    description: "Enable if the connector syncs the `project_user_role` table."
+    display_name: "Enable Project User Role"
+
+  openai_using_project_role:
+    type: boolean
+    description: "Enable if the connector syncs the `project_role` table."
+    display_name: "Enable Project Role"
+
+  openai_using_users_role:
+    type: boolean
+    description: "Enable if the connector syncs the `users_role` table."
+    display_name: "Enable Users Role"
+
+  openai_using_groups:
+    type: boolean
+    description: "Enable if the connector syncs the `groups` table."
+    display_name: "Enable Groups"
+
+  openai_using_invite:
+    type: boolean
+    description: "Enable if the connector syncs the `invite` table."
+    display_name: "Enable Invite"

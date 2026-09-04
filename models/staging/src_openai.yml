@@ -1,0 +1,371 @@
+version: 2
+
+sources:
+  - name: openai
+    schema: "{{ var('openai_schema', 'openai') }}"
+    database: "{% if target.type != 'spark' %}{{ var('openai_database', target.database) }}{% endif %}"
+
+    tables:
+      - name: cost
+        identifier: "{{ var('openai_cost_identifier', 'cost') }}"
+        description: Daily organization-level spend from the OpenAI Costs API, one row per (day, line item). The line item string carries the model and cost unit type (input, output, or cached input) for spend rows, and a feature/aggregate label (e.g. "Assistants API") for rows that don't break down by model.
+        columns:
+          - name: _fivetran_id
+            description: Fivetran-generated unique identifier for this cost record.
+          - name: start_time
+            description: "{{ doc('usage_started_at') }}"
+          - name: line_item
+            description: Free-text label identifying what was billed — either "<model>, <unit type>" for model spend, or a feature name for non-model charges.
+          - name: amount_value
+            description: "{{ doc('cost_amount') }}"
+          - name: amount_currency
+            description: ISO currency code for `amount_value`. Always `usd` in practice.
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: completion
+        identifier: "{{ var('openai_completion_identifier', 'completion') }}"
+        description: Daily chat/completions token usage from the OpenAI Usage API, one row per (day, project, API key, model).
+        columns:
+          - name: _fivetran_id
+            description: Fivetran-generated unique identifier for this completion record.
+          - name: project_id
+            description: "{{ doc('project_id') }}"
+          - name: user_id
+            description: "{{ doc('user_id') }}"
+          - name: api_key_id
+            description: "{{ doc('api_key_id') }}"
+          - name: model
+            description: "{{ doc('model') }}"
+          - name: start_time
+            description: "{{ doc('usage_started_at') }}"
+          - name: input_token
+            description: "{{ doc('input_tokens') }}"
+          - name: input_cached_token
+            description: "{{ doc('cache_read_tokens') }}"
+          - name: output_token
+            description: "{{ doc('output_tokens') }}"
+          - name: num_model_request
+            description: "{{ doc('num_model_requests') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: embedding
+        identifier: "{{ var('openai_embedding_identifier', 'embedding') }}"
+        description: Daily embeddings token usage from the OpenAI Usage API, one row per (day, project, API key, user, model).
+        columns:
+          - name: project_id
+            description: "{{ doc('project_id') }}"
+          - name: user_id
+            description: "{{ doc('user_id') }}"
+          - name: api_key_id
+            description: "{{ doc('api_key_id') }}"
+          - name: model
+            description: "{{ doc('model') }}"
+          - name: start_time
+            description: "{{ doc('usage_started_at') }}"
+          - name: input_token
+            description: "{{ doc('input_tokens') }}"
+          - name: num_model_request
+            description: "{{ doc('num_model_requests') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: audio_transcription
+        identifier: "{{ var('openai_audio_transcription_identifier', 'audio_transcription') }}"
+        description: Daily speech-to-text (transcription) usage from the OpenAI Usage API, one row per (day, project, API key, user, model).
+        columns:
+          - name: project_id
+            description: "{{ doc('project_id') }}"
+          - name: user_id
+            description: "{{ doc('user_id') }}"
+          - name: api_key_id
+            description: "{{ doc('api_key_id') }}"
+          - name: model
+            description: "{{ doc('model') }}"
+          - name: start_time
+            description: "{{ doc('usage_started_at') }}"
+          - name: second
+            description: Seconds of audio transcribed in this usage bucket.
+          - name: num_model_request
+            description: "{{ doc('num_model_requests') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: audio_speech
+        identifier: "{{ var('openai_audio_speech_identifier', 'audio_speech') }}"
+        description: Daily text-to-speech usage from the OpenAI Usage API, one row per (day, project, API key, user, model).
+        columns:
+          - name: project_id
+            description: "{{ doc('project_id') }}"
+          - name: user_id
+            description: "{{ doc('user_id') }}"
+          - name: api_key_id
+            description: "{{ doc('api_key_id') }}"
+          - name: model
+            description: "{{ doc('model') }}"
+          - name: start_time
+            description: "{{ doc('usage_started_at') }}"
+          - name: input_token
+            description: "{{ doc('input_tokens') }}"
+          - name: num_model_request
+            description: "{{ doc('num_model_requests') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: image
+        identifier: "{{ var('openai_image_identifier', 'image') }}"
+        description: Daily image generation usage from the OpenAI Usage API, one row per (day, project, API key, user, model).
+        columns:
+          - name: project_id
+            description: "{{ doc('project_id') }}"
+          - name: user_id
+            description: "{{ doc('user_id') }}"
+          - name: api_key_id
+            description: "{{ doc('api_key_id') }}"
+          - name: model
+            description: "{{ doc('model') }}"
+          - name: start_time
+            description: "{{ doc('usage_started_at') }}"
+          - name: num_model_request
+            description: "{{ doc('num_model_requests') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: moderation
+        identifier: "{{ var('openai_moderation_identifier', 'moderation') }}"
+        description: Daily content-moderation usage from the OpenAI Usage API, one row per (day, project, API key, user, model).
+        columns:
+          - name: project_id
+            description: "{{ doc('project_id') }}"
+          - name: user_id
+            description: "{{ doc('user_id') }}"
+          - name: api_key_id
+            description: "{{ doc('api_key_id') }}"
+          - name: model
+            description: "{{ doc('model') }}"
+          - name: start_time
+            description: "{{ doc('usage_started_at') }}"
+          - name: input_token
+            description: "{{ doc('input_tokens') }}"
+          - name: num_model_request
+            description: "{{ doc('num_model_requests') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: web_search_call
+        identifier: "{{ var('openai_web_search_call_identifier', 'web_search_call') }}"
+        description: Daily web search tool call usage from the OpenAI Usage API, one row per (day, project, API key, user, model).
+        columns:
+          - name: _fivetran_id
+            description: Fivetran-generated unique identifier for this web search call record.
+          - name: project_id
+            description: "{{ doc('project_id') }}"
+          - name: user_id
+            description: "{{ doc('user_id') }}"
+          - name: api_key_id
+            description: "{{ doc('api_key_id') }}"
+          - name: model
+            description: "{{ doc('model') }}"
+          - name: start_time
+            description: "{{ doc('usage_started_at') }}"
+          - name: num_request
+            description: "{{ doc('num_requests') }}"
+          - name: num_model_request
+            description: "{{ doc('num_model_requests') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: file_search_call
+        identifier: "{{ var('openai_file_search_call_identifier', 'file_search_call') }}"
+        description: Daily file/vector store search tool call usage from the OpenAI Usage API, one row per (day, project, API key, user). This endpoint does not report a model.
+        columns:
+          - name: _fivetran_id
+            description: Fivetran-generated unique identifier for this file search call record.
+          - name: project_id
+            description: "{{ doc('project_id') }}"
+          - name: user_id
+            description: "{{ doc('user_id') }}"
+          - name: api_key_id
+            description: "{{ doc('api_key_id') }}"
+          - name: start_time
+            description: "{{ doc('usage_started_at') }}"
+          - name: num_request
+            description: "{{ doc('num_requests') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: codex_usage
+        identifier: "{{ var('openai_codex_usage_identifier', 'codex_usage') }}"
+        description: Daily Codex Enterprise usage per person from the Codex Analytics API — parent record carrying the actor's email and day-level productivity totals (lines added/removed, threads, turns). Child model/speed breakdown lives in `codex_usage_model`.
+        columns:
+          - name: start_time
+            description: Timestamp marking the start of the daily Codex usage bucket.
+          - name: user_id
+            description: "{{ doc('user_id') }}"
+          - name: actor_email
+            description: Email address of the person behind this Codex usage. Used as the durable person key across the Codex report.
+          - name: code_attribution_lines_added
+            description: Total lines of code added via Codex-attributed commits for this person on this day.
+          - name: code_attribution_lines_removed
+            description: Total lines of code removed via Codex-attributed commits for this person on this day.
+          - name: total_thread
+            description: Total Codex conversation threads started by this person on this day.
+          - name: total_turn
+            description: Total Codex conversation turns by this person on this day.
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: codex_usage_model
+        identifier: "{{ var('openai_codex_usage_model_identifier', 'codex_usage_model') }}"
+        description: Per-model, per-speed breakdown of Codex Enterprise credit and token usage, one row per (day, user, model, speed). Child of `codex_usage`.
+        columns:
+          - name: codex_usage_start_time
+            description: Foreign key to `codex_usage.start_time` — the day this model breakdown belongs to.
+          - name: codex_usage_user_id
+            description: Foreign key to `codex_usage.user_id` — the person this model breakdown belongs to.
+          - name: model
+            description: "{{ doc('model') }}"
+          - name: speed
+            description: Codex processing tier for this usage — `standard` or `fast` (the 2.5x priority tier).
+          - name: credit
+            description: "{{ doc('credits') }}"
+          - name: uncached_text_input_token
+            description: "{{ doc('input_tokens') }}"
+          - name: cached_text_input_token
+            description: "{{ doc('cache_read_tokens') }}"
+          - name: text_output_token
+            description: "{{ doc('output_tokens') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: project
+        identifier: "{{ var('openai_project_identifier', 'project') }}"
+        description: OpenAI Platform projects within the organization, one row per project.
+        columns:
+          - name: id
+            description: "{{ doc('project_id') }}"
+          - name: name
+            description: Display name of the project.
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: project_api_key
+        identifier: "{{ var('openai_project_api_key_identifier', 'project_api_key') }}"
+        description: API keys scoped to an OpenAI Platform project — the keys referenced by `api_key_id` on the usage and cost tables.
+        columns:
+          - name: id
+            description: "{{ doc('api_key_id') }}"
+          - name: name
+            description: Display name given to the API key when it was created.
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: users
+        identifier: "{{ var('openai_users_identifier', 'users') }}"
+        description: Organization-level users in the OpenAI Platform account, one row per user.
+        columns:
+          - name: id
+            description: "{{ doc('user_id') }}"
+          - name: email
+            description: Email address of the user.
+          - name: name
+            description: Display name of the user.
+          - name: role
+            description: Organization-level role of the user (e.g. `owner`, `reader`).
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: project_user
+        identifier: "{{ var('openai_project_user_identifier', 'project_user') }}"
+        description: Membership records linking users to the OpenAI Platform projects they belong to. `id` is the user id, not a distinct membership id.
+        columns:
+          - name: id
+            description: "{{ doc('user_id') }}"
+          - name: project_id
+            description: "{{ doc('project_id') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: project_user_role
+        identifier: "{{ var('openai_project_user_role_identifier', 'project_user_role') }}"
+        description: Custom role assigned to a user within a specific OpenAI Platform project.
+        columns:
+          - name: project_id
+            description: "{{ doc('project_id') }}"
+          - name: project_user_id
+            description: Foreign key to `project_user.id` — the project membership this role assignment applies to.
+          - name: name
+            description: Name of the custom role assigned within the project.
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: project_role
+        identifier: "{{ var('openai_project_role_identifier', 'project_role') }}"
+        description: Catalog of custom roles defined within an OpenAI Platform project.
+        columns:
+          - name: id
+            description: Unique identifier for the project-level role.
+          - name: project_id
+            description: "{{ doc('project_id') }}"
+          - name: name
+            description: Name of the project-level role.
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: users_role
+        identifier: "{{ var('openai_users_role_identifier', 'users_role') }}"
+        description: Organization-level permission role assigned to a user, one row per (user, role).
+        columns:
+          - name: users_id
+            description: "{{ doc('user_id') }}"
+          - name: name
+            description: Name of the organization-level permission role.
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: groups
+        identifier: "{{ var('openai_groups_identifier', 'groups') }}"
+        description: Organization-level groups used to manage user access, one row per group.
+        columns:
+          - name: id
+            description: Unique identifier for the group.
+          - name: name
+            description: Display name of the group.
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+
+      - name: invite
+        identifier: "{{ var('openai_invite_identifier', 'invite') }}"
+        description: Pending and historical invitations to join the organization, one row per invite.
+        columns:
+          - name: id
+            description: Unique identifier for the invite.
+          - name: email
+            description: Email address the invite was sent to.
+          - name: role
+            description: Organization-level role the invitee will receive upon accepting.
+          - name: status
+            description: Current status of the invite (e.g. `pending`, `accepted`, `expired`).
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
