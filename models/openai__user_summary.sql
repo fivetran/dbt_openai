@@ -63,7 +63,10 @@ project_membership as (
     select
         source_relation,
         user_id,
-        count(distinct project_id) as project_count
+        -- distinct_project_membership is already select-distinct on the full tuple, so a
+        -- plain count is equivalent to count(distinct ...) here — and Redshift doesn't allow
+        -- a distinct aggregate alongside string_agg/listagg in the same query anyway.
+        count(project_id) as project_count
         {% if project_enabled %}
         , {{ fivetran_utils.string_agg('project_name', "', '") }} as project_names
         {% endif %}
@@ -83,14 +86,26 @@ project_user_role as (
 
 -- project_user_id is already the user's id (see stg_openai__project_user_role), so this
 -- doesn't need project_user as an intermediary.
+distinct_project_roles as (
+
+    select distinct
+        source_relation,
+        project_user_id as user_id,
+        role_name
+    from project_user_role
+
+),
+
+-- Pre-deduplicated above so both aggregates below can be plain (not distinct) — Redshift
+-- doesn't allow a distinct aggregate alongside string_agg/listagg in the same query.
 project_roles as (
 
     select
         source_relation,
-        project_user_id as user_id,
-        count(distinct role_name) as project_role_count,
+        user_id,
+        count(role_name) as project_role_count,
         {{ fivetran_utils.string_agg('role_name', "', '") }} as project_role_names
-    from project_user_role
+    from distinct_project_roles
     group by 1, 2
 
 ),

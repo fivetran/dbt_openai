@@ -13,7 +13,7 @@ with_date as (
 
     select
         source_relation,
-        {{ dbt.date_trunc('day', 'usage_started_at') }} as date_day,
+        cast({{ dbt.date_trunc('day', 'usage_started_at') }} as date) as date_day,
         project_id,
         api_key_id,
         model,

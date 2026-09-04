@@ -79,7 +79,7 @@ final as (
     select
         {{ dbt_utils.generate_surrogate_key(['spine.source_relation', 'spine.usage_started_at', 'spine.user_id']) }} as code_report_id,
         spine.source_relation,
-        {{ dbt.date_trunc('day', 'spine.usage_started_at') }} as date_day,
+        cast({{ dbt.date_trunc('day', 'spine.usage_started_at') }} as date) as date_day,
         spine.user_id
         {% if codex_usage_enabled %}
         , codex_usage.actor_email

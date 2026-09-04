@@ -11,7 +11,7 @@ parsed as (
 
     select
         source_relation,
-        {{ dbt.date_trunc('day', 'usage_started_at') }} as date_day,
+        cast({{ dbt.date_trunc('day', 'usage_started_at') }} as date) as date_day,
         replace(line_item, 'evals | ', '') as cleaned_line_item,
         cost_amount,
         currency_code

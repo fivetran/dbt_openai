@@ -18,7 +18,7 @@ unioned as (
     {% for product_config in enabled_products %}
     select
         source_relation,
-        {{ dbt.date_trunc('day', 'usage_started_at') }} as date_day,
+        cast({{ dbt.date_trunc('day', 'usage_started_at') }} as date) as date_day,
         coalesce(cast(project_id as {{ dbt.type_string() }}), '__none__') as project_id,
         coalesce(cast(user_id as {{ dbt.type_string() }}), '__none__') as user_id,
         {{ "'__none__'" if product_config.no_model is defined else "coalesce(cast(model as " ~ dbt.type_string() ~ "), '__none__')" }} as model,
