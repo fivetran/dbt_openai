@@ -1,11 +1,5 @@
--- Disabled by default and not yet wired into any end-model report — it likely overlaps with
--- codex_usage/codex_usage_model for the codex product, which needs an explicit exclusion
--- decision to avoid double-counting before this can feed a report.
---
--- No restatement dedup here: the connector's primary key for both cost and billing is keyed on
--- (event_id, organization_id[, sku]) with no log-file identifier in it, so a later sync's upsert
--- of the same event's cumulative total simply overwrites the row already at rest. That's a
--- property of the source tables landing correctly, not something this model needs to enforce.
+-- Disabled by default, not yet wired into any report (overlaps with codex_usage for the codex
+-- product). No restatement dedup needed: cost/billing keys have no log-file id, so a later sync just overwrites the row.
 
 {% set email_enabled = var('openai_using_compliance_users', False) %}
 
@@ -60,6 +54,9 @@ final as (
         sum(billing.credits) as credits,
         sum(billing.estimated_cost_usd_amount) as estimated_cost_usd_amount,
         max(billing.estimated_cost_usd_currency) as estimated_cost_usd_currency
+        {{ fivetran_utils.persist_pass_through_columns('openai__compliance_cost_billing_passthrough_metrics', identifier='billing', transform='sum') }}
+        -- compliance_cost_passthrough_metrics (event-level) isn't wired in: the billing join fans
+        -- one event out across its SKU lines, so summing it here would multiply the value.
     from cost_events
     inner join billing
         on billing.event_id = cost_events.event_id

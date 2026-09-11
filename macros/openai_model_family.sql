@@ -17,9 +17,9 @@
     {% set family %}
         case
             when {{ first_segment }} = 'gpt'
-                and {{ openai_regex_matches(second_segment, '^[0-9]+([.][0-9]+)?[a-z]?$') }}
+                and {{ openai.openai_regex_matches(second_segment, '^[0-9]+([.][0-9]+)?[a-z]?$') }}
                 then {{ dbt.concat(["'gpt-'", second_segment]) }}
-            when {{ openai_regex_matches(first_segment, '^o[0-9]+$') }}
+            when {{ openai.openai_regex_matches(first_segment, '^o[0-9]+$') }}
                 then {{ first_segment }}
             {% for prefix in named_prefixes %}
             when {{ undated_model }} = '{{ prefix }}'
@@ -32,7 +32,11 @@
 {% endmacro %}
 
 {% macro openai_model_family(model_column) %}
-    {% set parts = _openai_model_parts(model_column) %}
+    {{ return(adapter.dispatch('openai_model_family', 'openai')(model_column)) }}
+{% endmacro %}
+
+{% macro default__openai_model_family(model_column) %}
+    {% set parts = openai._openai_model_parts(model_column) %}
     case
         when {{ model_column }} is null then null
         {# Overrides match normalized base models exactly, including dated suffixes.
@@ -46,7 +50,11 @@
 {% endmacro %}
 
 {% macro openai_model_variant(model_column) %}
-    {% set parts = _openai_model_parts(model_column) %}
+    {{ return(adapter.dispatch('openai_model_variant', 'openai')(model_column)) }}
+{% endmacro %}
+
+{% macro default__openai_model_variant(model_column) %}
+    {% set parts = openai._openai_model_parts(model_column) %}
     case when {{ parts.family }} is not null then
         nullif(substring({{ parts.undated_model }}, length({{ parts.family }}) + 2,
             length({{ parts.undated_model }})), '')

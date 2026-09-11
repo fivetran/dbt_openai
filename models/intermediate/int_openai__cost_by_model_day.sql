@@ -16,6 +16,7 @@ parsed as (
         replace(line_item, 'evals | ', '') as cleaned_line_item,
         cost_amount,
         currency_code
+        {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics') }}
     from cost
 
 ),
@@ -34,6 +35,7 @@ typed as (
             when lower(cleaned_line_item) like '%, output%' then 'output'
             when lower(cleaned_line_item) like '%, input%' then 'input'
         end as unit_type
+        {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics') }}
     from parsed
 
 ),
@@ -50,6 +52,7 @@ token_cost as (
         'tokens' as cost_type,
         cost_amount,
         currency_code
+        {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics') }}
     from typed
     where unit_type is not null
 
@@ -68,6 +71,7 @@ other_cost as (
         'other' as cost_type,
         cost_amount,
         currency_code
+        {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics') }}
     from typed
     where unit_type is null
 
@@ -75,9 +79,11 @@ other_cost as (
 
 unioned as (
 
-    select * from token_cost
+    select *
+    from token_cost
     union all
-    select * from other_cost
+    select *
+    from other_cost
 
 ),
 
@@ -86,9 +92,8 @@ final as (
     select
         source_relation,
         date_day,
-        -- null on rows the Costs API didn't attribute to a project — openai__cost_usage_report
-        -- allocates those via the implied per-token rate card; rows with a project_id here are
-        -- used directly, with no allocation involved.
+        -- null when the Costs API didn't attribute a project — cost_usage_report allocates those
+        -- via the rate card; a populated project_id here is used directly, no allocation.
         project_id,
         model,
         unit_type,
@@ -97,6 +102,7 @@ final as (
         -- a day/project/model/unit_type/cost_type slice is always billed in one currency in
         -- practice; max() is just a safe way to carry it through this aggregation.
         max(currency_code) as currency_code
+        {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics', transform='sum') }}
     from unioned
     {{ dbt_utils.group_by(n=6) }}
 

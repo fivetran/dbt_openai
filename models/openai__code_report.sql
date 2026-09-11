@@ -1,14 +1,5 @@
--- One row per source relation, day, and user. Per-model/speed credit and token detail is
--- rolled up onto this grain rather than fanned out into one row per model/speed — mirrors
--- claude__code_report, where the same kind of sparse per-model breakdown is summed onto the
--- parent instead of multiplying rows. codex_usage already reports its own day-level credit/
--- token totals independent of the model/speed breakdown, so credits/input_tokens/
--- cache_read_tokens/output_tokens come from codex_usage when it's enabled, falling back to a
--- rollup of codex_usage_model only when codex_usage is disabled — either source table alone is
--- still useful: codex_usage-only keeps credit/token totals but drops count_models_used, which
--- only codex_usage_model can report; codex_usage_model-only drops actor_email and the
--- productivity columns entirely, since only codex_usage resolves the email or reports
--- lines/threads/turns.
+-- One row per source relation, day, and user. Per-model/speed detail rolls up onto this grain
+-- rather than fanning out; credits/tokens come from codex_usage when enabled, else a codex_usage_model rollup — either table alone is still useful.
 
 {% set codex_usage_enabled = var('openai_using_codex_usage', True) %}
 {% set codex_usage_model_enabled = var('openai_using_codex_usage_model', True) %}
@@ -35,24 +26,31 @@ codex_usage_model as (
 ),
 {% endif %}
 
--- Neither side alone is guaranteed to carry every (source_relation, day, user) combination,
--- so the grain is built from whichever side(s) actually have rows. codex_usage_model is at
--- (day, user, model, speed) grain, so its contribution here must be de-duplicated down to
--- (day, user) — the outer select distinct, not a plain union all, is what keeps this unique.
+-- Grain comes from whichever side(s) have rows; codex_usage_model is per (day, user, model,
+-- speed), so select distinct (not plain union all) keeps this de-duplicated to (day, user).
 spine as (
 
-    select distinct source_relation, usage_started_at, user_id
+    select 
+        distinct source_relation,
+        usage_started_at,
+        user_id
     from (
 
         {% if codex_usage_enabled %}
-        select source_relation, usage_started_at, user_id
+        select 
+            source_relation,
+            usage_started_at,
+            user_id
         from codex_usage
         {% endif %}
 
         {{ 'union all' if codex_usage_enabled and codex_usage_model_enabled }}
 
         {% if codex_usage_model_enabled %}
-        select source_relation, usage_started_at, user_id
+        select
+            source_relation,
+            usage_started_at,
+            user_id
         from codex_usage_model
         {% endif %}
 
@@ -72,6 +70,7 @@ model_rollup as (
         sum(input_tokens) as input_tokens,
         sum(cache_read_tokens) as cache_read_tokens,
         sum(output_tokens) as output_tokens
+        {{ fivetran_utils.persist_pass_through_columns('openai__codex_usage_model_passthrough_metrics', transform='sum') }}
     from codex_usage_model
     {{ dbt_utils.group_by(n=3) }}
 
@@ -94,12 +93,14 @@ final as (
         {% endif %}
         {% if codex_usage_model_enabled %}
         , model_rollup.count_models_used
+        {{ fivetran_utils.persist_pass_through_columns('openai__codex_usage_model_passthrough_metrics', identifier='model_rollup') }}
         {% endif %}
         {% if codex_usage_enabled %}
         , codex_usage.credits
         , codex_usage.input_tokens
         , codex_usage.cache_read_tokens
         , codex_usage.output_tokens
+        {{ fivetran_utils.persist_pass_through_columns('openai__codex_usage_passthrough_metrics', identifier='codex_usage') }}
         {% elif codex_usage_model_enabled %}
         , model_rollup.credits
         , model_rollup.input_tokens

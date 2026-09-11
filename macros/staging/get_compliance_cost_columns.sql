@@ -1,5 +1,5 @@
 {% macro get_compliance_cost_columns() %}
-{{ return([
+{% set columns = [
     {"name": "_fivetran_deleted", "datatype": "boolean"},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "actor_id", "datatype": dbt.type_string()},
@@ -24,5 +24,7 @@
     {"name": "text_input_token", "datatype": dbt.type_float()},
     {"name": "text_output_token", "datatype": dbt.type_float()},
     {"name": "type", "datatype": dbt.type_string()},
-]) }}
+] %}
+{{ fivetran_utils.add_pass_through_columns(columns, var('openai__compliance_cost_passthrough_metrics', [])) }}
+{{ return(columns) }}
 {% endmacro %}

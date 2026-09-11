@@ -1,16 +1,11 @@
--- One row per source relation and user. Optional pieces are entirely omitted from the output
--- (not nulled) when their source table is disabled: no project_user means no project_count/
--- project_names at all; no project means project_count survives from project_user alone but
--- project_names drops; no project_user_role means no project_role_count/project_role_names;
--- no users_role means no org_permission_roles; and if every product feeding
--- int_openai__enterprise_usage_unioned is off, the usage columns drop entirely too — this
--- model itself stays enabled since org role/project membership/roles are independent value.
+-- One row per source relation and user. Optional column groups are entirely omitted (not
+-- nulled) when their source table is disabled — see each column's description.
 
 {% set project_user_enabled = var('openai_using_project_user', True) %}
 {% set project_enabled = var('openai_using_project', True) %}
 {% set project_user_role_enabled = var('openai_using_project_user_role', True) %}
 {% set users_role_enabled = var('openai_using_users_role', True) %}
-{% set usage_enabled = openai_enabled_usage_products() | length > 0 %}
+{% set usage_enabled = openai.openai_enabled_usage_products() | length > 0 %}
 
 {{ config(enabled=var('openai_using_users', True)) }}
 
@@ -63,9 +58,8 @@ project_membership as (
     select
         source_relation,
         user_id,
-        -- distinct_project_membership is already select-distinct on the full tuple, so a
-        -- plain count is equivalent to count(distinct ...) here — and Redshift doesn't allow
-        -- a distinct aggregate alongside string_agg/listagg in the same query anyway.
+        -- distinct_project_membership is already select-distinct on the full tuple, so plain
+        -- count equals count(distinct...) — Redshift disallows a distinct aggregate alongside string_agg anyway.
         count(project_id) as project_count
         {% if project_enabled %}
         , {{ fivetran_utils.string_agg('project_name', "', '") }} as project_names
@@ -139,11 +133,8 @@ enterprise_usage as (
 
 ),
 
--- Cost and tokens are not attributed per user (see openai__cost_usage_report), so only
--- token/request usage is rolled up here, all time and for the current calendar month.
--- lifetime_tokens/month_to_date_tokens only sum quantity_unit = 'tokens' rows — quantity is
--- only additive within a single unit, and summing across seconds/characters/tokens together
--- would be meaningless.
+-- Cost/tokens aren't attributed per user, so only token/request usage rolls up here.
+-- lifetime/month_to_date_tokens sum quantity_unit = 'tokens' only, since quantity isn't comparable across units.
 usage_rollup as (
 
     select

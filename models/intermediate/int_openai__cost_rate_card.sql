@@ -1,9 +1,7 @@
 {{ config(enabled=var('openai_using_cost', True) and var('openai_using_completion', True)) }}
 
--- Only token-based cost that the Costs API didn't already attribute to a project needs a rate
--- card at all — rows that already carry a project_id are used directly in
--- openai__cost_usage_report, with no allocation involved. "other" (non-token, e.g. aggregate
--- feature charges) rows have no model/unit_type to key a rate on and are surfaced separately.
+-- Only token cost the Costs API didn't already attribute to a project needs a rate card — rows
+-- with a project_id are used directly; "other" (non-token) rows have no model/unit_type to key a rate on.
 with cost_by_model_day as (
 
     select *
@@ -20,14 +18,8 @@ completion_unpivoted as (
 
 ),
 
--- org-wide token volume per day/model/unit_type, across every project — the denominator
--- for the implied per-token rate. The Costs endpoint reports spend at this same grain but
--- without a project breakdown, so a project's cost is inferred from its share of this total.
--- Left joined below rather than inner joined: a day/model/unit_type slice of cost isn't
--- guaranteed to have a matching completion slice (the Costs API can use a coarser model name
--- than completion, or finalize before usage lands), and dropping that cost silently would
--- reintroduce the same reconciliation gap non-token cost has — rate_per_token is null on
--- those rows, and openai__cost_usage_report carries them at the org level instead.
+-- Org-wide token volume per day/model/unit_type — the rate denominator. Left joined, not inner:
+-- a cost slice may have no matching completion slice, and those get rate_per_token = null instead of being dropped.
 token_totals as (
 
     select

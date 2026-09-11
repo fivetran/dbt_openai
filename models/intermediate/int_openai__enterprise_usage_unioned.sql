@@ -1,4 +1,4 @@
-{%- set enabled_products = openai_enabled_usage_products() -%}
+{%- set enabled_products = openai.openai_enabled_usage_products() -%}
 
 {{ config(enabled=(enabled_products | length > 0)) }}
 
@@ -13,9 +13,8 @@ with
 ),
 {% endfor %}
 
--- quantity is only additive within a single quantity_unit — completion/embedding/moderation
--- report tokens, audio_transcription reports seconds, audio_speech reports characters, and
--- image/web_search/file_search have no comparable single-request measure at all (null unit).
+-- quantity is only additive within one quantity_unit — tokens, seconds, characters, or null,
+-- depending on the product.
 unioned as (
 
     {% for product_config in enabled_products %}

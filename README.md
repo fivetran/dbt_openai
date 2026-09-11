@@ -192,6 +192,32 @@ models:
         +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
 ```
 
+#### Passthrough metrics
+This package includes all source columns defined in the macros folder by default. However, if you have data unique to your OpenAI account that isn't already included in the staging models, you can bring it in with a passthrough metric variable:
+
+```yml
+vars:
+    openai__cost_passthrough_metrics: []
+    openai__completion_passthrough_metrics: []
+    openai__codex_usage_passthrough_metrics: []
+    openai__codex_usage_model_passthrough_metrics: []
+    openai__compliance_cost_passthrough_metrics: []
+    openai__compliance_cost_billing_passthrough_metrics: []
+```
+
+These variables allow you to bring in additional columns from `stg_openai__cost`, `stg_openai__completion`, `stg_openai__codex_usage`, `stg_openai__codex_usage_model`, `stg_openai__compliance_cost`, and `stg_openai__compliance_cost_billing`, respectively. Each field is summed at every point between its source table and the report(s) it feeds (a no-op when the field already reaches its report at the source table's own grain, with nothing aggregating it further). They all accept the same format, supporting datatype casting, aliasing, and custom transformations:
+
+```yml
+vars:
+  openai__completion_passthrough_metrics:
+    - name: "field_id"
+      alias: "field_name"
+      transform_sql: "cast(field_id as int64)"
+    - name: "another_field_name"
+```
+
+`name` is required and is the column name as it appears in the raw source table. `alias` and `transform_sql` are optional — `alias` renames the output column, and `transform_sql` provides a custom SQL expression (referencing `name` or `alias`) instead of a plain passthrough.
+
 #### Source casing for case-sensitive destinations
 By default, the package applies case-insensitive comparisons when resolving `source_relation` values. If your destination is case-sensitive and you want downstream transformations to respect the exact casing of your source database and schema names, set the following variable:
 

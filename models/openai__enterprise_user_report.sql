@@ -1,9 +1,7 @@
--- One row per source relation, day, user, project, model, and product. actor_email drops
--- entirely when openai_using_users is disabled; project_name drops entirely when
--- openai_using_project is disabled. Disabled entirely when every product table feeding
--- int_openai__enterprise_usage_unioned is off, since this report has nothing else to show.
+-- One row per source relation, day, user, project, model, and product. actor_email/project_name
+-- drop when their source table is disabled; disabled entirely if no product table is on.
 
-{{ config(enabled=(openai_enabled_usage_products() | length > 0)) }}
+{{ config(enabled=(openai.openai_enabled_usage_products() | length > 0)) }}
 
 with enterprise_usage as (
 
@@ -45,8 +43,8 @@ final as (
         project.project_name,
         {% endif %}
         enterprise_usage.model,
-        {{ openai_model_family('enterprise_usage.model') }} as model_family,
-        {{ openai_model_variant('enterprise_usage.model') }} as model_variant,
+        {{ openai.openai_model_family('enterprise_usage.model') }} as model_family,
+        {{ openai.openai_model_variant('enterprise_usage.model') }} as model_variant,
         enterprise_usage.product,
         enterprise_usage.quantity,
         enterprise_usage.quantity_unit,
