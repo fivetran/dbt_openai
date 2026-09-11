@@ -1,5 +1,3 @@
-{{ config(enabled=var('openai_using_users', True)) }}
-
 with base as (
 
     select *

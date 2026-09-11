@@ -7,8 +7,6 @@
 {% set users_role_enabled = var('openai_using_users_role', True) %}
 {% set usage_enabled = openai.openai_enabled_usage_products() | length > 0 %}
 
-{{ config(enabled=var('openai_using_users', True)) }}
-
 {%- set month_start = 'cast(' ~ dbt.date_trunc('month', 'current_date') ~ ' as date)' -%}
 
 with users as (

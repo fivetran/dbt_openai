@@ -122,7 +122,7 @@ vars:
     openai_using_codex_usage_model:      False   # Disable if you are not syncing the codex_usage_model table
     openai_using_project:                False   # Disable if you are not syncing the project table
     openai_using_project_api_key:        False   # Disable if you are not syncing the project_api_key table
-    openai_using_users:                  False   # Disable if you are not syncing the users table
+    openai_using_users:                  False   # Drops actor_email from openai__enterprise_user_report only — stg_openai__users and openai__user_summary always build, since users is essential to user_summary and has no partial-value alternative
     openai_using_project_user:           False   # Disable if you are not syncing the project_user table
     openai_using_project_user_role:      False   # Disable if you are not syncing the project_user_role table
     openai_using_project_role:           False   # Disable if you are not syncing the project_role table
