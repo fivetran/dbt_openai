@@ -103,7 +103,7 @@ If you use [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/
 
 > _This step is optional if you are unioning multiple connections together in the previous step. The `union_data` macro will create empty staging models for sources that are not found in any of your OpenAI schemas/databases. However, you can still leverage the below variables if you would like to avoid this behavior._
 
-This package takes into consideration that not every OpenAI Platform/Enterprise account syncs every source table, and allows you to disable the corresponding functionality for any of them: `cost`, `completion`, `embedding`, `audio_transcription`, `audio_speech`, `image`, `moderation`, `web_search_call`, `file_search_call`, `codex_usage`, `codex_usage_model`, `project`, `project_api_key`, `users`, `project_user`, `project_user_role`, `project_role`, `users_role`, `groups`, and `invite`.
+This package takes into consideration that not every OpenAI Platform/Enterprise account syncs every source table, and allows you to disable the corresponding functionality for any of them: `cost`, `completion`, `embedding`, `audio_transcription`, `audio_speech`, `image`, `moderation`, `web_search_call`, `file_search_call`, `codex_usage`, `codex_usage_model`, `project`, `project_api_key`, `project_user`, `project_user_role`, `project_role`, `users_role`, `groups`, and `invite`. `users` isn't included here — it's the spine of `openai__user_summary` with no partial-value alternative, so `stg_openai__users` and `openai__user_summary` always build.
 
 By default, all of these variables are assumed to be `true`. Add variables for only the tables you want to disable:
 
@@ -122,7 +122,6 @@ vars:
     openai_using_codex_usage_model:      False   # Disable if you are not syncing the codex_usage_model table
     openai_using_project:                False   # Disable if you are not syncing the project table
     openai_using_project_api_key:        False   # Disable if you are not syncing the project_api_key table
-    openai_using_users:                  False   # Drops actor_email from openai__enterprise_user_report only — stg_openai__users and openai__user_summary always build, since users is essential to user_summary and has no partial-value alternative
     openai_using_project_user:           False   # Disable if you are not syncing the project_user table
     openai_using_project_user_role:      False   # Disable if you are not syncing the project_user_role table
     openai_using_project_role:           False   # Disable if you are not syncing the project_role table

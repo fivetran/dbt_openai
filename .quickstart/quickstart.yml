@@ -30,8 +30,6 @@ table_variables:
     - project
   openai_using_project_api_key:
     - project_api_key
-  openai_using_users:
-    - users
   openai_using_project_user:
     - project_user
   openai_using_project_user_role:

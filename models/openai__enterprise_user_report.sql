@@ -1,5 +1,5 @@
--- One row per source relation, day, user, project, model, and product. actor_email/project_name
--- drop when their source table is disabled; disabled entirely if no product table is on.
+-- One row per source relation, day, user, project, model, and product. project_name drops when
+-- its source table is disabled; disabled entirely if no product table is on.
 
 {{ config(enabled=(openai.openai_enabled_usage_products() | length > 0)) }}
 
@@ -10,14 +10,12 @@ with enterprise_usage as (
 
 ),
 
-{% if var('openai_using_users', True) %}
 users as (
 
     select *
     from {{ ref('stg_openai__users') }}
 
 ),
-{% endif %}
 
 {% if var('openai_using_project', True) %}
 project as (
@@ -34,9 +32,7 @@ final as (
         enterprise_usage.source_relation,
         enterprise_usage.date_day,
         enterprise_usage.user_id as actor_user_id,
-        {% if var('openai_using_users', True) %}
         users.email as actor_email,
-        {% endif %}
         enterprise_usage.project_id,
         {% if var('openai_using_project', True) %}
         project.project_name,
@@ -49,11 +45,9 @@ final as (
         enterprise_usage.quantity_unit,
         enterprise_usage.num_model_requests
     from enterprise_usage
-    {% if var('openai_using_users', True) %}
     left join users
         on users.user_id = enterprise_usage.user_id
         and users.source_relation = enterprise_usage.source_relation
-    {% endif %}
     {% if var('openai_using_project', True) %}
     left join project
         on project.project_id = enterprise_usage.project_id

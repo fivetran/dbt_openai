@@ -67,7 +67,7 @@ models:
         tests:
           - not_null
       - name: actor_email
-        description: "{{ doc('actor_email') }} Only present when `openai_using_users` is enabled."
+        description: "{{ doc('actor_email') }}"
       - name: project_id
         description: "{{ doc('project_id') }}"
         tests:
