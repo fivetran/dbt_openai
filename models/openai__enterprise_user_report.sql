@@ -31,7 +31,6 @@ project as (
 final as (
 
     select
-        {{ dbt_utils.generate_surrogate_key(['enterprise_usage.source_relation', 'enterprise_usage.date_day', 'enterprise_usage.user_id', 'enterprise_usage.project_id', 'enterprise_usage.model', 'enterprise_usage.product']) }} as enterprise_user_report_id,
         enterprise_usage.source_relation,
         enterprise_usage.date_day,
         enterprise_usage.user_id as actor_user_id,

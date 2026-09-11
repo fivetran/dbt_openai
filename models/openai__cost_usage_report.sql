@@ -149,7 +149,6 @@ attributed as (
 final as (
 
     select
-        {{ dbt_utils.generate_surrogate_key(['attributed.source_relation', 'attributed.date_day', 'attributed.project_id', 'attributed.model']) }} as cost_usage_report_id,
         attributed.source_relation,
         attributed.date_day,
         attributed.project_id,
@@ -188,7 +187,6 @@ final as (
     union all
 
     select
-        {{ dbt_utils.generate_surrogate_key(['other_cost_grouped.source_relation', 'other_cost_grouped.date_day', 'other_cost_grouped.project_id']) }} as cost_usage_report_id,
         other_cost_grouped.source_relation,
         other_cost_grouped.date_day,
         other_cost_grouped.project_id,
@@ -223,7 +221,6 @@ final as (
 final as (
 
     select
-        {{ dbt_utils.generate_surrogate_key(['cost_by_model_day.source_relation', 'cost_by_model_day.date_day', 'cost_by_model_day.project_id', 'cost_by_model_day.model', 'cost_by_model_day.cost_type']) }} as cost_usage_report_id,
         cost_by_model_day.source_relation,
         cost_by_model_day.date_day,
         cost_by_model_day.project_id,

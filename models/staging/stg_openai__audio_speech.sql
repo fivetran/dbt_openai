@@ -25,7 +25,6 @@ final as (
 
     select
         source_relation,
-        {{ dbt_utils.generate_surrogate_key(['api_key_id', 'project_id', 'user_id', 'model', 'start_time']) }} as audio_speech_id,
         cast(project_id as {{ dbt.type_string() }}) as project_id,
         cast(user_id as {{ dbt.type_string() }}) as user_id,
         cast(api_key_id as {{ dbt.type_string() }}) as api_key_id,

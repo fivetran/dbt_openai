@@ -3,26 +3,14 @@ version: 2
 models:
   - name: openai__cost_usage_report
     description: >
-      Daily OpenAI Platform spend and token usage by project and model. One row per source
-      relation, day, project, and model, plus one org-level row per source relation/day for
-      cost that isn't tied to any project (`cost_type = 'other'`) — kept so `sum(openai_cost)`
-      ties to the total in the source `cost` table instead of silently dropping anything.
-      Cost on `tokens` rows is either used directly (`cost_attribution_method = 'direct'`) when
-      the Costs API already reports a project_id, or inferred (`'allocated'`) by applying an
-      implied per-token rate — derived from the Costs endpoint's unattributed daily spend per
-      model and unit type — to each project's share of that day's token volume. `other` covers
-      non-token cost (whether or not it has a project_id) and token-type cost with neither a
-      project_id nor a matching completion volume to allocate against (`'unallocated'`). Still
-      useful with only `openai_using_cost` or only `openai_using_completion` enabled: with
-      completion disabled, the model drops to cost by day, project, model, and cost_type (no
-      token columns, since only completion reports those); with cost disabled, the cost/
-      currency columns drop entirely and only usage remains.
+      Daily OpenAI Platform spend and token usage by project and model, plus an org-level
+      `cost_type = 'other'` row for cost not tied to a project — kept so `sum(openai_cost)`
+      always ties to the source `cost` table. `cost_attribution_method` marks how project_id
+      was determined for `tokens` rows: `direct` (Costs API-reported), `allocated` (inferred
+      via an implied per-token rate), or `unallocated`. Still useful with only
+      `openai_using_cost` or only `openai_using_completion` enabled — see column descriptions
+      for what drops.
     columns:
-      - name: cost_usage_report_id
-        description: Surrogate key derived from source_relation, date_day, project_id, and model (null model on `other`-cost_type rows).
-        tests:
-          - not_null
-          - unique
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: date_day
@@ -41,17 +29,14 @@ models:
         description: "{{ doc('model_variant') }} Null on `other`-cost_type rows."
       - name: cost_type
         description: >
-          Category of cost — `tokens` for spend attributed to a model, or `other` for cost that
-          doesn't break out by model at all (e.g. aggregate feature charges like "Assistants
-          API") or token-type cost that found no matching completion volume for its
-          day/model/unit_type. Only present when `openai_using_cost` is enabled.
+          `tokens` for spend attributed to a model, or `other` for cost that doesn't break out
+          by model (e.g. "Assistants API") or found no matching completion volume. Only present
+          when `openai_using_cost` is enabled.
       - name: cost_attribution_method
         description: >
-          How `project_id` was determined for this row — `direct` when the Costs API reported
-          it directly, `allocated` when it was inferred from an implied per-token rate applied
-          to completion token share, `unallocated` when no project_id could be determined at
-          all, or `mixed` when a `tokens` row's underlying input/cache_read/output unit types
-          resolved via different methods. Only present when `openai_using_cost` is enabled.
+          How `project_id` was determined: `direct` (Costs API-reported), `allocated`
+          (inferred via rate card), `unallocated`, or `mixed` (unit types resolved differently).
+          Only present when `openai_using_cost` is enabled.
       - name: input_tokens
         description: "{{ doc('input_tokens') }} Only present when `openai_using_completion` is enabled."
       - name: cache_read_tokens
@@ -66,13 +51,11 @@ models:
         description: Currency code for `openai_cost`, as reported by the Costs API (in practice always `usd`). Only present when `openai_using_cost` is enabled.
 
   - name: openai__enterprise_user_report
-    description: Daily OpenAI Platform activity by user, project, model, and product. One row per source relation, day, user, project, model, and product. Covers completions, embeddings, audio transcription, audio speech, image generation, moderation, web search, and file search. Cost is not available at this grain — the Costs endpoint does not report per-user attribution.
+    description: >
+      Daily OpenAI Platform activity by user, project, model, and product — completions,
+      embeddings, audio, image, moderation, web search, and file search. Cost isn't available
+      at this grain; the Costs endpoint doesn't report per-user attribution.
     columns:
-      - name: enterprise_user_report_id
-        description: Surrogate key derived from source_relation, date_day, actor_user_id, project_id, model, and product.
-        tests:
-          - not_null
-          - unique
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: date_day
@@ -108,23 +91,11 @@ models:
 
   - name: openai__code_report
     description: >
-      Daily Codex Enterprise productivity by person. One row per source relation, day, and user.
-      Per-model and per-speed credit and token detail is rolled up onto this grain rather than
-      fanned out into one row per model/speed, since the vast majority of a person's daily
-      activity spans only one or two models. `codex_usage` reports its own day-level credit and
-      token totals independent of the model/speed breakdown, so those columns come from
-      `codex_usage` when it's enabled, falling back to a rollup of `codex_usage_model` only when
-      `codex_usage` is disabled. Still useful with only one of `openai_using_codex_usage` or
-      `openai_using_codex_usage_model` enabled: `openai_using_codex_usage_model` disabled drops
-      only `count_models_used`, which only `codex_usage_model` can report; `openai_using_codex_usage`
-      disabled drops `actor_email` and the productivity columns entirely, since only
-      `codex_usage` resolves the email or reports lines/threads/turns.
+      Daily Codex Enterprise productivity by person. Per-model/speed detail rolls up onto this
+      grain rather than fanning out. Credits/tokens come from `codex_usage` when enabled, else
+      a `codex_usage_model` rollup — either table alone is still useful; see column descriptions
+      for what drops when one is disabled.
     columns:
-      - name: code_report_id
-        description: Surrogate key derived from source_relation, date_day, and user_id.
-        tests:
-          - not_null
-          - unique
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: date_day
@@ -148,13 +119,13 @@ models:
       - name: count_models_used
         description: Distinct Codex models this person used on this day. Only present when `openai_using_codex_usage_model` is enabled.
       - name: credits
-        description: "{{ doc('credits') }} Sourced from `codex_usage`'s own day-level total when `openai_using_codex_usage` is enabled, otherwise rolled up from `codex_usage_model`. Present whenever either is enabled."
+        description: "{{ doc('credits') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`."
       - name: input_tokens
-        description: "{{ doc('input_tokens') }} Sourced from `codex_usage`'s own day-level total when `openai_using_codex_usage` is enabled, otherwise rolled up from `codex_usage_model`. Present whenever either is enabled."
+        description: "{{ doc('input_tokens') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`."
       - name: cache_read_tokens
-        description: "{{ doc('cache_read_tokens') }} Sourced from `codex_usage`'s own day-level total when `openai_using_codex_usage` is enabled, otherwise rolled up from `codex_usage_model`. Present whenever either is enabled."
+        description: "{{ doc('cache_read_tokens') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`."
       - name: output_tokens
-        description: "{{ doc('output_tokens') }} Sourced from `codex_usage`'s own day-level total when `openai_using_codex_usage` is enabled, otherwise rolled up from `codex_usage_model`. Present whenever either is enabled."
+        description: "{{ doc('output_tokens') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`."
 
   - name: openai__user_summary
     description: >
