@@ -25,14 +25,14 @@ final as (
 
     select
         source_relation,
-        event_id,
-        organization_id,
+        cast(event_id as {{ dbt.type_string() }}) as event_id,
+        cast(organization_id as {{ dbt.type_string() }}) as organization_id,
         sku,
         quantity_unit,
-        quantity_value as quantity,
+        cast(quantity_value as {{ dbt.type_float() }}) as quantity,
         cost_unit,
-        cost_value as credits,
-        estimated_cost_usd_amount,
+        cast(cost_value as {{ dbt.type_float() }}) as credits,
+        cast(estimated_cost_usd_amount as {{ dbt.type_float() }}) as estimated_cost_usd_amount,
         estimated_cost_usd_currency,
         _fivetran_synced
     from fields

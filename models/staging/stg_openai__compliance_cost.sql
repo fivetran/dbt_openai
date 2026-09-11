@@ -25,22 +25,22 @@ final as (
 
     select
         source_relation,
-        event_id,
-        organization_id,
+        cast(event_id as {{ dbt.type_string() }}) as event_id,
+        cast(organization_id as {{ dbt.type_string() }}) as organization_id,
         type as event_type,
         cast({{ dbt.date_trunc('day', 'day') }} as date) as date_day,
-        hour,
-        identity_user_id as user_id,
+        cast(hour as {{ dbt.type_int() }}) as hour,
+        cast(identity_user_id as {{ dbt.type_string() }}) as user_id,
         product,
         surface,
         client,
         model,
         service_tier,
         reasoning,
-        text_input_token as input_tokens,
-        text_cached_input_token as cache_read_tokens,
-        text_output_token as output_tokens,
-        image_output_token as image_output_tokens,
+        cast(text_input_token as {{ dbt.type_int() }}) as input_tokens,
+        cast(text_cached_input_token as {{ dbt.type_int() }}) as cache_read_tokens,
+        cast(text_output_token as {{ dbt.type_int() }}) as output_tokens,
+        cast(image_output_token as {{ dbt.type_int() }}) as image_output_tokens,
         _fivetran_synced
     from fields
 

@@ -25,8 +25,8 @@ final as (
 
     select
         source_relation,
-        id as user_id,
-        workspace_id,
+        cast(id as {{ dbt.type_string() }}) as user_id,
+        cast(workspace_id as {{ dbt.type_string() }}) as workspace_id,
         -- Not filtering _fivetran_deleted: offboarded users still need their email attributed to
         -- historical spend in the compliance cost rollup, not dropped. See stg_openai__users.sql.
         lower(email) as email,

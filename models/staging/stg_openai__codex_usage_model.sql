@@ -29,10 +29,10 @@ final as (
         cast(codex_usage_user_id as {{ dbt.type_string() }}) as user_id,
         model,
         speed,
-        {{ dbt.safe_cast('credit', dbt.type_float()) }} as credits,
-        {{ dbt.safe_cast('uncached_text_input_token', dbt.type_int()) }} as input_tokens,
-        {{ dbt.safe_cast('cached_text_input_token', dbt.type_int()) }} as cache_read_tokens,
-        {{ dbt.safe_cast('text_output_token', dbt.type_int()) }} as output_tokens,
+        cast(credit as {{ dbt.type_float() }}) as credits,
+        cast(uncached_text_input_token as {{ dbt.type_int() }}) as input_tokens,
+        cast(cached_text_input_token as {{ dbt.type_int() }}) as cache_read_tokens,
+        cast(text_output_token as {{ dbt.type_int() }}) as output_tokens,
         _fivetran_synced
     from fields
     where not coalesce(_fivetran_deleted, false)

@@ -115,12 +115,12 @@ attributed as (
         , coalesce(
             directly_attributed_cost.cost_amount,
             completion_unpivoted.token_quantity * cost_rate_card.rate_per_token
-          ) as openai_cost
+            ) as openai_cost
         , coalesce(directly_attributed_cost.currency_code, cost_rate_card.currency_code) as currency_code
         , case
             when directly_attributed_cost.cost_amount is not null then 'direct'
             when cost_rate_card.rate_per_token is not null then 'allocated'
-          end as cost_attribution_method
+            end as cost_attribution_method
         {% endif %}
     from completion_unpivoted
     {% if cost_enabled %}
@@ -161,7 +161,7 @@ final as (
         , case
             when count(distinct attributed.cost_attribution_method) > 1 then 'mixed'
             else max(attributed.cost_attribution_method)
-          end as cost_attribution_method
+            end as cost_attribution_method
         , sum(attributed.openai_cost) as openai_cost
         -- a day/project/model slice is always billed in one currency in practice; max() is just
         -- a safe way to carry it through this aggregation.

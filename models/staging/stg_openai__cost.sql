@@ -28,7 +28,7 @@ final as (
         cast(_fivetran_id as {{ dbt.type_string() }}) as cost_id,
         cast(project_id as {{ dbt.type_string() }}) as project_id,
         line_item,
-        {{ dbt.safe_cast('amount_value', dbt.type_float()) }} as cost_amount,
+        cast(amount_value as {{ dbt.type_float() }}) as cost_amount,
         amount_currency as currency_code,
         cast({{ dbt.dateadd('second', 'start_time', "cast('1970-01-01' as timestamp)") }} as {{ dbt.type_timestamp() }}) as usage_started_at,
         _fivetran_synced
