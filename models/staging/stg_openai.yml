@@ -259,6 +259,14 @@ models:
         description: Total Codex conversation threads started by this person on this day.
       - name: total_turns
         description: Total Codex conversation turns by this person on this day.
+      - name: credits
+        description: "{{ doc('credits') }} This is the day-level total across every model/speed this person used, independent of `stg_openai__codex_usage_model`'s finer breakdown."
+      - name: input_tokens
+        description: "{{ doc('input_tokens') }} Day-level total, independent of `stg_openai__codex_usage_model`'s finer breakdown."
+      - name: cache_read_tokens
+        description: "{{ doc('cache_read_tokens') }} Day-level total, independent of `stg_openai__codex_usage_model`'s finer breakdown."
+      - name: output_tokens
+        description: "{{ doc('output_tokens') }} Day-level total, independent of `stg_openai__codex_usage_model`'s finer breakdown."
       - name: _fivetran_synced
         description: "{{ doc('fivetran_synced') }}"
 
@@ -290,12 +298,16 @@ models:
 
   - name: stg_openai__project
     description: OpenAI Platform projects within the organization. One row per project.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - project_id
     columns:
       - name: project_id
         description: "{{ doc('project_id') }}"
         tests:
           - not_null
-          - unique
       - name: project_name
         description: Display name of the project.
       - name: _fivetran_synced
@@ -303,12 +315,16 @@ models:
 
   - name: stg_openai__project_api_key
     description: API keys scoped to an OpenAI Platform project — the keys referenced by `api_key_id` on the usage and cost tables.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - api_key_id
     columns:
       - name: api_key_id
         description: "{{ doc('api_key_id') }}"
         tests:
           - not_null
-          - unique
       - name: api_key_name
         description: Display name given to the API key when it was created.
       - name: _fivetran_synced
@@ -316,12 +332,16 @@ models:
 
   - name: stg_openai__users
     description: Organization-level users in the OpenAI Platform account. One row per user.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - user_id
     columns:
       - name: user_id
         description: "{{ doc('user_id') }}"
         tests:
           - not_null
-          - unique
       - name: email
         description: Email address of the user.
       - name: user_name
@@ -347,12 +367,18 @@ models:
 
   - name: stg_openai__project_user_role
     description: Custom role assigned to a user within a specific OpenAI Platform project.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - project_role_assignment_id
+            - project_id
+            - project_user_id
     columns:
       - name: project_role_assignment_id
-        description: Unique identifier for this project-level role assignment.
+        description: Identifier for this project-level role assignment. Not unique on its own, even within a single connection — the same role ID can recur across different (project, assignee) combinations. Only unique together with `source_relation`, `project_id`, and `project_user_id`.
         tests:
           - not_null
-          - unique
       - name: project_id
         description: "{{ doc('project_id') }}"
       - name: project_user_id
@@ -364,12 +390,16 @@ models:
 
   - name: stg_openai__project_role
     description: Catalog of custom roles defined within an OpenAI Platform project.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - project_role_id
     columns:
       - name: project_role_id
-        description: Unique identifier for the project-level role.
+        description: Identifier for the project-level role.
         tests:
           - not_null
-          - unique
       - name: project_id
         description: "{{ doc('project_id') }}"
       - name: role_name
@@ -379,12 +409,17 @@ models:
 
   - name: stg_openai__users_role
     description: Organization-level permission role assigned to a user. One row per (user, role).
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - user_role_id
+            - user_id
     columns:
       - name: user_role_id
-        description: Unique identifier for this organization-level role assignment.
+        description: Identifier for this organization-level role assignment. Not unique on its own, even within a single connection — the same role ID can recur across different users. Only unique together with `source_relation` and `user_id`.
         tests:
           - not_null
-          - unique
       - name: user_id
         description: "{{ doc('user_id') }}"
       - name: role_name
@@ -394,12 +429,16 @@ models:
 
   - name: stg_openai__groups
     description: Organization-level groups used to manage user access. One row per group.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - group_id
     columns:
       - name: group_id
-        description: Unique identifier for the group.
+        description: Identifier for the group.
         tests:
           - not_null
-          - unique
       - name: group_name
         description: Display name of the group.
       - name: _fivetran_synced
@@ -407,12 +446,16 @@ models:
 
   - name: stg_openai__invite
     description: Pending and historical invitations to join the organization. One row per invite.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - invite_id
     columns:
       - name: invite_id
-        description: Unique identifier for the invite.
+        description: Identifier for the invite.
         tests:
           - not_null
-          - unique
       - name: email
         description: Email address the invite was sent to.
       - name: invited_role

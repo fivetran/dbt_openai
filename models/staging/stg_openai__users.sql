@@ -30,8 +30,9 @@ final as (
         name as user_name,
         role as user_role,
         _fivetran_synced
+    -- Not filtering _fivetran_deleted: offboarded users still need their email/name attributed
+    -- to historical usage in downstream reports, not dropped.
     from fields
-    where not coalesce(_fivetran_deleted, false)
 
 )
 

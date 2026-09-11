@@ -25,9 +25,11 @@ with_date as (
 
 ),
 
--- num_model_requests is one count per source row (not per unit type), so it is only
--- carried on the 'input' branch below — summing it downstream would otherwise
--- triple-count requests once the row fans out across up to three unit types.
+-- num_model_requests is one count per source row (not per unit type), so it is only carried
+-- on the 'input' branch below — summing it downstream would otherwise triple-count requests
+-- once the row fans out across up to three unit types. The 'input' branch is never filtered
+-- by token positivity (unlike 'cache_read'/'output') so a request with zero input tokens still
+-- keeps its request count instead of disappearing entirely.
 unpivoted as (
 
     {% for unit_type in unit_types %}
@@ -41,7 +43,9 @@ unpivoted as (
         '{{ unit_type }}' as unit_type,
         {{ unit_type }}_tokens as token_quantity
     from with_date
+    {% if unit_type != 'input' %}
     where {{ unit_type }}_tokens > 0
+    {% endif %}
     {{ 'union all' if not loop.last }}
     {% endfor %}
 

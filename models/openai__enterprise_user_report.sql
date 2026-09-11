@@ -46,8 +46,10 @@ final as (
         {% endif %}
         enterprise_usage.model,
         {{ openai_model_family('enterprise_usage.model') }} as model_family,
+        {{ openai_model_variant('enterprise_usage.model') }} as model_variant,
         enterprise_usage.product,
-        enterprise_usage.token_quantity,
+        enterprise_usage.quantity,
+        enterprise_usage.quantity_unit,
         enterprise_usage.num_model_requests
     from enterprise_usage
     {% if var('openai_using_users', True) %}

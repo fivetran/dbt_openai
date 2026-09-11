@@ -30,8 +30,9 @@ final as (
         cast(user_id as {{ dbt.type_string() }}) as user_id,
         cast(api_key_id as {{ dbt.type_string() }}) as api_key_id,
         model,
-        input_token as input_tokens,
-        num_model_request as num_model_requests,
+        {{ dbt.safe_cast('input_token', dbt.type_int()) }} as input_tokens,
+        {{ dbt.safe_cast('character', dbt.type_int()) }} as characters,
+        {{ dbt.safe_cast('num_model_request', dbt.type_int()) }} as num_model_requests,
         cast({{ dbt.dateadd('second', 'start_time', "cast('1970-01-01' as timestamp)") }} as {{ dbt.type_timestamp() }}) as usage_started_at,
         _fivetran_synced
     from fields

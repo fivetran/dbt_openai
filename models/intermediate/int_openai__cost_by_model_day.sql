@@ -12,6 +12,7 @@ parsed as (
     select
         source_relation,
         cast({{ dbt.date_trunc('day', 'usage_started_at') }} as date) as date_day,
+        project_id,
         replace(line_item, 'evals | ', '') as cleaned_line_item,
         cost_amount,
         currency_code
@@ -24,6 +25,7 @@ typed as (
     select
         source_relation,
         date_day,
+        project_id,
         cleaned_line_item,
         cost_amount,
         currency_code,
@@ -42,6 +44,7 @@ token_cost as (
     select
         source_relation,
         date_day,
+        project_id,
         trim({{ dbt.split_part('cleaned_line_item', "','", 1) }}) as model,
         unit_type,
         'tokens' as cost_type,
@@ -59,6 +62,7 @@ other_cost as (
     select
         source_relation,
         date_day,
+        project_id,
         cast(null as {{ dbt.type_string() }}) as model,
         cast(null as {{ dbt.type_string() }}) as unit_type,
         'other' as cost_type,
@@ -82,15 +86,19 @@ final as (
     select
         source_relation,
         date_day,
+        -- null on rows the Costs API didn't attribute to a project — openai__cost_usage_report
+        -- allocates those via the implied per-token rate card; rows with a project_id here are
+        -- used directly, with no allocation involved.
+        project_id,
         model,
         unit_type,
         cost_type,
         sum(cost_amount) as cost_amount,
-        -- a day/model/unit_type/cost_type slice is always billed in one currency in
+        -- a day/project/model/unit_type/cost_type slice is always billed in one currency in
         -- practice; max() is just a safe way to carry it through this aggregation.
         max(currency_code) as currency_code
     from unioned
-    {{ dbt_utils.group_by(n=5) }}
+    {{ dbt_utils.group_by(n=6) }}
 
 )
 

@@ -141,13 +141,16 @@ enterprise_usage as (
 
 -- Cost and tokens are not attributed per user (see openai__cost_usage_report), so only
 -- token/request usage is rolled up here, all time and for the current calendar month.
+-- lifetime_tokens/month_to_date_tokens only sum quantity_unit = 'tokens' rows — quantity is
+-- only additive within a single unit, and summing across seconds/characters/tokens together
+-- would be meaningless.
 usage_rollup as (
 
     select
         source_relation,
         user_id,
-        sum(token_quantity) as lifetime_tokens,
-        sum(case when date_day >= {{ month_start }} then token_quantity end) as month_to_date_tokens,
+        sum(case when quantity_unit = 'tokens' then quantity end) as lifetime_tokens,
+        sum(case when quantity_unit = 'tokens' and date_day >= {{ month_start }} then quantity end) as month_to_date_tokens,
         sum(num_model_requests) as lifetime_num_model_requests,
         sum(case when date_day >= {{ month_start }} then num_model_requests end) as month_to_date_num_model_requests,
         count(distinct date_day) as lifetime_active_days,

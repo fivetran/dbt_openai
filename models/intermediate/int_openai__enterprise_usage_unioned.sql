@@ -13,6 +13,9 @@ with
 ),
 {% endfor %}
 
+-- quantity is only additive within a single quantity_unit — completion/embedding/moderation
+-- report tokens, audio_transcription reports seconds, audio_speech reports characters, and
+-- image/web_search/file_search have no comparable single-request measure at all (null unit).
 unioned as (
 
     {% for product_config in enabled_products %}
@@ -23,7 +26,8 @@ unioned as (
         coalesce(cast(user_id as {{ dbt.type_string() }}), '__none__') as user_id,
         {{ "'__none__'" if product_config.no_model is defined else "coalesce(cast(model as " ~ dbt.type_string() ~ "), '__none__')" }} as model,
         '{{ product_config.product }}' as product,
-        {{ (product_config.token_expr if product_config.token_expr else 'cast(null as ' ~ dbt.type_int() ~ ')' ) }} as token_quantity,
+        {{ (product_config.quantity_expr if product_config.quantity_expr else 'cast(null as ' ~ dbt.type_int() ~ ')' ) }} as quantity,
+        {{ "'" ~ product_config.quantity_unit ~ "'" if product_config.quantity_unit else "cast(null as " ~ dbt.type_string() ~ ")" }} as quantity_unit,
         {{ product_config.request_col }} as num_model_requests
     from {{ product_config.table }}
     {{ 'union all' if not loop.last }}
@@ -40,10 +44,11 @@ final as (
         user_id,
         model,
         product,
-        sum(token_quantity) as token_quantity,
+        quantity_unit,
+        sum(quantity) as quantity,
         sum(num_model_requests) as num_model_requests
     from unioned
-    {{ dbt_utils.group_by(n=6) }}
+    {{ dbt_utils.group_by(n=7) }}
 
 )
 

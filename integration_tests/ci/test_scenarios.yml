@@ -17,3 +17,9 @@ test_scenarios:
   - name: "Default"
     vars: {}
     include_incremental: false
+
+  - name: "Compliance"
+    vars:
+      openai_using_compliance_cost: true
+      openai_using_compliance_users: true
+    include_incremental: false

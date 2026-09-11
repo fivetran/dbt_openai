@@ -1,13 +1,15 @@
 {{ config(enabled=var('openai_using_cost', True) and var('openai_using_completion', True)) }}
 
--- only token-based cost can be rate-carded — "other" (non-token, e.g. aggregate feature
--- charges) rows have no model/unit_type to key a rate on and are surfaced separately in
--- openai__cost_usage_report instead.
+-- Only token-based cost that the Costs API didn't already attribute to a project needs a rate
+-- card at all — rows that already carry a project_id are used directly in
+-- openai__cost_usage_report, with no allocation involved. "other" (non-token, e.g. aggregate
+-- feature charges) rows have no model/unit_type to key a rate on and are surfaced separately.
 with cost_by_model_day as (
 
     select *
     from {{ ref('int_openai__cost_by_model_day') }}
     where cost_type = 'tokens'
+    and project_id is null
 
 ),
 
