@@ -1,0 +1,33 @@
+# Decision Log
+In creating this package, which is meant for a wide range of use cases, we had to take opinionated stances on a few different questions we came across during development. We've consolidated significant choices we made here, and will continue to update as the package evolves.
+
+## Every Source Table Is Variable-Guarded
+Different customers configure their OpenAI connector with different combinations of Admin, Project, and Codex Enterprise API keys, and each key type only unlocks a subset of the connector's tables — no single table is common enough to leave unguarded. So every source table this package can use is gated behind its own `openai_using_<table>` variable, defaulting to `true`. See the README's [Enable/Disable models](README.md#enabledisable-models) section for the full list.
+
+## Resolving "API Key" to `project_api_key`
+The OpenAI connector syncs multiple key tables. Usage and cost records reference project-scoped key identifiers, which matches `project_api_key`, not the org-level `admin_api_key` table. This package joins on `project_api_key` wherever an "API key" dimension is needed. `admin_api_key` is out of scope for now — if you need an admin-key audit dimension, please open a GitHub issue.
+
+## Cost Attribution: Direct When Available, Inferred Otherwise, With a Completeness Guarantee
+When the OpenAI Costs API reports a project_id directly on a cost row, `openai__cost_usage_report` uses it as-is (`cost_attribution_method = 'direct'`). When it doesn't, this package derives an implied per-token rate from the Costs endpoint's daily unattributed spend per model and unit type, then applies that rate to each project's share of that day's token volume (from the Usage API's `completion` data) — `cost_attribution_method = 'allocated'`.
+
+Not every dollar of cost can be tied to a project this way — for example, non-token charges don't break out by model at all, and some token-type cost may not find a matching completion row. Rather than silently drop that cost, it's carried at the org level with `cost_type = 'other'` and `cost_attribution_method = 'unallocated'`, so `sum(openai_cost)` always ties out to the total in the source `cost` table.
+
+## Partial Cost and Code Reporting
+`openai__cost_usage_report` and `openai__code_report` are each built from two optional source-table pairs. Rather than requiring both tables in a pair to be enabled, each model still produces useful, differently-shaped output with only one side enabled — the columns that depend on the disabled table are omitted entirely from the output (not nulled), rather than the whole model being disabled. See [Partial cost and code reporting](README.md#partial-cost-and-code-reporting) in the README for the exact behavior per variable.
+
+## Codex Model/Speed Detail Is Rolled Up, Not Fanned Out
+`codex_usage_model` reports Codex Enterprise credit and token consumption at a (day, user, model, speed) grain, one level finer than `codex_usage`'s (day, user) grain. Rather than fanning `openai__code_report` out to one row per model/speed — which would repeat day-level productivity metrics across every model/speed row, risking downstream double-counting — the model/speed breakdown is summed onto the (day, user) grain instead. `codex_usage` also reports its own day-level credit/token totals directly, so those are used as the primary source when it's enabled; `codex_usage_model`'s rollup only serves as a fallback when `codex_usage` is disabled, and as the source of `count_models_used`, which only it can report.
+
+## Compliance Platform Cost Data Is Staged and Disabled by Default
+A future OpenAI connector update may add Compliance Platform (ChatGPT Enterprise) data alongside the existing Platform data. Ahead of that, this package includes a provisional cost-only model of it: `stg_openai__compliance_cost`, `stg_openai__compliance_cost_billing`, `stg_openai__compliance_users`, and `int_openai__compliance_cost_rollup`. Only cost data is modeled — no conversation, audit, or auth log data — and everything is gated behind `openai_using_compliance_cost` and `openai_using_compliance_users`, both defaulting to `false`.
+
+Table and column names here are provisional and may change before this data is officially supported. It's not yet wired into any end-model report, since that requires confirming how it overlaps with the existing `codex_usage`/`codex_usage_model` tables to avoid double-counting. Reach out to the package maintainer if you need more detail on this in-progress work.
+
+## Column Naming Aligned With Fivetran's Claude/Anthropic Package
+This package is designed to eventually roll up alongside a Claude/Anthropic usage package into a shared multi-vendor AI reporting package. Where the underlying concepts match, column names were deliberately aligned with the equivalent columns in Fivetran's Claude/Anthropic dbt package: `source_relation`, `date_day`, `actor_user_id`, `actor_email`, `openai_cost`, `currency`, and `cost_type`. Columns with no real Claude/Anthropic equivalent (for example, `project_role_count` and `org_permission_roles`, which reflect OpenAI-specific organization structures) were left as-is rather than forced into an artificial alignment.
+
+## Model Names Retain Family and Variant Separately
+Reports keep the original `model` and add structural `model_family` and `model_variant` columns. Families retain numeric GPT and o-series version lines, such as `gpt-4o`, `gpt-5.2`, and `o4`; known named product prefixes also form families. Parsing lowercases and trims the name, unwraps fine-tuned `ft:` names, and strips a trailing YYYY-MM-DD-shaped snapshot suffix. The remaining suffix becomes the variant, with compound values such as `deep-research` preserved intact. Unrecognized names use the original model as their family and a null variant; recognized names without a suffix also have a null variant. Exact customer family overrides take precedence but do not alter how variants are parsed. Neither field asserts architecture, capabilities, or billing rates, and report grain remains based on the original model.
+
+## Usage Totals Preserve Known Components
+Completion input tokens include cached input, so total tokens are input plus output without adding cache-read tokens again. If only one component is populated, the report retains that known quantity; if both are missing, the total remains null. Web and file search use tool-call counts in the shared request-count column. Products metered in other units retain null token quantities.

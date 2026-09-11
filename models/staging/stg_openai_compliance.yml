@@ -1,0 +1,90 @@
+version: 2
+
+models:
+  - name: stg_openai__compliance_cost
+    description: "One row per compliance cost event."
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: event_id
+        description: Identifier for a cost event.
+      - name: organization_id
+        description: ChatGPT Enterprise organization identifier.
+      - name: event_type
+        description: The compliance log event type (always COSTS for this model).
+      - name: date_day
+        description: "{{ doc('date_day') }}"
+      - name: hour
+        description: Hour of day (0-23) the event occurred in.
+      - name: user_id
+        description: "{{ doc('user_id') }}"
+      - name: product
+        description: The ChatGPT Enterprise product this spend belongs to.
+      - name: surface
+        description: The surface the spend originated from.
+      - name: client
+        description: The client application used.
+      - name: model
+        description: "{{ doc('model') }}"
+      - name: service_tier
+        description: The service tier the request was billed under.
+      - name: reasoning
+        description: The reasoning effort level used, if applicable to the model.
+      - name: input_tokens
+        description: "{{ doc('input_tokens') }}"
+      - name: cache_read_tokens
+        description: "{{ doc('cache_read_tokens') }}"
+      - name: output_tokens
+        description: "{{ doc('output_tokens') }}"
+      - name: image_output_tokens
+        description: Count of image output tokens generated for this event.
+      - name: _fivetran_synced
+        description: "{{ doc('fivetran_synced') }}"
+
+  - name: stg_openai__compliance_cost_billing
+    description: "One row per SKU line item billed against a compliance cost event."
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: event_id
+        description: Identifier for the parent cost event.
+      - name: organization_id
+        description: ChatGPT Enterprise organization identifier.
+      - name: sku
+        description: The billed SKU.
+      - name: quantity_unit
+        description: The unit `quantity` is denominated in. Only additive within a single unit.
+      - name: quantity
+        description: Quantity consumed, in the unit named by `quantity_unit`.
+      - name: cost_unit
+        description: The unit `credits` is denominated in (typically credits).
+      - name: credits
+        description: "{{ doc('credits') }}"
+      - name: estimated_cost_usd_amount
+        description: Connector-estimated USD equivalent of `credits`, provided directly by the source.
+      - name: estimated_cost_usd_currency
+        description: ISO currency code for `estimated_cost_usd_amount`.
+      - name: _fivetran_synced
+        description: "{{ doc('fivetran_synced') }}"
+
+  - name: stg_openai__compliance_users
+    description: "One row per ChatGPT workspace user, including offboarded users so historical spend stays attributable."
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: user_id
+        description: "{{ doc('user_id') }}"
+      - name: workspace_id
+        description: Identifier for the ChatGPT workspace this user belongs to.
+      - name: email
+        description: "{{ doc('email') }}"
+      - name: user_name
+        description: The user's display name.
+      - name: user_role
+        description: The user's role within the workspace.
+      - name: user_status
+        description: The user's account status (for example, active or offboarded).
+      - name: created_at
+        description: Timestamp the user was created.
+      - name: _fivetran_synced
+        description: "{{ doc('fivetran_synced') }}"

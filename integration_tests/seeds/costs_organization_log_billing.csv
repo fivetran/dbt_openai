@@ -1,0 +1,13 @@
+event_id,organization_id,sku,quantity_unit,quantity_value,cost_unit,cost_value,estimated_cost_usd_amount,estimated_cost_usd_currency,_fivetran_deleted,_fivetran_synced
+evt-0001,org-fictionaldental01,chat-gpt4o-text,tokens,1650,credits,0.825,0.00825,usd,false,2025-12-31 08:00:00
+evt-0001,org-fictionaldental01,chat-gpt4o-cached,tokens,300,credits,0.03,0.0003,usd,false,2025-12-31 08:00:00
+evt-0002,org-fictionaldental01,chat-gpt4o-text,tokens,1100,credits,0.55,0.0055,usd,false,2025-12-31 08:00:00
+evt-0003,org-fictionaldental01,chat-gpt5-text,tokens,2900,credits,1.45,0.0145,usd,false,2025-12-31 08:00:00
+evt-0003,org-fictionaldental01,chat-gpt5-cached,tokens,500,credits,0.05,0.0005,usd,false,2025-12-31 08:00:00
+evt-0004,org-fictionaldental01,codex-priority-text,tokens,4700,credits,2.35,0.0235,usd,false,2025-12-31 08:00:00
+evt-0005,org-fictionaldental01,chat-gpt4o-text,tokens,800,credits,0.4,0.004,usd,false,2025-12-31 08:00:00
+evt-0006,org-fictionaldental01,image-gpt-image-1,counts,3,credits,1.2,0.12,usd,false,2025-12-31 08:00:00
+evt-0007,org-fictionaldental01,chat-gpt4o-mini-text,tokens,2100,credits,0.21,0.0021,usd,false,2025-12-31 08:00:00
+evt-0008,org-fictionaldental01,codex-standard-text,tokens,2500,credits,1.0,0.01,usd,false,2025-12-31 08:00:00
+evt-0009,org-fictionaldental01,chat-gpt5-text,tokens,3000,credits,1.5,0.015,usd,false,2025-12-31 08:00:00
+evt-0010,org-fictionaldental01,chat-gpt4o-text,tokens,1250,credits,0.625,0.00625,usd,false,2025-12-31 08:00:00
