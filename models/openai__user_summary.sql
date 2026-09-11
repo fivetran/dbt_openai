@@ -10,7 +10,7 @@
 {% set project_enabled = var('openai_using_project', True) %}
 {% set project_user_role_enabled = var('openai_using_project_user_role', True) %}
 {% set users_role_enabled = var('openai_using_users_role', True) %}
-{% set usage_enabled = openai_enabled_usage_products() | length > 0 %}
+{% set usage_enabled = openai.openai_enabled_usage_products() | length > 0 %}
 
 {{ config(enabled=var('openai_using_users', True)) }}
 

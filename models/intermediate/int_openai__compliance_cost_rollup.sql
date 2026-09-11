@@ -60,6 +60,11 @@ final as (
         sum(billing.credits) as credits,
         sum(billing.estimated_cost_usd_amount) as estimated_cost_usd_amount,
         max(billing.estimated_cost_usd_currency) as estimated_cost_usd_currency
+        {{ fivetran_utils.persist_pass_through_columns('openai__compliance_cost_billing_passthrough_metrics', identifier='billing', transform='sum') }}
+        -- openai__compliance_cost_passthrough_metrics (event-level) isn't wired in here: the
+        -- join to billing fans one event out across its SKU lines, so summing an event-level
+        -- field here would multiply it by however many lines that event has. Needs a dedup step
+        -- before it can be added safely.
     from cost_events
     inner join billing
         on billing.event_id = cost_events.event_id

@@ -35,6 +35,7 @@ final as (
         cast(estimated_cost_usd_amount as {{ dbt.type_float() }}) as estimated_cost_usd_amount,
         estimated_cost_usd_currency,
         _fivetran_synced
+        {{ fivetran_utils.fill_pass_through_columns('openai__compliance_cost_billing_passthrough_metrics') }}
     from fields
 
 )

@@ -60,7 +60,9 @@ cost_rate_card as (
 -- allocation involved.
 directly_attributed_cost as (
 
-    select source_relation, date_day, project_id, model, unit_type, cost_amount, currency_code
+    select
+        source_relation, date_day, project_id, model, unit_type, cost_amount, currency_code
+        {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics') }}
     from cost_by_model_day
     where cost_type = 'tokens'
     and project_id is not null
@@ -111,6 +113,7 @@ attributed as (
         completion_unpivoted.unit_type,
         completion_unpivoted.token_quantity,
         completion_unpivoted.num_model_requests
+        {{ fivetran_utils.persist_pass_through_columns('openai__completion_passthrough_metrics', identifier='completion_unpivoted') }}
         {% if cost_enabled %}
         , coalesce(
             directly_attributed_cost.cost_amount,
@@ -121,6 +124,10 @@ attributed as (
             when directly_attributed_cost.cost_amount is not null then 'direct'
             when cost_rate_card.rate_per_token is not null then 'allocated'
             end as cost_attribution_method
+        -- passthrough metrics from `cost` are only meaningful on directly-attributed rows — a
+        -- raw custom field on an org-level, rate-allocated charge has no per-project meaning,
+        -- so it's left null there rather than guessed at.
+        {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics', identifier='directly_attributed_cost') }}
         {% endif %}
     from completion_unpivoted
     {% if cost_enabled %}
@@ -150,12 +157,13 @@ final as (
         project.project_name,
         {% endif %}
         attributed.model,
-        {{ openai_model_family('attributed.model') }} as model_family,
-        {{ openai_model_variant('attributed.model') }} as model_variant,
+        {{ openai.openai_model_family('attributed.model') }} as model_family,
+        {{ openai.openai_model_variant('attributed.model') }} as model_variant,
         sum(case when attributed.unit_type = 'input' then attributed.token_quantity end) as input_tokens,
         sum(case when attributed.unit_type = 'cache_read' then attributed.token_quantity end) as cache_read_tokens,
         sum(case when attributed.unit_type = 'output' then attributed.token_quantity end) as output_tokens,
         sum(attributed.num_model_requests) as num_model_requests
+        {{ fivetran_utils.persist_pass_through_columns('openai__completion_passthrough_metrics', identifier='attributed', transform='sum') }}
         {% if cost_enabled %}
         , 'tokens' as cost_type
         , case
@@ -166,6 +174,7 @@ final as (
         -- a day/project/model slice is always billed in one currency in practice; max() is just
         -- a safe way to carry it through this aggregation.
         , max(attributed.currency_code) as currency
+        {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics', identifier='attributed', transform='sum') }}
         {% endif %}
     from attributed
     {% if project_enabled %}
@@ -192,11 +201,13 @@ final as (
         cast(null as {{ dbt.type_int() }}) as input_tokens,
         cast(null as {{ dbt.type_int() }}) as cache_read_tokens,
         cast(null as {{ dbt.type_int() }}) as output_tokens,
-        cast(null as {{ dbt.type_int() }}) as num_model_requests,
-        'other' as cost_type,
+        cast(null as {{ dbt.type_int() }}) as num_model_requests
+        {{ openai.null_passthrough_metrics('openai__completion_passthrough_metrics') }}
+        , 'other' as cost_type,
         case when other_cost_grouped.project_id is not null then 'direct' else 'unallocated' end as cost_attribution_method,
         other_cost_grouped.openai_cost,
         other_cost_grouped.currency
+        {{ openai.null_passthrough_metrics('openai__cost_passthrough_metrics') }}
     from other_cost_grouped
     {% if project_enabled %}
     left join project as project_other
@@ -220,12 +231,13 @@ final as (
         project.project_name,
         {% endif %}
         cost_by_model_day.model,
-        {{ openai_model_family('cost_by_model_day.model') }} as model_family,
-        {{ openai_model_variant('cost_by_model_day.model') }} as model_variant,
+        {{ openai.openai_model_family('cost_by_model_day.model') }} as model_family,
+        {{ openai.openai_model_variant('cost_by_model_day.model') }} as model_variant,
         cost_by_model_day.cost_type,
         case when cost_by_model_day.project_id is not null then 'direct' else 'unallocated' end as cost_attribution_method,
         sum(cost_by_model_day.cost_amount) as openai_cost,
         max(cost_by_model_day.currency_code) as currency
+        {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics', identifier='cost_by_model_day', transform='sum') }}
     from cost_by_model_day
     {% if project_enabled %}
     left join project

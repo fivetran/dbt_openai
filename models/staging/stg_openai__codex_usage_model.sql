@@ -34,6 +34,7 @@ final as (
         cast(cached_text_input_token as {{ dbt.type_int() }}) as cache_read_tokens,
         cast(text_output_token as {{ dbt.type_int() }}) as output_tokens,
         _fivetran_synced
+        {{ fivetran_utils.fill_pass_through_columns('openai__codex_usage_model_passthrough_metrics') }}
     from fields
     where not coalesce(_fivetran_deleted, false)
 

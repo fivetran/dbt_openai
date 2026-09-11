@@ -1,5 +1,5 @@
 {% macro get_codex_usage_columns() %}
-{{ return([
+{% set columns = [
     {"name": "_fivetran_deleted", "datatype": "boolean"},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "actor_email", "datatype": dbt.type_string()},
@@ -17,5 +17,7 @@
     {"name": "total_uncached_text_input_token", "datatype": dbt.type_int()},
     {"name": "user_id", "datatype": dbt.type_string()},
     {"name": "workspace_id", "datatype": dbt.type_string()},
-]) }}
+] %}
+{{ fivetran_utils.add_pass_through_columns(columns, var('openai__codex_usage_passthrough_metrics', [])) }}
+{{ return(columns) }}
 {% endmacro %}

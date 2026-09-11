@@ -72,6 +72,7 @@ model_rollup as (
         sum(input_tokens) as input_tokens,
         sum(cache_read_tokens) as cache_read_tokens,
         sum(output_tokens) as output_tokens
+        {{ fivetran_utils.persist_pass_through_columns('openai__codex_usage_model_passthrough_metrics', transform='sum') }}
     from codex_usage_model
     {{ dbt_utils.group_by(n=3) }}
 
@@ -94,12 +95,14 @@ final as (
         {% endif %}
         {% if codex_usage_model_enabled %}
         , model_rollup.count_models_used
+        {{ fivetran_utils.persist_pass_through_columns('openai__codex_usage_model_passthrough_metrics', identifier='model_rollup') }}
         {% endif %}
         {% if codex_usage_enabled %}
         , codex_usage.credits
         , codex_usage.input_tokens
         , codex_usage.cache_read_tokens
         , codex_usage.output_tokens
+        {{ fivetran_utils.persist_pass_through_columns('openai__codex_usage_passthrough_metrics', identifier='codex_usage') }}
         {% elif codex_usage_model_enabled %}
         , model_rollup.credits
         , model_rollup.input_tokens

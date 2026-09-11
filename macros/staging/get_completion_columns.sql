@@ -1,5 +1,5 @@
 {% macro get_completion_columns() %}
-{{ return([
+{% set columns = [
     {"name": "_fivetran_deleted", "datatype": "boolean"},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "_fivetran_id", "datatype": dbt.type_string()},
@@ -18,5 +18,7 @@
     {"name": "service_tier", "datatype": dbt.type_string()},
     {"name": "start_time", "datatype": dbt.type_int()},
     {"name": "user_id", "datatype": dbt.type_string()},
-]) }}
+] %}
+{{ fivetran_utils.add_pass_through_columns(columns, var('openai__completion_passthrough_metrics', [])) }}
+{{ return(columns) }}
 {% endmacro %}

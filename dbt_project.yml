@@ -4,6 +4,14 @@ version: '0.1.0'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<3.0.0"]
 
+vars:
+  openai__cost_passthrough_metrics: []
+  openai__completion_passthrough_metrics: []
+  openai__codex_usage_passthrough_metrics: []
+  openai__codex_usage_model_passthrough_metrics: []
+  openai__compliance_cost_passthrough_metrics: []
+  openai__compliance_cost_billing_passthrough_metrics: []
+
 models:
   openai:
     +schema: openai_reports

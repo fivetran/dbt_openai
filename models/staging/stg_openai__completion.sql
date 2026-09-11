@@ -36,6 +36,7 @@ final as (
         cast(num_model_request as {{ dbt.type_int() }}) as num_model_requests,
         cast({{ dbt.dateadd('second', 'start_time', "cast('1970-01-01' as timestamp)") }} as {{ dbt.type_timestamp() }}) as usage_started_at,
         _fivetran_synced
+        {{ fivetran_utils.fill_pass_through_columns('openai__completion_passthrough_metrics') }}
     from fields
     where not coalesce(_fivetran_deleted, false)
 

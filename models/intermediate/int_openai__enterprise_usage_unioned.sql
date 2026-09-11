@@ -1,4 +1,4 @@
-{%- set enabled_products = openai_enabled_usage_products() -%}
+{%- set enabled_products = openai.openai_enabled_usage_products() -%}
 
 {{ config(enabled=(enabled_products | length > 0)) }}
 

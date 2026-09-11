@@ -42,6 +42,7 @@ final as (
         cast(text_output_token as {{ dbt.type_int() }}) as output_tokens,
         cast(image_output_token as {{ dbt.type_int() }}) as image_output_tokens,
         _fivetran_synced
+        {{ fivetran_utils.fill_pass_through_columns('openai__compliance_cost_passthrough_metrics') }}
     from fields
 
 )
