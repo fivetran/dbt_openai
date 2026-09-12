@@ -181,7 +181,7 @@ final as (
         on project.project_id = attributed.project_id
         and project.source_relation = attributed.source_relation
     {% endif %}
-    {{ dbt_utils.group_by(n=(8 if project_enabled else 7)) }}
+    {{ dbt_utils.group_by(n=(7 if project_enabled else 6)) }}
 
     {% if cost_enabled %}
     union all
@@ -241,7 +241,7 @@ final as (
         on project.project_id = cost_by_model_day.project_id
         and project.source_relation = cost_by_model_day.source_relation
     {% endif %}
-    {{ dbt_utils.group_by(n=(10 if project_enabled else 9)) }}
+    {{ dbt_utils.group_by(n=(9 if project_enabled else 8)) }}
 
 )
 {% endif %}
