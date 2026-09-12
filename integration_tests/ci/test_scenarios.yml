@@ -19,8 +19,18 @@ test_scenarios:
     vars: {}
     include_incremental: false
 
-  - name: "Compliance"
+  - name: "Compliance Disabled"
     vars:
-      openai_using_compliance_cost: true
-      openai_using_compliance_users: true
+      openai_using_compliance_cost: false
+      openai_using_compliance_users: false
+    include_incremental: false
+
+  - name: "Partial"
+    vars:
+      openai_using_completion: false
+      openai_using_codex_usage_model: false
+      openai_using_project: false
+      openai_using_project_user_role: false
+      openai_using_groups: false
+      openai_using_invite: false
     include_incremental: false

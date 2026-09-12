@@ -429,7 +429,7 @@ sources:
         identifier: "{{ var('openai_compliance_costs_organization_log_identifier', 'costs_organization_log') }}"
         description: Org-level cost events at (event, organization). Keyed on (event_id, organization_id) — a later sync of the same event's cumulative total overwrites the row already at rest, so no restatement handling is needed downstream.
         config:
-          enabled: "{{ var('openai_using_compliance_cost', False) and var('openai_compliance_sources', []) == [] }}"
+          enabled: "{{ var('openai_using_compliance_cost', True) and var('openai_compliance_sources', []) == [] }}"
         columns:
           - name: event_id
             description: Identifier for a cost event.
@@ -470,7 +470,7 @@ sources:
         identifier: "{{ var('openai_compliance_costs_organization_log_billing_identifier', 'costs_organization_log_billing') }}"
         description: Repeated SKU line items per cost event, carrying cost in credits (never USD) plus a connector-estimated USD equivalent. Keyed on (event_id, organization_id, sku).
         config:
-          enabled: "{{ var('openai_using_compliance_cost', False) and var('openai_compliance_sources', []) == [] }}"
+          enabled: "{{ var('openai_using_compliance_cost', True) and var('openai_compliance_sources', []) == [] }}"
         columns:
           - name: event_id
             description: Identifier for the parent cost event. Joins to costs_organization_log.
@@ -497,7 +497,7 @@ sources:
         identifier: "{{ var('openai_compliance_users_identifier', 'users') }}"
         description: ChatGPT workspace users. The only path from a cost event's identity_user_id to an email address.
         config:
-          enabled: "{{ var('openai_using_compliance_users', False) and var('openai_compliance_sources', []) == [] }}"
+          enabled: "{{ var('openai_using_compliance_users', True) and var('openai_compliance_sources', []) == [] }}"
         columns:
           - name: id
             description: "{{ doc('user_id') }}"

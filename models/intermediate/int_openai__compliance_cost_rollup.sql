@@ -1,9 +1,9 @@
 -- Disabled by default, not yet wired into any report (overlaps with codex_usage for the codex
 -- product). No restatement dedup needed: cost/billing keys have no log-file id, so a later sync just overwrites the row.
 
-{% set email_enabled = var('openai_using_compliance_users', False) %}
+{% set email_enabled = var('openai_using_compliance_users', True) %}
 
-{{ config(enabled=var('openai_using_compliance_cost', False)) }}
+{{ config(enabled=var('openai_using_compliance_cost', True)) }}
 
 with cost_events as (
 

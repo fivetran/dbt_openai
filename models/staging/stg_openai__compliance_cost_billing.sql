@@ -1,4 +1,4 @@
-{{ config(enabled=var('openai_using_compliance_cost', False)) }}
+{{ config(enabled=var('openai_using_compliance_cost', True)) }}
 
 with base as (
 
