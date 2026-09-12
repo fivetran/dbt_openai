@@ -1,0 +1,4 @@
+id,project_id,project_user_id,name,_fivetran_deleted,_fivetran_synced
+purole-001,proj-patientportal01,user-kylepla0001,Editor,false,2025-12-31 08:00:00
+purole-002,proj-brightbyfdc02,user-tamarabi0004,Content Reviewer,false,2025-12-31 08:00:00
+purole-003,proj-brightbyfdc02,user-brendanw0006,Content Reviewer,false,2025-12-31 08:00:00

@@ -1,0 +1,179 @@
+version: 2
+
+models:
+  - name: openai__cost_usage_report
+    description: >
+      Daily OpenAI Platform spend and token usage by project and model, plus an org-level
+      `cost_type = 'other'` row for cost not tied to a project — kept so `sum(openai_cost)`
+      always ties to the source `cost` table. `cost_attribution_method` marks how project_id
+      was determined for `tokens` rows: `direct` (Costs API-reported), `allocated` (inferred
+      via an implied per-token rate), or `unallocated`. Still useful with only
+      `openai_using_cost` or only `openai_using_completion` enabled — see column descriptions
+      for what drops.
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: date_day
+        description: "{{ doc('date_day') }}"
+        tests:
+          - not_null
+      - name: project_id
+        description: "{{ doc('project_id') }} Null on `other`-cost_type rows that couldn't be tied to a project."
+      - name: project_name
+        description: "{{ doc('project_name') }} Only present when `openai_using_project` is enabled. Null wherever project_id is null."
+      - name: model
+        description: "{{ doc('model') }} Null on `other`-cost_type rows, which don't break out by model."
+      - name: model_family
+        description: "{{ doc('model_family') }} Null on `other`-cost_type rows."
+      - name: model_variant
+        description: "{{ doc('model_variant') }} Null on `other`-cost_type rows."
+      - name: cost_type
+        description: >
+          `tokens` for spend attributed to a model, or `other` for cost that doesn't break out
+          by model (e.g. "Assistants API") or found no matching completion volume. Only present
+          when `openai_using_cost` is enabled.
+      - name: cost_attribution_method
+        description: >
+          How `project_id` was determined: `direct` (Costs API-reported), `allocated`
+          (inferred via rate card), `unallocated`, or `mixed` (unit types resolved differently).
+          Only present when `openai_using_cost` is enabled.
+      - name: input_tokens
+        description: "{{ doc('input_tokens') }} Only present when `openai_using_completion` is enabled."
+      - name: cache_read_tokens
+        description: "{{ doc('cache_read_tokens') }} Only present when `openai_using_completion` is enabled."
+      - name: output_tokens
+        description: "{{ doc('output_tokens') }} Only present when `openai_using_completion` is enabled."
+      - name: num_model_requests
+        description: "{{ doc('num_model_requests') }} Only present when `openai_using_completion` is enabled."
+      - name: openai_cost
+        description: "{{ doc('openai_cost') }} Only present when `openai_using_cost` is enabled."
+      - name: currency
+        description: Currency code for `openai_cost`, as reported by the Costs API (in practice always `usd`). Only present when `openai_using_cost` is enabled.
+
+  - name: openai__enterprise_user_report
+    description: >
+      Daily OpenAI Platform activity by user, project, model, and product — completions,
+      embeddings, audio, image, moderation, web search, and file search. Cost isn't available
+      at this grain; the Costs endpoint doesn't report per-user attribution.
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: date_day
+        description: "{{ doc('date_day') }}"
+        tests:
+          - not_null
+      - name: actor_user_id
+        description: "{{ doc('actor_user_id') }}"
+        tests:
+          - not_null
+      - name: actor_email
+        description: "{{ doc('actor_email') }}"
+      - name: project_id
+        description: "{{ doc('project_id') }}"
+        tests:
+          - not_null
+      - name: project_name
+        description: "{{ doc('project_name') }} Only present when `openai_using_project` is enabled."
+      - name: model
+        description: "{{ doc('model') }}"
+      - name: model_family
+        description: "{{ doc('model_family') }}"
+      - name: model_variant
+        description: "{{ doc('model_variant') }}"
+      - name: product
+        description: OpenAI product this activity came from — `completion`, `embedding`, `audio_transcription`, `audio_speech`, `image`, `moderation`, `web_search`, or `file_search`.
+      - name: quantity
+        description: Amount consumed, in the unit named by `quantity_unit`. Only additive within a single unit — null for products with no comparable single-request measure (`image`, `web_search`, `file_search`).
+      - name: quantity_unit
+        description: Unit `quantity` is denominated in — `tokens` (`completion`, `embedding`, `moderation`), `seconds` (`audio_transcription`), `characters` (`audio_speech`), or null.
+      - name: num_model_requests
+        description: Model requests for model products; tool-call counts (`num_requests`) for `web_search` and `file_search`, which may not map 1:1 to a model request.
+
+  - name: openai__code_report
+    description: >
+      Daily Codex Enterprise productivity by person. Per-model/speed detail rolls up onto this
+      grain rather than fanning out. Credits/tokens come from `codex_usage` when enabled, else
+      a `codex_usage_model` rollup — either table alone is still useful; see column descriptions
+      for what drops when one is disabled.
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: date_day
+        description: "{{ doc('date_day') }}"
+        tests:
+          - not_null
+      - name: user_id
+        description: "{{ doc('user_id') }}"
+        tests:
+          - not_null
+      - name: actor_email
+        description: "{{ doc('actor_email') }} Only present when `openai_using_codex_usage` is enabled."
+      - name: count_lines_of_code_added
+        description: Lines of code added via Codex-attributed commits for this person on this day. Only present when `openai_using_codex_usage` is enabled.
+      - name: count_lines_of_code_removed
+        description: Lines of code removed via Codex-attributed commits for this person on this day. Only present when `openai_using_codex_usage` is enabled.
+      - name: count_threads
+        description: Codex conversation threads started by this person on this day. Only present when `openai_using_codex_usage` is enabled.
+      - name: count_turns
+        description: Codex conversation turns by this person on this day. Only present when `openai_using_codex_usage` is enabled.
+      - name: count_models_used
+        description: Distinct Codex models this person used on this day. Only present when `openai_using_codex_usage_model` is enabled.
+      - name: credits
+        description: "{{ doc('credits') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`."
+      - name: input_tokens
+        description: "{{ doc('input_tokens') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`."
+      - name: cache_read_tokens
+        description: "{{ doc('cache_read_tokens') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`."
+      - name: output_tokens
+        description: "{{ doc('output_tokens') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`."
+
+  - name: openai__user_summary
+    description: >
+      One row per source relation and OpenAI Platform user, with organization role, project
+      membership, project-level custom roles, and all-time and month-to-date usage totals.
+      Several column groups are entirely omitted (not nulled) when their source table is
+      disabled — see each column's description.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - actor_user_id
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: actor_user_id
+        description: "{{ doc('actor_user_id') }}"
+        tests:
+          - not_null
+      - name: email
+        description: "{{ doc('email') }}"
+      - name: name
+        description: Display name of the user.
+      - name: role
+        description: Organization-level role of the user (e.g. `owner`, `reader`).
+      - name: org_permission_roles
+        description: Comma-separated list of organization-level permission roles assigned to the user. Only present when `openai_using_users_role` is enabled.
+      - name: project_count
+        description: Number of OpenAI Platform projects this user belongs to. Only present when `openai_using_project_user` is enabled.
+      - name: project_names
+        description: Comma-separated list of project names this user belongs to. Only present when both `openai_using_project_user` and `openai_using_project` are enabled.
+      - name: project_role_count
+        description: Number of distinct custom project-level roles assigned to this user across all their projects. Only present when `openai_using_project_user_role` is enabled.
+      - name: project_role_names
+        description: Comma-separated list of distinct custom project-level role names assigned to this user. Only present when `openai_using_project_user_role` is enabled.
+      - name: lifetime_tokens
+        description: Tokens consumed across every product covered by `openai__enterprise_user_report`. All time.
+      - name: month_to_date_tokens
+        description: Tokens consumed across every product covered by `openai__enterprise_user_report`. Current calendar month only.
+      - name: lifetime_num_model_requests
+        description: Model/tool requests across every product covered by `openai__enterprise_user_report`. All time.
+      - name: month_to_date_num_model_requests
+        description: Model/tool requests across every product covered by `openai__enterprise_user_report`. Current calendar month only.
+      - name: lifetime_active_days
+        description: Distinct days the user recorded product activity, all time.
+      - name: month_to_date_active_days
+        description: Distinct days the user recorded product activity this calendar month.
+      - name: first_active_date
+        description: Earliest day the user recorded product activity.
+      - name: last_active_date
+        description: Most recent day the user recorded product activity.

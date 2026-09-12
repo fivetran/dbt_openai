@@ -1,0 +1,8 @@
+id,name,_fivetran_deleted,_fivetran_synced
+key-portalchatbot01,patient-portal-chatbot,false,2025-12-31 08:00:00
+key-portalsearch02,patient-portal-kb-search,false,2025-12-31 08:00:00
+key-brightcopy03,bright-marketing-copy,false,2025-12-31 08:00:00
+key-brightimages04,bright-product-images,false,2025-12-31 08:00:00
+key-riversidevoice05,riverside-call-transcripts,false,2025-12-31 08:00:00
+key-riversidesearch06,riverside-competitive-research,false,2025-12-31 08:00:00
+key-internaltools07,internal-tools-misc,false,2025-12-31 08:00:00

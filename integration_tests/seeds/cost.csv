@@ -1,0 +1,593 @@
+_fivetran_id,project_id,line_item,amount_value,amount_currency,start_time,_fivetran_deleted,_fivetran_synced
+fvco000196,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.5e-05,usd,1736121600,false,2025-12-31 08:00:00
+fvco000197,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000189,usd,1736121600,false,2025-12-31 08:00:00
+fvco000198,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000227,usd,1736121600,false,2025-12-31 08:00:00
+fvco000199,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1e-05,usd,1736208000,false,2025-12-31 08:00:00
+fvco000200,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000142,usd,1736208000,false,2025-12-31 08:00:00
+fvco000201,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000203,usd,1736208000,false,2025-12-31 08:00:00
+fvco000202,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.4e-05,usd,1736726400,false,2025-12-31 08:00:00
+fvco000203,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000172,usd,1736726400,false,2025-12-31 08:00:00
+fvco000204,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000306,usd,1736726400,false,2025-12-31 08:00:00
+fvco000205,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",3.5e-05,usd,1737331200,false,2025-12-31 08:00:00
+fvco000206,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000259,usd,1737331200,false,2025-12-31 08:00:00
+fvco000207,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000324,usd,1737331200,false,2025-12-31 08:00:00
+fvco000208,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.9e-05,usd,1737590400,false,2025-12-31 08:00:00
+fvco000209,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000222,usd,1737590400,false,2025-12-31 08:00:00
+fvco000210,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000187,usd,1737590400,false,2025-12-31 08:00:00
+fvco000211,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.6e-05,usd,1737936000,false,2025-12-31 08:00:00
+fvco000212,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000188,usd,1737936000,false,2025-12-31 08:00:00
+fvco000213,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000245,usd,1737936000,false,2025-12-31 08:00:00
+fvco000214,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2e-05,usd,1738022400,false,2025-12-31 08:00:00
+fvco000215,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.00021,usd,1738022400,false,2025-12-31 08:00:00
+fvco000216,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000317,usd,1738022400,false,2025-12-31 08:00:00
+fvco000217,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.6e-05,usd,1738108800,false,2025-12-31 08:00:00
+fvco000218,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000271,usd,1738108800,false,2025-12-31 08:00:00
+fvco000219,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000218,usd,1738108800,false,2025-12-31 08:00:00
+fvco000220,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.5e-05,usd,1738540800,false,2025-12-31 08:00:00
+fvco000221,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000227,usd,1738540800,false,2025-12-31 08:00:00
+fvco000222,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00025,usd,1738540800,false,2025-12-31 08:00:00
+fvco000223,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.6e-05,usd,1738627200,false,2025-12-31 08:00:00
+fvco000224,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000235,usd,1738627200,false,2025-12-31 08:00:00
+fvco000225,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000431,usd,1738627200,false,2025-12-31 08:00:00
+fvco000226,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.4e-05,usd,1738713600,false,2025-12-31 08:00:00
+fvco000227,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000378,usd,1738713600,false,2025-12-31 08:00:00
+fvco000228,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000454,usd,1738713600,false,2025-12-31 08:00:00
+fvco000229,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2e-05,usd,1738800000,false,2025-12-31 08:00:00
+fvco000230,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.00031,usd,1738800000,false,2025-12-31 08:00:00
+fvco000231,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000514,usd,1738800000,false,2025-12-31 08:00:00
+fvco000232,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.2e-05,usd,1738886400,false,2025-12-31 08:00:00
+fvco000233,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000229,usd,1738886400,false,2025-12-31 08:00:00
+fvco000234,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000281,usd,1738886400,false,2025-12-31 08:00:00
+fvco000235,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.5e-05,usd,1739404800,false,2025-12-31 08:00:00
+fvco000236,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000272,usd,1739404800,false,2025-12-31 08:00:00
+fvco000237,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000346,usd,1739404800,false,2025-12-31 08:00:00
+fvco000238,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.9e-05,usd,1739491200,false,2025-12-31 08:00:00
+fvco000239,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000248,usd,1739491200,false,2025-12-31 08:00:00
+fvco000240,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000419,usd,1739491200,false,2025-12-31 08:00:00
+fvco000241,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",4.1e-05,usd,1739836800,false,2025-12-31 08:00:00
+fvco000242,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000325,usd,1739836800,false,2025-12-31 08:00:00
+fvco000243,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000455,usd,1739836800,false,2025-12-31 08:00:00
+fvco000244,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",4e-05,usd,1739923200,false,2025-12-31 08:00:00
+fvco000245,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000436,usd,1739923200,false,2025-12-31 08:00:00
+fvco000246,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000343,usd,1739923200,false,2025-12-31 08:00:00
+fvco000247,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.4e-05,usd,1740009600,false,2025-12-31 08:00:00
+fvco000248,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000386,usd,1740009600,false,2025-12-31 08:00:00
+fvco000249,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000661,usd,1740009600,false,2025-12-31 08:00:00
+fvco000250,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.6e-05,usd,1740614400,false,2025-12-31 08:00:00
+fvco000251,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000422,usd,1740614400,false,2025-12-31 08:00:00
+fvco000252,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000625,usd,1740614400,false,2025-12-31 08:00:00
+fvco000253,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",3.1e-05,usd,1740700800,false,2025-12-31 08:00:00
+fvco000254,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000475,usd,1740700800,false,2025-12-31 08:00:00
+fvco000255,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000652,usd,1740700800,false,2025-12-31 08:00:00
+fvco000256,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.8e-05,usd,1741132800,false,2025-12-31 08:00:00
+fvco000257,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000455,usd,1741132800,false,2025-12-31 08:00:00
+fvco000258,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000294,usd,1741132800,false,2025-12-31 08:00:00
+fvco000259,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.4e-05,usd,1741219200,false,2025-12-31 08:00:00
+fvco000260,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000357,usd,1741219200,false,2025-12-31 08:00:00
+fvco000261,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000663,usd,1741219200,false,2025-12-31 08:00:00
+fvco000262,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",3.8e-05,usd,1741305600,false,2025-12-31 08:00:00
+fvco000263,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000356,usd,1741305600,false,2025-12-31 08:00:00
+fvco000264,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000565,usd,1741305600,false,2025-12-31 08:00:00
+fvco000265,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.4e-05,usd,1741564800,false,2025-12-31 08:00:00
+fvco000266,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000527,usd,1741564800,false,2025-12-31 08:00:00
+fvco000267,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000709,usd,1741564800,false,2025-12-31 08:00:00
+fvco000268,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.1e-05,usd,1741824000,false,2025-12-31 08:00:00
+fvco000269,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.00037,usd,1741824000,false,2025-12-31 08:00:00
+fvco000270,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000373,usd,1741824000,false,2025-12-31 08:00:00
+fvco000271,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",3.2e-05,usd,1741910400,false,2025-12-31 08:00:00
+fvco000272,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000416,usd,1741910400,false,2025-12-31 08:00:00
+fvco000273,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000418,usd,1741910400,false,2025-12-31 08:00:00
+fvco000274,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.7e-05,usd,1742256000,false,2025-12-31 08:00:00
+fvco000275,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000541,usd,1742256000,false,2025-12-31 08:00:00
+fvco000276,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000397,usd,1742256000,false,2025-12-31 08:00:00
+fvco000277,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.5e-05,usd,1742860800,false,2025-12-31 08:00:00
+fvco000278,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000498,usd,1742860800,false,2025-12-31 08:00:00
+fvco000279,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000805,usd,1742860800,false,2025-12-31 08:00:00
+fvco000280,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",4.2e-05,usd,1743465600,false,2025-12-31 08:00:00
+fvco000281,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000596,usd,1743465600,false,2025-12-31 08:00:00
+fvco000282,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000614,usd,1743465600,false,2025-12-31 08:00:00
+fvco000283,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",6.3e-05,usd,1743984000,false,2025-12-31 08:00:00
+fvco000284,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000608,usd,1743984000,false,2025-12-31 08:00:00
+fvco000285,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000818,usd,1743984000,false,2025-12-31 08:00:00
+fvco000286,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.9e-05,usd,1744588800,false,2025-12-31 08:00:00
+fvco000287,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000496,usd,1744588800,false,2025-12-31 08:00:00
+fvco000288,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000626,usd,1744588800,false,2025-12-31 08:00:00
+fvco000289,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",6.5e-05,usd,1744675200,false,2025-12-31 08:00:00
+fvco000290,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000485,usd,1744675200,false,2025-12-31 08:00:00
+fvco000291,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00052,usd,1744675200,false,2025-12-31 08:00:00
+fvco000292,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",4.1e-05,usd,1745193600,false,2025-12-31 08:00:00
+fvco000293,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000455,usd,1745193600,false,2025-12-31 08:00:00
+fvco000294,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000712,usd,1745193600,false,2025-12-31 08:00:00
+fvco000295,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.5e-05,usd,1745798400,false,2025-12-31 08:00:00
+fvco000296,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000749,usd,1745798400,false,2025-12-31 08:00:00
+fvco000297,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000477,usd,1745798400,false,2025-12-31 08:00:00
+fvco000298,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",6.1e-05,usd,1745971200,false,2025-12-31 08:00:00
+fvco000299,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000764,usd,1745971200,false,2025-12-31 08:00:00
+fvco000300,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000539,usd,1745971200,false,2025-12-31 08:00:00
+fvco000301,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",7.1e-05,usd,1746057600,false,2025-12-31 08:00:00
+fvco000302,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000422,usd,1746057600,false,2025-12-31 08:00:00
+fvco000303,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000557,usd,1746057600,false,2025-12-31 08:00:00
+fvco000304,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",7.4e-05,usd,1746403200,false,2025-12-31 08:00:00
+fvco000305,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000453,usd,1746403200,false,2025-12-31 08:00:00
+fvco000306,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000657,usd,1746403200,false,2025-12-31 08:00:00
+fvco000307,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",0.000103,usd,1746576000,false,2025-12-31 08:00:00
+fvco000308,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000604,usd,1746576000,false,2025-12-31 08:00:00
+fvco000309,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000482,usd,1746576000,false,2025-12-31 08:00:00
+fvco000310,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",9.2e-05,usd,1746748800,false,2025-12-31 08:00:00
+fvco000311,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.00058,usd,1746748800,false,2025-12-31 08:00:00
+fvco000312,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000409,usd,1746748800,false,2025-12-31 08:00:00
+fvco000313,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.6e-05,usd,1747612800,false,2025-12-31 08:00:00
+fvco000314,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000479,usd,1747612800,false,2025-12-31 08:00:00
+fvco000315,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000469,usd,1747612800,false,2025-12-31 08:00:00
+fvco000316,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",6.7e-05,usd,1747785600,false,2025-12-31 08:00:00
+fvco000317,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000597,usd,1747785600,false,2025-12-31 08:00:00
+fvco000318,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000464,usd,1747785600,false,2025-12-31 08:00:00
+fvco000319,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",7.4e-05,usd,1747958400,false,2025-12-31 08:00:00
+fvco000320,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.00051,usd,1747958400,false,2025-12-31 08:00:00
+fvco000321,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000478,usd,1747958400,false,2025-12-31 08:00:00
+fvco000322,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",9.1e-05,usd,1748217600,false,2025-12-31 08:00:00
+fvco000323,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000532,usd,1748217600,false,2025-12-31 08:00:00
+fvco000324,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000394,usd,1748217600,false,2025-12-31 08:00:00
+fvco000325,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",4.1e-05,usd,1748476800,false,2025-12-31 08:00:00
+fvco000326,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000401,usd,1748476800,false,2025-12-31 08:00:00
+fvco000327,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000372,usd,1748476800,false,2025-12-31 08:00:00
+fvco000328,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.3e-05,usd,1748563200,false,2025-12-31 08:00:00
+fvco000329,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000607,usd,1748563200,false,2025-12-31 08:00:00
+fvco000330,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00049,usd,1748563200,false,2025-12-31 08:00:00
+fvco000331,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000271,usd,1748908800,false,2025-12-31 08:00:00
+fvco000332,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.006585,usd,1748908800,false,2025-12-31 08:00:00
+fvco000333,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01471,usd,1748908800,false,2025-12-31 08:00:00
+fvco000334,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.4e-05,usd,1748908800,false,2025-12-31 08:00:00
+fvco000335,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000421,usd,1748908800,false,2025-12-31 08:00:00
+fvco000336,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000518,usd,1748908800,false,2025-12-31 08:00:00
+fvco000337,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000126,usd,1748995200,false,2025-12-31 08:00:00
+fvco000338,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.004333,usd,1748995200,false,2025-12-31 08:00:00
+fvco000339,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01355,usd,1748995200,false,2025-12-31 08:00:00
+fvco000340,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",8.3e-05,usd,1748995200,false,2025-12-31 08:00:00
+fvco000341,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000506,usd,1748995200,false,2025-12-31 08:00:00
+fvco000342,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000442,usd,1748995200,false,2025-12-31 08:00:00
+fvco000343,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000245,usd,1749168000,false,2025-12-31 08:00:00
+fvco000344,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.00437,usd,1749168000,false,2025-12-31 08:00:00
+fvco000345,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.00988,usd,1749168000,false,2025-12-31 08:00:00
+fvco000346,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.6e-05,usd,1749168000,false,2025-12-31 08:00:00
+fvco000347,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.00064,usd,1749168000,false,2025-12-31 08:00:00
+fvco000348,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000363,usd,1749168000,false,2025-12-31 08:00:00
+fvco000349,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000138,usd,1749427200,false,2025-12-31 08:00:00
+fvco000350,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.003925,usd,1749427200,false,2025-12-31 08:00:00
+fvco000351,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01538,usd,1749427200,false,2025-12-31 08:00:00
+fvco000352,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.7e-05,usd,1749427200,false,2025-12-31 08:00:00
+fvco000353,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000663,usd,1749427200,false,2025-12-31 08:00:00
+fvco000354,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000409,usd,1749427200,false,2025-12-31 08:00:00
+fvco000355,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000311,usd,1749513600,false,2025-12-31 08:00:00
+fvco000356,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.004775,usd,1749513600,false,2025-12-31 08:00:00
+fvco000357,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01412,usd,1749513600,false,2025-12-31 08:00:00
+fvco000358,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.5e-05,usd,1749513600,false,2025-12-31 08:00:00
+fvco000359,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000464,usd,1749513600,false,2025-12-31 08:00:00
+fvco000360,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000566,usd,1749513600,false,2025-12-31 08:00:00
+fvco000361,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000305,usd,1749686400,false,2025-12-31 08:00:00
+fvco000362,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.004257,usd,1749686400,false,2025-12-31 08:00:00
+fvco000363,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01117,usd,1749686400,false,2025-12-31 08:00:00
+fvco000364,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.6e-05,usd,1749686400,false,2025-12-31 08:00:00
+fvco000365,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000381,usd,1749686400,false,2025-12-31 08:00:00
+fvco000366,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000529,usd,1749686400,false,2025-12-31 08:00:00
+fvco000367,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000233,usd,1750032000,false,2025-12-31 08:00:00
+fvco000368,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.00652,usd,1750032000,false,2025-12-31 08:00:00
+fvco000369,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.0137,usd,1750032000,false,2025-12-31 08:00:00
+fvco000370,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",8.6e-05,usd,1750032000,false,2025-12-31 08:00:00
+fvco000371,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000543,usd,1750032000,false,2025-12-31 08:00:00
+fvco000372,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000481,usd,1750032000,false,2025-12-31 08:00:00
+fvco000373,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000378,usd,1750118400,false,2025-12-31 08:00:00
+fvco000374,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.00507,usd,1750118400,false,2025-12-31 08:00:00
+fvco000375,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01011,usd,1750118400,false,2025-12-31 08:00:00
+fvco000376,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",0.000103,usd,1750118400,false,2025-12-31 08:00:00
+fvco000377,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000631,usd,1750118400,false,2025-12-31 08:00:00
+fvco000378,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000584,usd,1750118400,false,2025-12-31 08:00:00
+fvco000379,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000106,usd,1750291200,false,2025-12-31 08:00:00
+fvco000380,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.003835,usd,1750291200,false,2025-12-31 08:00:00
+fvco000381,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.0168,usd,1750291200,false,2025-12-31 08:00:00
+fvco000382,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.5e-05,usd,1750291200,false,2025-12-31 08:00:00
+fvco000383,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000397,usd,1750291200,false,2025-12-31 08:00:00
+fvco000384,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00063,usd,1750291200,false,2025-12-31 08:00:00
+fvco000385,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000129,usd,1750636800,false,2025-12-31 08:00:00
+fvco000386,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.003947,usd,1750636800,false,2025-12-31 08:00:00
+fvco000387,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01813,usd,1750636800,false,2025-12-31 08:00:00
+fvco000388,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.5e-05,usd,1750636800,false,2025-12-31 08:00:00
+fvco000389,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000559,usd,1750636800,false,2025-12-31 08:00:00
+fvco000390,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00045,usd,1750636800,false,2025-12-31 08:00:00
+fvco000391,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000112,usd,1750723200,false,2025-12-31 08:00:00
+fvco000392,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.00425,usd,1750723200,false,2025-12-31 08:00:00
+fvco000393,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01533,usd,1750723200,false,2025-12-31 08:00:00
+fvco000394,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",8.3e-05,usd,1750723200,false,2025-12-31 08:00:00
+fvco000395,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000487,usd,1750723200,false,2025-12-31 08:00:00
+fvco000396,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000658,usd,1750723200,false,2025-12-31 08:00:00
+fvco000397,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000221,usd,1750982400,false,2025-12-31 08:00:00
+fvco000398,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.004428,usd,1750982400,false,2025-12-31 08:00:00
+fvco000399,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01311,usd,1750982400,false,2025-12-31 08:00:00
+fvco000400,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",3.2e-05,usd,1750982400,false,2025-12-31 08:00:00
+fvco000401,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000431,usd,1750982400,false,2025-12-31 08:00:00
+fvco000402,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000477,usd,1750982400,false,2025-12-31 08:00:00
+fvco000403,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000163,usd,1751500800,false,2025-12-31 08:00:00
+fvco000404,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.006003,usd,1751500800,false,2025-12-31 08:00:00
+fvco000405,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.00946,usd,1751500800,false,2025-12-31 08:00:00
+fvco000406,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",4.1e-05,usd,1751500800,false,2025-12-31 08:00:00
+fvco000407,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000403,usd,1751500800,false,2025-12-31 08:00:00
+fvco000408,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000387,usd,1751500800,false,2025-12-31 08:00:00
+fvco000409,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000442,usd,1751587200,false,2025-12-31 08:00:00
+fvco000410,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.006365,usd,1751587200,false,2025-12-31 08:00:00
+fvco000411,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.02121,usd,1751587200,false,2025-12-31 08:00:00
+fvco000412,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.6e-05,usd,1751587200,false,2025-12-31 08:00:00
+fvco000413,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000568,usd,1751587200,false,2025-12-31 08:00:00
+fvco000414,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000539,usd,1751587200,false,2025-12-31 08:00:00
+fvco000415,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000213,usd,1751932800,false,2025-12-31 08:00:00
+fvco000416,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.003222,usd,1751932800,false,2025-12-31 08:00:00
+fvco000417,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.0195,usd,1751932800,false,2025-12-31 08:00:00
+fvco000418,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",0.000103,usd,1751932800,false,2025-12-31 08:00:00
+fvco000419,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000596,usd,1751932800,false,2025-12-31 08:00:00
+fvco000420,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000406,usd,1751932800,false,2025-12-31 08:00:00
+fvco000421,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000352,usd,1752105600,false,2025-12-31 08:00:00
+fvco000422,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.006513,usd,1752105600,false,2025-12-31 08:00:00
+fvco000423,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.0137,usd,1752105600,false,2025-12-31 08:00:00
+fvco000424,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",8.3e-05,usd,1752105600,false,2025-12-31 08:00:00
+fvco000425,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000654,usd,1752105600,false,2025-12-31 08:00:00
+fvco000426,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000515,usd,1752105600,false,2025-12-31 08:00:00
+fvco000427,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.00028,usd,1752192000,false,2025-12-31 08:00:00
+fvco000428,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.00531,usd,1752192000,false,2025-12-31 08:00:00
+fvco000429,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.02185,usd,1752192000,false,2025-12-31 08:00:00
+fvco000430,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",3.4e-05,usd,1752192000,false,2025-12-31 08:00:00
+fvco000431,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000388,usd,1752192000,false,2025-12-31 08:00:00
+fvco000432,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00047,usd,1752192000,false,2025-12-31 08:00:00
+fvco000433,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000326,usd,1752451200,false,2025-12-31 08:00:00
+fvco000434,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.006375,usd,1752451200,false,2025-12-31 08:00:00
+fvco000435,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.0187,usd,1752451200,false,2025-12-31 08:00:00
+fvco000436,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.3e-05,usd,1752451200,false,2025-12-31 08:00:00
+fvco000437,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000525,usd,1752451200,false,2025-12-31 08:00:00
+fvco000438,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.0005,usd,1752451200,false,2025-12-31 08:00:00
+fvco000439,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.00039,usd,1752624000,false,2025-12-31 08:00:00
+fvco000440,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.006788,usd,1752624000,false,2025-12-31 08:00:00
+fvco000441,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01842,usd,1752624000,false,2025-12-31 08:00:00
+fvco000442,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",6.4e-05,usd,1752624000,false,2025-12-31 08:00:00
+fvco000443,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000635,usd,1752624000,false,2025-12-31 08:00:00
+fvco000444,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000584,usd,1752624000,false,2025-12-31 08:00:00
+fvco000445,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000349,usd,1752710400,false,2025-12-31 08:00:00
+fvco000446,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.006158,usd,1752710400,false,2025-12-31 08:00:00
+fvco000447,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01306,usd,1752710400,false,2025-12-31 08:00:00
+fvco000448,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",4.9e-05,usd,1752710400,false,2025-12-31 08:00:00
+fvco000449,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000399,usd,1752710400,false,2025-12-31 08:00:00
+fvco000450,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00057,usd,1752710400,false,2025-12-31 08:00:00
+fvco000451,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.00015,usd,1753228800,false,2025-12-31 08:00:00
+fvco000452,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.003063,usd,1753228800,false,2025-12-31 08:00:00
+fvco000453,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01894,usd,1753228800,false,2025-12-31 08:00:00
+fvco000454,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",4.8e-05,usd,1753228800,false,2025-12-31 08:00:00
+fvco000455,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000477,usd,1753228800,false,2025-12-31 08:00:00
+fvco000456,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000588,usd,1753228800,false,2025-12-31 08:00:00
+fvco000457,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000259,usd,1753401600,false,2025-12-31 08:00:00
+fvco000458,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.005377,usd,1753401600,false,2025-12-31 08:00:00
+fvco000459,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01142,usd,1753401600,false,2025-12-31 08:00:00
+fvco000460,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.7e-05,usd,1753401600,false,2025-12-31 08:00:00
+fvco000461,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000588,usd,1753401600,false,2025-12-31 08:00:00
+fvco000462,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00051,usd,1753401600,false,2025-12-31 08:00:00
+fvco000463,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000214,usd,1753833600,false,2025-12-31 08:00:00
+fvco000464,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.004482,usd,1753833600,false,2025-12-31 08:00:00
+fvco000465,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01937,usd,1753833600,false,2025-12-31 08:00:00
+fvco000466,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",8.1e-05,usd,1753833600,false,2025-12-31 08:00:00
+fvco000467,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000471,usd,1753833600,false,2025-12-31 08:00:00
+fvco000468,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000647,usd,1753833600,false,2025-12-31 08:00:00
+fvco000469,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000176,usd,1753920000,false,2025-12-31 08:00:00
+fvco000470,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.005975,usd,1753920000,false,2025-12-31 08:00:00
+fvco000471,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01973,usd,1753920000,false,2025-12-31 08:00:00
+fvco000472,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",4.7e-05,usd,1753920000,false,2025-12-31 08:00:00
+fvco000473,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000494,usd,1753920000,false,2025-12-31 08:00:00
+fvco000474,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00065,usd,1753920000,false,2025-12-31 08:00:00
+fvco000475,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000215,usd,1754524800,false,2025-12-31 08:00:00
+fvco000476,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.003575,usd,1754524800,false,2025-12-31 08:00:00
+fvco000477,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01373,usd,1754524800,false,2025-12-31 08:00:00
+fvco000478,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.6e-05,usd,1754524800,false,2025-12-31 08:00:00
+fvco000479,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000416,usd,1754524800,false,2025-12-31 08:00:00
+fvco000480,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000554,usd,1754524800,false,2025-12-31 08:00:00
+fvco000481,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000203,usd,1755475200,false,2025-12-31 08:00:00
+fvco000482,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.005075,usd,1755475200,false,2025-12-31 08:00:00
+fvco000483,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01188,usd,1755475200,false,2025-12-31 08:00:00
+fvco000484,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",3.8e-05,usd,1755475200,false,2025-12-31 08:00:00
+fvco000485,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000496,usd,1755475200,false,2025-12-31 08:00:00
+fvco000486,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000361,usd,1755475200,false,2025-12-31 08:00:00
+fvco000487,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000291,usd,1755561600,false,2025-12-31 08:00:00
+fvco000488,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.00466,usd,1755561600,false,2025-12-31 08:00:00
+fvco000489,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01715,usd,1755561600,false,2025-12-31 08:00:00
+fvco000490,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5.2e-05,usd,1755561600,false,2025-12-31 08:00:00
+fvco000491,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.00049,usd,1755561600,false,2025-12-31 08:00:00
+fvco000492,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000618,usd,1755561600,false,2025-12-31 08:00:00
+fvco000493,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000138,usd,1755648000,false,2025-12-31 08:00:00
+fvco000494,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.004905,usd,1755648000,false,2025-12-31 08:00:00
+fvco000495,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01699,usd,1755648000,false,2025-12-31 08:00:00
+fvco000496,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",4.5e-05,usd,1755648000,false,2025-12-31 08:00:00
+fvco000497,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000594,usd,1755648000,false,2025-12-31 08:00:00
+fvco000498,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000587,usd,1755648000,false,2025-12-31 08:00:00
+fvco000499,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",9.6e-05,usd,1755734400,false,2025-12-31 08:00:00
+fvco000500,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.00352,usd,1755734400,false,2025-12-31 08:00:00
+fvco000501,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01484,usd,1755734400,false,2025-12-31 08:00:00
+fvco000502,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",7.8e-05,usd,1755734400,false,2025-12-31 08:00:00
+fvco000503,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000659,usd,1755734400,false,2025-12-31 08:00:00
+fvco000504,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000444,usd,1755734400,false,2025-12-31 08:00:00
+fvco000505,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000304,usd,1755820800,false,2025-12-31 08:00:00
+fvco000506,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.006958,usd,1755820800,false,2025-12-31 08:00:00
+fvco000507,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01776,usd,1755820800,false,2025-12-31 08:00:00
+fvco000508,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",6.8e-05,usd,1755820800,false,2025-12-31 08:00:00
+fvco000509,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000673,usd,1755820800,false,2025-12-31 08:00:00
+fvco000510,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000517,usd,1755820800,false,2025-12-31 08:00:00
+fvco000511,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000194,usd,1756080000,false,2025-12-31 08:00:00
+fvco000512,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.006683,usd,1756080000,false,2025-12-31 08:00:00
+fvco000513,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01741,usd,1756080000,false,2025-12-31 08:00:00
+fvco000514,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",0.000106,usd,1756080000,false,2025-12-31 08:00:00
+fvco000515,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000655,usd,1756080000,false,2025-12-31 08:00:00
+fvco000516,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00053,usd,1756080000,false,2025-12-31 08:00:00
+fvco000517,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000188,usd,1756166400,false,2025-12-31 08:00:00
+fvco000518,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.003873,usd,1756166400,false,2025-12-31 08:00:00
+fvco000519,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01603,usd,1756166400,false,2025-12-31 08:00:00
+fvco000520,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",9.3e-05,usd,1756166400,false,2025-12-31 08:00:00
+fvco000521,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000573,usd,1756166400,false,2025-12-31 08:00:00
+fvco000522,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000509,usd,1756166400,false,2025-12-31 08:00:00
+fvco000523,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000234,usd,1756252800,false,2025-12-31 08:00:00
+fvco000524,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.006358,usd,1756252800,false,2025-12-31 08:00:00
+fvco000525,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01889,usd,1756252800,false,2025-12-31 08:00:00
+fvco000526,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",6.8e-05,usd,1756252800,false,2025-12-31 08:00:00
+fvco000527,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000453,usd,1756252800,false,2025-12-31 08:00:00
+fvco000528,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000659,usd,1756252800,false,2025-12-31 08:00:00
+fvco000529,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.00039,usd,1756339200,false,2025-12-31 08:00:00
+fvco000530,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.005563,usd,1756339200,false,2025-12-31 08:00:00
+fvco000531,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01918,usd,1756339200,false,2025-12-31 08:00:00
+fvco000532,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",3.8e-05,usd,1756339200,false,2025-12-31 08:00:00
+fvco000533,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000412,usd,1756339200,false,2025-12-31 08:00:00
+fvco000534,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000409,usd,1756339200,false,2025-12-31 08:00:00
+fvco000535,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000194,usd,1756425600,false,2025-12-31 08:00:00
+fvco000536,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.003713,usd,1756425600,false,2025-12-31 08:00:00
+fvco000537,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01399,usd,1756425600,false,2025-12-31 08:00:00
+fvco000538,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",8.5e-05,usd,1756425600,false,2025-12-31 08:00:00
+fvco000539,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000514,usd,1756425600,false,2025-12-31 08:00:00
+fvco000540,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000593,usd,1756425600,false,2025-12-31 08:00:00
+fvco000541,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000283,usd,1756771200,false,2025-12-31 08:00:00
+fvco000542,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.004322,usd,1756771200,false,2025-12-31 08:00:00
+fvco000543,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01313,usd,1756771200,false,2025-12-31 08:00:00
+fvco000544,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.3e-05,usd,1756771200,false,2025-12-31 08:00:00
+fvco000545,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000142,usd,1756771200,false,2025-12-31 08:00:00
+fvco000546,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000139,usd,1756771200,false,2025-12-31 08:00:00
+fvco000547,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000182,usd,1756857600,false,2025-12-31 08:00:00
+fvco000548,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.004383,usd,1756857600,false,2025-12-31 08:00:00
+fvco000549,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01027,usd,1756857600,false,2025-12-31 08:00:00
+fvco000550,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.2e-05,usd,1756857600,false,2025-12-31 08:00:00
+fvco000551,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000149,usd,1756857600,false,2025-12-31 08:00:00
+fvco000552,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00017,usd,1756857600,false,2025-12-31 08:00:00
+fvco000553,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000306,usd,1757030400,false,2025-12-31 08:00:00
+fvco000554,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.004387,usd,1757030400,false,2025-12-31 08:00:00
+fvco000555,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01687,usd,1757030400,false,2025-12-31 08:00:00
+fvco000556,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.2e-05,usd,1757030400,false,2025-12-31 08:00:00
+fvco000557,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000178,usd,1757030400,false,2025-12-31 08:00:00
+fvco000558,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000109,usd,1757030400,false,2025-12-31 08:00:00
+fvco000559,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000146,usd,1757980800,false,2025-12-31 08:00:00
+fvco000560,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.003165,usd,1757980800,false,2025-12-31 08:00:00
+fvco000561,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01869,usd,1757980800,false,2025-12-31 08:00:00
+fvco000562,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.9e-05,usd,1757980800,false,2025-12-31 08:00:00
+fvco000563,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000156,usd,1757980800,false,2025-12-31 08:00:00
+fvco000564,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00022,usd,1757980800,false,2025-12-31 08:00:00
+fvco000565,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000274,usd,1758499200,false,2025-12-31 08:00:00
+fvco000566,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.00427,usd,1758499200,false,2025-12-31 08:00:00
+fvco000567,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01358,usd,1758499200,false,2025-12-31 08:00:00
+fvco000568,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5e-06,usd,1758499200,false,2025-12-31 08:00:00
+fvco000569,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",9e-05,usd,1758499200,false,2025-12-31 08:00:00
+fvco000570,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000233,usd,1758499200,false,2025-12-31 08:00:00
+fvco000571,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000371,usd,1758672000,false,2025-12-31 08:00:00
+fvco000572,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.005823,usd,1758672000,false,2025-12-31 08:00:00
+fvco000573,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.00902,usd,1758672000,false,2025-12-31 08:00:00
+fvco000574,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.1e-05,usd,1758672000,false,2025-12-31 08:00:00
+fvco000575,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.00017,usd,1758672000,false,2025-12-31 08:00:00
+fvco000576,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000106,usd,1758672000,false,2025-12-31 08:00:00
+fvco000577,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000233,usd,1758758400,false,2025-12-31 08:00:00
+fvco000578,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.006208,usd,1758758400,false,2025-12-31 08:00:00
+fvco000579,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01795,usd,1758758400,false,2025-12-31 08:00:00
+fvco000580,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.2e-05,usd,1758758400,false,2025-12-31 08:00:00
+fvco000581,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000126,usd,1758758400,false,2025-12-31 08:00:00
+fvco000582,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",9.5e-05,usd,1758758400,false,2025-12-31 08:00:00
+fvco000583,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000156,usd,1759708800,false,2025-12-31 08:00:00
+fvco000584,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.004335,usd,1759708800,false,2025-12-31 08:00:00
+fvco000585,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.00902,usd,1759708800,false,2025-12-31 08:00:00
+fvco000586,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",6e-06,usd,1759708800,false,2025-12-31 08:00:00
+fvco000587,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000105,usd,1759708800,false,2025-12-31 08:00:00
+fvco000588,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00017,usd,1759708800,false,2025-12-31 08:00:00
+fvco000589,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000209,usd,1759881600,false,2025-12-31 08:00:00
+fvco000590,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.005693,usd,1759881600,false,2025-12-31 08:00:00
+fvco000591,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01405,usd,1759881600,false,2025-12-31 08:00:00
+fvco000592,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.1e-05,usd,1759881600,false,2025-12-31 08:00:00
+fvco000593,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000161,usd,1759881600,false,2025-12-31 08:00:00
+fvco000594,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000138,usd,1759881600,false,2025-12-31 08:00:00
+fvco000595,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000384,usd,1759968000,false,2025-12-31 08:00:00
+fvco000596,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.00555,usd,1759968000,false,2025-12-31 08:00:00
+fvco000597,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.0176,usd,1759968000,false,2025-12-31 08:00:00
+fvco000598,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.9e-05,usd,1759968000,false,2025-12-31 08:00:00
+fvco000599,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000198,usd,1759968000,false,2025-12-31 08:00:00
+fvco000600,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",9.8e-05,usd,1759968000,false,2025-12-31 08:00:00
+fvco000601,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000146,usd,1760486400,false,2025-12-31 08:00:00
+fvco000602,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.005523,usd,1760486400,false,2025-12-31 08:00:00
+fvco000603,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01592,usd,1760486400,false,2025-12-31 08:00:00
+fvco000604,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.2e-05,usd,1760486400,false,2025-12-31 08:00:00
+fvco000605,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000125,usd,1760486400,false,2025-12-31 08:00:00
+fvco000606,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000232,usd,1760486400,false,2025-12-31 08:00:00
+fvco000607,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000158,usd,1760572800,false,2025-12-31 08:00:00
+fvco000608,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.005583,usd,1760572800,false,2025-12-31 08:00:00
+fvco000609,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01915,usd,1760572800,false,2025-12-31 08:00:00
+fvco000610,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.5e-05,usd,1760572800,false,2025-12-31 08:00:00
+fvco000611,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000146,usd,1760572800,false,2025-12-31 08:00:00
+fvco000612,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00012,usd,1760572800,false,2025-12-31 08:00:00
+fvco000613,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000274,usd,1760659200,false,2025-12-31 08:00:00
+fvco000614,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.004355,usd,1760659200,false,2025-12-31 08:00:00
+fvco000615,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01504,usd,1760659200,false,2025-12-31 08:00:00
+fvco000616,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.3e-05,usd,1760659200,false,2025-12-31 08:00:00
+fvco000617,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000208,usd,1760659200,false,2025-12-31 08:00:00
+fvco000618,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000125,usd,1760659200,false,2025-12-31 08:00:00
+fvco000619,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000177,usd,1760918400,false,2025-12-31 08:00:00
+fvco000620,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.006405,usd,1760918400,false,2025-12-31 08:00:00
+fvco000621,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01199,usd,1760918400,false,2025-12-31 08:00:00
+fvco000622,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.2e-05,usd,1760918400,false,2025-12-31 08:00:00
+fvco000623,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000184,usd,1760918400,false,2025-12-31 08:00:00
+fvco000624,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000124,usd,1760918400,false,2025-12-31 08:00:00
+fvco000625,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000198,usd,1761004800,false,2025-12-31 08:00:00
+fvco000626,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.003265,usd,1761004800,false,2025-12-31 08:00:00
+fvco000627,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01277,usd,1761004800,false,2025-12-31 08:00:00
+fvco000628,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",6e-06,usd,1761004800,false,2025-12-31 08:00:00
+fvco000629,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000123,usd,1761004800,false,2025-12-31 08:00:00
+fvco000630,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000181,usd,1761004800,false,2025-12-31 08:00:00
+fvco000631,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000159,usd,1761091200,false,2025-12-31 08:00:00
+fvco000632,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.003847,usd,1761091200,false,2025-12-31 08:00:00
+fvco000633,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01279,usd,1761091200,false,2025-12-31 08:00:00
+fvco000634,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.3e-05,usd,1761091200,false,2025-12-31 08:00:00
+fvco000635,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000199,usd,1761091200,false,2025-12-31 08:00:00
+fvco000636,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000202,usd,1761091200,false,2025-12-31 08:00:00
+fvco000637,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000221,usd,1761609600,false,2025-12-31 08:00:00
+fvco000638,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.004698,usd,1761609600,false,2025-12-31 08:00:00
+fvco000639,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01123,usd,1761609600,false,2025-12-31 08:00:00
+fvco000640,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",7e-06,usd,1761609600,false,2025-12-31 08:00:00
+fvco000641,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",9.5e-05,usd,1761609600,false,2025-12-31 08:00:00
+fvco000642,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000201,usd,1761609600,false,2025-12-31 08:00:00
+fvco000643,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000211,usd,1761696000,false,2025-12-31 08:00:00
+fvco000644,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.004945,usd,1761696000,false,2025-12-31 08:00:00
+fvco000645,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01532,usd,1761696000,false,2025-12-31 08:00:00
+fvco000646,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",7e-06,usd,1761696000,false,2025-12-31 08:00:00
+fvco000647,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000133,usd,1761696000,false,2025-12-31 08:00:00
+fvco000648,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000154,usd,1761696000,false,2025-12-31 08:00:00
+fvco000649,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000409,usd,1761868800,false,2025-12-31 08:00:00
+fvco000650,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.005773,usd,1761868800,false,2025-12-31 08:00:00
+fvco000651,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.01295,usd,1761868800,false,2025-12-31 08:00:00
+fvco000652,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",5e-06,usd,1761868800,false,2025-12-31 08:00:00
+fvco000653,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000103,usd,1761868800,false,2025-12-31 08:00:00
+fvco000654,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000163,usd,1761868800,false,2025-12-31 08:00:00
+fvco000655,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000864,usd,1762128000,false,2025-12-31 08:00:00
+fvco000656,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.01364,usd,1762128000,false,2025-12-31 08:00:00
+fvco000657,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.02162,usd,1762128000,false,2025-12-31 08:00:00
+fvco000658,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.4e-05,usd,1762128000,false,2025-12-31 08:00:00
+fvco000659,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000203,usd,1762128000,false,2025-12-31 08:00:00
+fvco000660,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",9.4e-05,usd,1762128000,false,2025-12-31 08:00:00
+fvco000661,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000548,usd,1762300800,false,2025-12-31 08:00:00
+fvco000662,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.008792,usd,1762300800,false,2025-12-31 08:00:00
+fvco000663,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.03506,usd,1762300800,false,2025-12-31 08:00:00
+fvco000664,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",9e-06,usd,1762300800,false,2025-12-31 08:00:00
+fvco000665,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000161,usd,1762300800,false,2025-12-31 08:00:00
+fvco000666,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000231,usd,1762300800,false,2025-12-31 08:00:00
+fvco000667,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000722,usd,1762905600,false,2025-12-31 08:00:00
+fvco000668,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.010163,usd,1762905600,false,2025-12-31 08:00:00
+fvco000669,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.03319,usd,1762905600,false,2025-12-31 08:00:00
+fvco000670,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.7e-05,usd,1762905600,false,2025-12-31 08:00:00
+fvco000671,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000141,usd,1762905600,false,2025-12-31 08:00:00
+fvco000672,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000184,usd,1762905600,false,2025-12-31 08:00:00
+fvco000673,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000705,usd,1763337600,false,2025-12-31 08:00:00
+fvco000674,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.01095,usd,1763337600,false,2025-12-31 08:00:00
+fvco000675,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.03916,usd,1763337600,false,2025-12-31 08:00:00
+fvco000676,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1e-05,usd,1763337600,false,2025-12-31 08:00:00
+fvco000677,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",9.4e-05,usd,1763337600,false,2025-12-31 08:00:00
+fvco000678,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000106,usd,1763337600,false,2025-12-31 08:00:00
+fvco000679,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000494,usd,1763510400,false,2025-12-31 08:00:00
+fvco000680,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.013435,usd,1763510400,false,2025-12-31 08:00:00
+fvco000681,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.03418,usd,1763510400,false,2025-12-31 08:00:00
+fvco000682,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.1e-05,usd,1763510400,false,2025-12-31 08:00:00
+fvco000683,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000166,usd,1763510400,false,2025-12-31 08:00:00
+fvco000684,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000213,usd,1763510400,false,2025-12-31 08:00:00
+fvco000685,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000425,usd,1763683200,false,2025-12-31 08:00:00
+fvco000686,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.009383,usd,1763683200,false,2025-12-31 08:00:00
+fvco000687,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.02131,usd,1763683200,false,2025-12-31 08:00:00
+fvco000688,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1e-05,usd,1763683200,false,2025-12-31 08:00:00
+fvco000689,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000181,usd,1763683200,false,2025-12-31 08:00:00
+fvco000690,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.00012,usd,1763683200,false,2025-12-31 08:00:00
+fvco000691,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000538,usd,1764115200,false,2025-12-31 08:00:00
+fvco000692,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.00958,usd,1764115200,false,2025-12-31 08:00:00
+fvco000693,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.02917,usd,1764115200,false,2025-12-31 08:00:00
+fvco000694,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.4e-05,usd,1764115200,false,2025-12-31 08:00:00
+fvco000695,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000115,usd,1764115200,false,2025-12-31 08:00:00
+fvco000696,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000226,usd,1764115200,false,2025-12-31 08:00:00
+fvco000697,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000291,usd,1764201600,false,2025-12-31 08:00:00
+fvco000698,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.009233,usd,1764201600,false,2025-12-31 08:00:00
+fvco000699,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.04054,usd,1764201600,false,2025-12-31 08:00:00
+fvco000700,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.1e-05,usd,1764201600,false,2025-12-31 08:00:00
+fvco000701,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000167,usd,1764201600,false,2025-12-31 08:00:00
+fvco000702,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000239,usd,1764201600,false,2025-12-31 08:00:00
+fvco000703,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000385,usd,1764547200,false,2025-12-31 08:00:00
+fvco000704,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.009905,usd,1764547200,false,2025-12-31 08:00:00
+fvco000705,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.03185,usd,1764547200,false,2025-12-31 08:00:00
+fvco000706,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.8e-05,usd,1764547200,false,2025-12-31 08:00:00
+fvco000707,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000205,usd,1764547200,false,2025-12-31 08:00:00
+fvco000708,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000209,usd,1764547200,false,2025-12-31 08:00:00
+fvco000709,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000344,usd,1764633600,false,2025-12-31 08:00:00
+fvco000710,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.00936,usd,1764633600,false,2025-12-31 08:00:00
+fvco000711,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.03247,usd,1764633600,false,2025-12-31 08:00:00
+fvco000712,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.4e-05,usd,1764633600,false,2025-12-31 08:00:00
+fvco000713,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000203,usd,1764633600,false,2025-12-31 08:00:00
+fvco000714,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000157,usd,1764633600,false,2025-12-31 08:00:00
+fvco000715,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.00091,usd,1764720000,false,2025-12-31 08:00:00
+fvco000716,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.013915,usd,1764720000,false,2025-12-31 08:00:00
+fvco000717,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.0407,usd,1764720000,false,2025-12-31 08:00:00
+fvco000718,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",8e-06,usd,1764720000,false,2025-12-31 08:00:00
+fvco000719,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.00014,usd,1764720000,false,2025-12-31 08:00:00
+fvco000720,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000128,usd,1764720000,false,2025-12-31 08:00:00
+fvco000721,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000291,usd,1765152000,false,2025-12-31 08:00:00
+fvco000722,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.010808,usd,1765152000,false,2025-12-31 08:00:00
+fvco000723,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.03302,usd,1765152000,false,2025-12-31 08:00:00
+fvco000724,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",8e-06,usd,1765152000,false,2025-12-31 08:00:00
+fvco000725,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",9.1e-05,usd,1765152000,false,2025-12-31 08:00:00
+fvco000726,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000215,usd,1765152000,false,2025-12-31 08:00:00
+fvco000727,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000546,usd,1765238400,false,2025-12-31 08:00:00
+fvco000728,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.01079,usd,1765238400,false,2025-12-31 08:00:00
+fvco000729,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.0278,usd,1765238400,false,2025-12-31 08:00:00
+fvco000730,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",6e-06,usd,1765238400,false,2025-12-31 08:00:00
+fvco000731,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",9.8e-05,usd,1765238400,false,2025-12-31 08:00:00
+fvco000732,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000239,usd,1765238400,false,2025-12-31 08:00:00
+fvco000733,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000755,usd,1765411200,false,2025-12-31 08:00:00
+fvco000734,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.013777,usd,1765411200,false,2025-12-31 08:00:00
+fvco000735,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.03555,usd,1765411200,false,2025-12-31 08:00:00
+fvco000736,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",2.3e-05,usd,1765411200,false,2025-12-31 08:00:00
+fvco000737,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000209,usd,1765411200,false,2025-12-31 08:00:00
+fvco000738,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000235,usd,1765411200,false,2025-12-31 08:00:00
+fvco000739,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000386,usd,1765497600,false,2025-12-31 08:00:00
+fvco000740,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.007027,usd,1765497600,false,2025-12-31 08:00:00
+fvco000741,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.02895,usd,1765497600,false,2025-12-31 08:00:00
+fvco000742,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.1e-05,usd,1765497600,false,2025-12-31 08:00:00
+fvco000743,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000147,usd,1765497600,false,2025-12-31 08:00:00
+fvco000744,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",9.7e-05,usd,1765497600,false,2025-12-31 08:00:00
+fvco000745,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000235,usd,1765756800,false,2025-12-31 08:00:00
+fvco000746,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.008888,usd,1765756800,false,2025-12-31 08:00:00
+fvco000747,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.04213,usd,1765756800,false,2025-12-31 08:00:00
+fvco000748,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.5e-05,usd,1765756800,false,2025-12-31 08:00:00
+fvco000749,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000153,usd,1765756800,false,2025-12-31 08:00:00
+fvco000750,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000118,usd,1765756800,false,2025-12-31 08:00:00
+fvco000751,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000712,usd,1765843200,false,2025-12-31 08:00:00
+fvco000752,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.013798,usd,1765843200,false,2025-12-31 08:00:00
+fvco000753,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.02717,usd,1765843200,false,2025-12-31 08:00:00
+fvco000754,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",8e-06,usd,1765843200,false,2025-12-31 08:00:00
+fvco000755,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.0001,usd,1765843200,false,2025-12-31 08:00:00
+fvco000756,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000212,usd,1765843200,false,2025-12-31 08:00:00
+fvco000757,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000291,usd,1766016000,false,2025-12-31 08:00:00
+fvco000758,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.007177,usd,1766016000,false,2025-12-31 08:00:00
+fvco000759,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.03588,usd,1766016000,false,2025-12-31 08:00:00
+fvco000760,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.9e-05,usd,1766016000,false,2025-12-31 08:00:00
+fvco000761,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000153,usd,1766016000,false,2025-12-31 08:00:00
+fvco000762,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000192,usd,1766016000,false,2025-12-31 08:00:00
+fvco000763,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000675,usd,1766534400,false,2025-12-31 08:00:00
+fvco000764,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.011,usd,1766534400,false,2025-12-31 08:00:00
+fvco000765,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.02897,usd,1766534400,false,2025-12-31 08:00:00
+fvco000766,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",1.1e-05,usd,1766534400,false,2025-12-31 08:00:00
+fvco000767,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",9.3e-05,usd,1766534400,false,2025-12-31 08:00:00
+fvco000768,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000213,usd,1766534400,false,2025-12-31 08:00:00
+fvco000769,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000905,usd,1766620800,false,2025-12-31 08:00:00
+fvco000770,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.013105,usd,1766620800,false,2025-12-31 08:00:00
+fvco000771,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.04054,usd,1766620800,false,2025-12-31 08:00:00
+fvco000772,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",9e-06,usd,1766620800,false,2025-12-31 08:00:00
+fvco000773,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.000114,usd,1766620800,false,2025-12-31 08:00:00
+fvco000774,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000216,usd,1766620800,false,2025-12-31 08:00:00
+fvco000775,proj-brightbyfdc02,"gpt-4o-2024-08-06, cached input",0.000408,usd,1766966400,false,2025-12-31 08:00:00
+fvco000776,proj-brightbyfdc02,"gpt-4o-2024-08-06, input",0.0076,usd,1766966400,false,2025-12-31 08:00:00
+fvco000777,proj-brightbyfdc02,"gpt-4o-2024-08-06, output",0.03649,usd,1766966400,false,2025-12-31 08:00:00
+fvco000778,proj-patientportal01,"gpt-4o-mini-2024-07-18, cached input",6e-06,usd,1766966400,false,2025-12-31 08:00:00
+fvco000779,proj-patientportal01,"gpt-4o-mini-2024-07-18, input",0.00011,usd,1766966400,false,2025-12-31 08:00:00
+fvco000780,proj-patientportal01,"gpt-4o-mini-2024-07-18, output",0.000175,usd,1766966400,false,2025-12-31 08:00:00
+fvco_other01,proj-patientportal01,Assistants API,3.42,usd,1741737600,false,2025-12-31 08:00:00
+fvco_other02,proj-patientportal01,Assistants API,4.85,usd,1743552000,false,2025-12-31 08:00:00
+fvco_other03,proj-brightbyfdc02,Batch API,1.15,usd,1750377600,false,2025-12-31 08:00:00
+fvco_other04,proj-brightbyfdc02,Batch API,2.03,usd,1751932800,false,2025-12-31 08:00:00
+fvco_other05,proj-internaltools04,Fine-tuning,6.7,usd,1760486400,false,2025-12-31 08:00:00
+fvco_unmatched01,proj-brightbyfdc02,"gpt-4o, output",8.4,usd,1754352000,false,2025-12-31 08:00:00
+fvco_unmatched02,proj-brightbyfdc02,"gpt-4o, input",3.15,usd,1754352000,false,2025-12-31 08:00:00
