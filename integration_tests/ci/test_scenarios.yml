@@ -1,4 +1,5 @@
-# Only set if not using default adapter ranges
+# Only set if not using the default dbt-core/adapter version ranges
+# dbt_core_version: ">=1.3.0,<1.12.0"
 # dbt_adapter_versions:
 #   snowflake: ">=1.3.0,<2.0.0"
 #   bigquery: ">=1.3.0,<2.0.0"
