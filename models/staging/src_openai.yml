@@ -5,10 +5,15 @@ sources:
     schema: "{{ var('openai_schema', 'openai') }}"
     database: "{% if target.type != 'spark' %}{{ var('openai_database', target.database) }}{% endif %}"
 
+    config:
+      enabled: "{{ var('openai_sources', []) == [] }}"
+
     tables:
       - name: cost
         identifier: "{{ var('openai_cost_identifier', 'cost') }}"
         description: Daily organization-level spend from the OpenAI Costs API, one row per (day, line item). The line item string carries the model and cost unit type (input, output, or cached input) for spend rows, and a feature/aggregate label (e.g. "Assistants API") for rows that don't break down by model.
+        config:
+          enabled: "{{ var('openai_using_cost', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: _fivetran_id
             description: Fivetran-generated unique identifier for this cost record.
@@ -27,6 +32,8 @@ sources:
       - name: completion
         identifier: "{{ var('openai_completion_identifier', 'completion') }}"
         description: Daily chat/completions token usage from the OpenAI Usage API, one row per (day, project, API key, model).
+        config:
+          enabled: "{{ var('openai_using_completion', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: _fivetran_id
             description: Fivetran-generated unique identifier for this completion record.
@@ -55,6 +62,8 @@ sources:
       - name: embedding
         identifier: "{{ var('openai_embedding_identifier', 'embedding') }}"
         description: Daily embeddings token usage from the OpenAI Usage API, one row per (day, project, API key, user, model).
+        config:
+          enabled: "{{ var('openai_using_embedding', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: project_id
             description: "{{ doc('project_id') }}"
@@ -77,6 +86,8 @@ sources:
       - name: audio_transcription
         identifier: "{{ var('openai_audio_transcription_identifier', 'audio_transcription') }}"
         description: Daily speech-to-text (transcription) usage from the OpenAI Usage API, one row per (day, project, API key, user, model).
+        config:
+          enabled: "{{ var('openai_using_audio_transcription', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: project_id
             description: "{{ doc('project_id') }}"
@@ -99,6 +110,8 @@ sources:
       - name: audio_speech
         identifier: "{{ var('openai_audio_speech_identifier', 'audio_speech') }}"
         description: Daily text-to-speech usage from the OpenAI Usage API, one row per (day, project, API key, user, model).
+        config:
+          enabled: "{{ var('openai_using_audio_speech', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: project_id
             description: "{{ doc('project_id') }}"
@@ -121,6 +134,8 @@ sources:
       - name: image
         identifier: "{{ var('openai_image_identifier', 'image') }}"
         description: Daily image generation usage from the OpenAI Usage API, one row per (day, project, API key, user, model).
+        config:
+          enabled: "{{ var('openai_using_image', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: project_id
             description: "{{ doc('project_id') }}"
@@ -141,6 +156,8 @@ sources:
       - name: moderation
         identifier: "{{ var('openai_moderation_identifier', 'moderation') }}"
         description: Daily content-moderation usage from the OpenAI Usage API, one row per (day, project, API key, user, model).
+        config:
+          enabled: "{{ var('openai_using_moderation', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: project_id
             description: "{{ doc('project_id') }}"
@@ -163,6 +180,8 @@ sources:
       - name: web_search_call
         identifier: "{{ var('openai_web_search_call_identifier', 'web_search_call') }}"
         description: Daily web search tool call usage from the OpenAI Usage API, one row per (day, project, API key, user, model).
+        config:
+          enabled: "{{ var('openai_using_web_search_call', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: _fivetran_id
             description: Fivetran-generated unique identifier for this web search call record.
@@ -187,6 +206,8 @@ sources:
       - name: file_search_call
         identifier: "{{ var('openai_file_search_call_identifier', 'file_search_call') }}"
         description: Daily file/vector store search tool call usage from the OpenAI Usage API, one row per (day, project, API key, user). This endpoint does not report a model.
+        config:
+          enabled: "{{ var('openai_using_file_search_call', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: _fivetran_id
             description: Fivetran-generated unique identifier for this file search call record.
@@ -207,6 +228,8 @@ sources:
       - name: codex_usage
         identifier: "{{ var('openai_codex_usage_identifier', 'codex_usage') }}"
         description: Daily Codex Enterprise usage per person from the Codex Analytics API — parent record carrying the actor's email and day-level productivity totals (lines added/removed, threads, turns). Child model/speed breakdown lives in `codex_usage_model`.
+        config:
+          enabled: "{{ var('openai_using_codex_usage', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: start_time
             description: Timestamp marking the start of the daily Codex usage bucket.
@@ -229,6 +252,8 @@ sources:
       - name: codex_usage_model
         identifier: "{{ var('openai_codex_usage_model_identifier', 'codex_usage_model') }}"
         description: Per-model, per-speed breakdown of Codex Enterprise credit and token usage, one row per (day, user, model, speed). Child of `codex_usage`.
+        config:
+          enabled: "{{ var('openai_using_codex_usage_model', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: codex_usage_start_time
             description: Foreign key to `codex_usage.start_time` — the day this model breakdown belongs to.
@@ -253,6 +278,8 @@ sources:
       - name: project
         identifier: "{{ var('openai_project_identifier', 'project') }}"
         description: OpenAI Platform projects within the organization, one row per project.
+        config:
+          enabled: "{{ var('openai_using_project', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: id
             description: "{{ doc('project_id') }}"
@@ -265,6 +292,8 @@ sources:
       - name: project_api_key
         identifier: "{{ var('openai_project_api_key_identifier', 'project_api_key') }}"
         description: API keys scoped to an OpenAI Platform project — the keys referenced by `api_key_id` on the usage and cost tables.
+        config:
+          enabled: "{{ var('openai_using_project_api_key', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: id
             description: "{{ doc('api_key_id') }}"
@@ -276,7 +305,9 @@ sources:
 
       - name: users
         identifier: "{{ var('openai_users_identifier', 'users') }}"
-        description: Organization-level users in the OpenAI Platform account, one row per user.
+        description: Organization-level users in the OpenAI Platform account, one row per user. Always synced — there's no `openai_using_users` variable, since `users` is the spine of `openai__user_summary` with no partial-value alternative.
+        config:
+          enabled: "{{ var('openai_sources', []) == [] }}"
         columns:
           - name: id
             description: "{{ doc('user_id') }}"
@@ -293,6 +324,8 @@ sources:
       - name: project_user
         identifier: "{{ var('openai_project_user_identifier', 'project_user') }}"
         description: Membership records linking users to the OpenAI Platform projects they belong to. `id` is the user id, not a distinct membership id.
+        config:
+          enabled: "{{ var('openai_using_project_user', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: id
             description: "{{ doc('user_id') }}"
@@ -305,6 +338,8 @@ sources:
       - name: project_user_role
         identifier: "{{ var('openai_project_user_role_identifier', 'project_user_role') }}"
         description: Custom role assigned to a user within a specific OpenAI Platform project.
+        config:
+          enabled: "{{ var('openai_using_project_user_role', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: project_id
             description: "{{ doc('project_id') }}"
@@ -319,6 +354,8 @@ sources:
       - name: project_role
         identifier: "{{ var('openai_project_role_identifier', 'project_role') }}"
         description: Catalog of custom roles defined within an OpenAI Platform project.
+        config:
+          enabled: "{{ var('openai_using_project_role', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: id
             description: Unique identifier for the project-level role.
@@ -333,6 +370,8 @@ sources:
       - name: users_role
         identifier: "{{ var('openai_users_role_identifier', 'users_role') }}"
         description: Organization-level permission role assigned to a user, one row per (user, role).
+        config:
+          enabled: "{{ var('openai_using_users_role', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: users_id
             description: "{{ doc('user_id') }}"
@@ -345,6 +384,8 @@ sources:
       - name: groups
         identifier: "{{ var('openai_groups_identifier', 'groups') }}"
         description: Organization-level groups used to manage user access, one row per group.
+        config:
+          enabled: "{{ var('openai_using_groups', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: id
             description: Unique identifier for the group.
@@ -357,6 +398,8 @@ sources:
       - name: invite
         identifier: "{{ var('openai_invite_identifier', 'invite') }}"
         description: Pending and historical invitations to join the organization, one row per invite.
+        config:
+          enabled: "{{ var('openai_using_invite', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: id
             description: Unique identifier for the invite.
@@ -378,10 +421,15 @@ sources:
       connector. Only cost data from this connector is modeled — conversation, audit, and auth
       log data are out of scope for this package.
 
+    config:
+      enabled: "{{ var('openai_compliance_sources', []) == [] }}"
+
     tables:
       - name: costs_organization_log
         identifier: "{{ var('openai_compliance_costs_organization_log_identifier', 'costs_organization_log') }}"
         description: Org-level cost events at (event, organization). Keyed on (event_id, organization_id) — a later sync of the same event's cumulative total overwrites the row already at rest, so no restatement handling is needed downstream.
+        config:
+          enabled: "{{ var('openai_using_compliance_cost', False) and var('openai_compliance_sources', []) == [] }}"
         columns:
           - name: event_id
             description: Identifier for a cost event.
@@ -421,6 +469,8 @@ sources:
       - name: costs_organization_log_billing
         identifier: "{{ var('openai_compliance_costs_organization_log_billing_identifier', 'costs_organization_log_billing') }}"
         description: Repeated SKU line items per cost event, carrying cost in credits (never USD) plus a connector-estimated USD equivalent. Keyed on (event_id, organization_id, sku).
+        config:
+          enabled: "{{ var('openai_using_compliance_cost', False) and var('openai_compliance_sources', []) == [] }}"
         columns:
           - name: event_id
             description: Identifier for the parent cost event. Joins to costs_organization_log.
@@ -446,6 +496,8 @@ sources:
       - name: users
         identifier: "{{ var('openai_compliance_users_identifier', 'users') }}"
         description: ChatGPT workspace users. The only path from a cost event's identity_user_id to an email address.
+        config:
+          enabled: "{{ var('openai_using_compliance_users', False) and var('openai_compliance_sources', []) == [] }}"
         columns:
           - name: id
             description: "{{ doc('user_id') }}"
@@ -463,4 +515,3 @@ sources:
             description: Timestamp the user was created.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
-
