@@ -116,7 +116,7 @@ org_permission_roles as (
     select
         source_relation,
         user_id,
-        {{ fivetran_utils.string_agg('role_name', "', '") }} as org_permission_roles
+        {{ fivetran_utils.string_agg('distinct role_name', "', '") }} as org_permission_roles
     from users_role
     group by 1, 2
 

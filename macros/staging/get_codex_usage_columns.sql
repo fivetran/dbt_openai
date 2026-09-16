@@ -1,6 +1,6 @@
 {% macro get_codex_usage_columns() %}
 {% set columns = [
-    {"name": "_fivetran_deleted", "datatype": "boolean"},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "actor_email", "datatype": dbt.type_string()},
     {"name": "actor_type", "datatype": dbt.type_string()},

@@ -27,34 +27,37 @@ typed as (
         source_relation,
         date_day,
         project_id,
-        cleaned_line_item,
-        cost_amount,
-        currency_code,
+        trim({{ dbt.split_part('cleaned_line_item', "','", 1) }}) as model,
         case
             when lower(cleaned_line_item) like '%, cached input%' then 'cache_read'
+            when lower(cleaned_line_item) like '%, cache writes%' then 'cache_write'
             when lower(cleaned_line_item) like '%, output%' then 'output'
             when lower(cleaned_line_item) like '%, input%' then 'input'
-        end as unit_type
+        end as token_unit_type,
+        cost_amount,
+        currency_code
         {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics') }}
     from parsed
 
 ),
 
--- line items that parsed into a model + token unit type (e.g. "gpt-4o, output")
+-- line items that parsed into a model + token unit type (e.g. "gpt-4o, output"). cache_write has
+-- no completion counterpart (the Completions API never reports it), but openai__cost_usage_report
+-- handles that with a full outer join, not a classification difference here.
 token_cost as (
 
     select
         source_relation,
         date_day,
         project_id,
-        trim({{ dbt.split_part('cleaned_line_item', "','", 1) }}) as model,
-        unit_type,
+        model,
+        token_unit_type,
         'tokens' as cost_type,
         cost_amount,
         currency_code
         {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics') }}
     from typed
-    where unit_type is not null
+    where token_unit_type is not null
 
 ),
 
@@ -67,13 +70,13 @@ other_cost as (
         date_day,
         project_id,
         cast(null as {{ dbt.type_string() }}) as model,
-        cast(null as {{ dbt.type_string() }}) as unit_type,
+        cast(null as {{ dbt.type_string() }}) as token_unit_type,
         'other' as cost_type,
         cost_amount,
         currency_code
         {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics') }}
     from typed
-    where unit_type is null
+    where token_unit_type is null
 
 ),
 
@@ -96,10 +99,10 @@ final as (
         -- via the rate card; a populated project_id here is used directly, no allocation.
         project_id,
         model,
-        unit_type,
+        token_unit_type,
         cost_type,
         sum(cost_amount) as cost_amount,
-        -- a day/project/model/unit_type/cost_type slice is always billed in one currency in
+        -- a day/project/model/token_unit_type/cost_type slice is always billed in one currency in
         -- practice; max() is just a safe way to carry it through this aggregation.
         max(currency_code) as currency_code
         {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics', transform='sum') }}

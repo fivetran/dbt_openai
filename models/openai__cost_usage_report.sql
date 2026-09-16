@@ -1,5 +1,7 @@
--- One row per source relation, day, project, and model, plus an org-level 'other' row for cost
--- not tied to a project. cost_attribution_method marks 'direct' (API-attributed), 'allocated' (rate-carded), 'unallocated', or 'mixed'.
+-- One row per source relation, day, project, model, and token_unit_type, plus an org-level
+-- 'other' row for cost not tied to a project or model. cost_attribution_method marks 'direct'
+-- (API-attributed), 'allocated' (rate-carded), 'unallocated', or 'unmatched' (no cost data to
+-- allocate from).
 
 {% set cost_enabled = var('openai_using_cost', True) %}
 {% set completion_enabled = var('openai_using_completion', True) %}
@@ -53,7 +55,7 @@ directly_attributed_cost as (
         date_day,
         project_id,
         model,
-        unit_type,
+        token_unit_type,
         cost_amount,
         currency_code
         {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics') }}
@@ -63,32 +65,8 @@ directly_attributed_cost as (
 
 ),
 
--- Cost not tied to any project, carried at the org level so this report's total always ties to
--- the source cost table — covers non-token cost (with or without a project_id) and unallocated token cost.
-other_cost as (
-
-    select 
-        source_relation,
-        date_day,
-        project_id,
-        cost_amount,
-        currency_code
-    from cost_by_model_day
-    where cost_type = 'other'
-
-    union all
-
-    select 
-        source_relation,
-        date_day,
-        cast(null as {{ dbt.type_string() }}) as project_id,
-        cost_amount,
-        currency_code
-    from cost_rate_card
-    where rate_per_token is null
-
-),
-
+-- Non-model, non-project charges (e.g. "Assistants API") — carried at the org level so this
+-- report's total always ties to the source cost table.
 other_cost_grouped as (
 
     select
@@ -97,21 +75,43 @@ other_cost_grouped as (
         project_id,
         sum(cost_amount) as openai_cost,
         max(currency_code) as currency
-    from other_cost
+    from cost_by_model_day
+    where cost_type = 'other'
     {{ dbt_utils.group_by(n=3) }}
+
+),
+
+-- Token-type cost with no project_id that also found no matching completion volume anywhere in
+-- the org that day (e.g. cache_write, which the Completions API never reports token volume for)
+-- — surfaced as its own model/token_unit_type row instead of the model-less 'other' bucket.
+unmatched_rate_card_cost as (
+
+    select
+        source_relation,
+        date_day,
+        model,
+        token_unit_type,
+        cost_amount,
+        currency_code
+    from cost_rate_card
+    where rate_per_token is null
 
 ),
 {% endif %}
 
 {% if completion_enabled %}
+-- Full outer join, not left join from completion: a direct-cost row can have no completion
+-- counterpart at all (e.g. cache_write, which the Completions API never reports token volume
+-- for), and a plain left join from completion would silently drop that cost instead of
+-- surfacing it as its own token_unit_type row.
 attributed as (
 
     select
-        completion_unpivoted.source_relation,
-        completion_unpivoted.date_day,
-        completion_unpivoted.project_id,
-        completion_unpivoted.model,
-        completion_unpivoted.unit_type,
+        coalesce(completion_unpivoted.source_relation, directly_attributed_cost.source_relation) as source_relation,
+        coalesce(completion_unpivoted.date_day, directly_attributed_cost.date_day) as date_day,
+        coalesce(completion_unpivoted.project_id, directly_attributed_cost.project_id) as project_id,
+        coalesce(completion_unpivoted.model, directly_attributed_cost.model) as model,
+        coalesce(completion_unpivoted.token_unit_type, directly_attributed_cost.token_unit_type) as token_unit_type,
         completion_unpivoted.token_quantity,
         completion_unpivoted.num_model_requests
         {{ fivetran_utils.persist_pass_through_columns('openai__completion_passthrough_metrics', identifier='completion_unpivoted') }}
@@ -124,6 +124,7 @@ attributed as (
         , case
             when directly_attributed_cost.cost_amount is not null then 'direct'
             when cost_rate_card.rate_per_token is not null then 'allocated'
+            else 'unmatched'
             end as cost_attribution_method
         -- cost passthrough metrics only apply to directly-attributed rows — a custom field on a
         -- redistributed org-level charge has no per-project meaning, so it's left null on allocated rows.
@@ -131,17 +132,17 @@ attributed as (
         {% endif %}
     from completion_unpivoted
     {% if cost_enabled %}
-    left join directly_attributed_cost
+    full outer join directly_attributed_cost
         on directly_attributed_cost.source_relation = completion_unpivoted.source_relation
         and directly_attributed_cost.date_day = completion_unpivoted.date_day
         and directly_attributed_cost.project_id = completion_unpivoted.project_id
         and directly_attributed_cost.model = completion_unpivoted.model
-        and directly_attributed_cost.unit_type = completion_unpivoted.unit_type
+        and directly_attributed_cost.token_unit_type = completion_unpivoted.token_unit_type
     left join cost_rate_card
-        on cost_rate_card.source_relation = completion_unpivoted.source_relation
-        and cost_rate_card.date_day = completion_unpivoted.date_day
-        and cost_rate_card.model = completion_unpivoted.model
-        and cost_rate_card.unit_type = completion_unpivoted.unit_type
+        on cost_rate_card.source_relation = coalesce(completion_unpivoted.source_relation, directly_attributed_cost.source_relation)
+        and cost_rate_card.date_day = coalesce(completion_unpivoted.date_day, directly_attributed_cost.date_day)
+        and cost_rate_card.model = coalesce(completion_unpivoted.model, directly_attributed_cost.model)
+        and cost_rate_card.token_unit_type = coalesce(completion_unpivoted.token_unit_type, directly_attributed_cost.token_unit_type)
     {% endif %}
 
 ),
@@ -158,22 +159,16 @@ final as (
         attributed.model,
         {{ openai.openai_model_family('attributed.model') }} as model_family,
         {{ openai.openai_model_variant('attributed.model') }} as model_variant,
-        sum(case when attributed.unit_type = 'input' then attributed.token_quantity end) as input_tokens,
-        sum(case when attributed.unit_type = 'cache_read' then attributed.token_quantity end) as cache_read_tokens,
-        sum(case when attributed.unit_type = 'output' then attributed.token_quantity end) as output_tokens,
-        sum(attributed.num_model_requests) as num_model_requests
-        {{ fivetran_utils.persist_pass_through_columns('openai__completion_passthrough_metrics', identifier='attributed', transform='sum') }}
+        attributed.token_unit_type,
+        attributed.token_quantity,
+        attributed.num_model_requests
+        {{ fivetran_utils.persist_pass_through_columns('openai__completion_passthrough_metrics', identifier='attributed') }}
         {% if cost_enabled %}
         , 'tokens' as cost_type
-        , case
-            when count(distinct attributed.cost_attribution_method) > 1 then 'mixed'
-            else max(attributed.cost_attribution_method)
-            end as cost_attribution_method
-        , sum(attributed.openai_cost) as openai_cost
-        -- a day/project/model slice is always billed in one currency in practice; max() is just
-        -- a safe way to carry it through this aggregation.
-        , max(attributed.currency_code) as currency
-        {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics', identifier='attributed', transform='sum') }}
+        , attributed.cost_attribution_method
+        , attributed.openai_cost
+        , attributed.currency_code as currency
+        {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics', identifier='attributed') }}
         {% endif %}
     from attributed
     {% if project_enabled %}
@@ -181,7 +176,6 @@ final as (
         on project.project_id = attributed.project_id
         and project.source_relation = attributed.source_relation
     {% endif %}
-    {{ dbt_utils.group_by(n=(7 if project_enabled else 6)) }}
 
     {% if cost_enabled %}
     union all
@@ -196,9 +190,8 @@ final as (
         cast(null as {{ dbt.type_string() }}) as model,
         cast(null as {{ dbt.type_string() }}) as model_family,
         cast(null as {{ dbt.type_string() }}) as model_variant,
-        cast(null as {{ dbt.type_int() }}) as input_tokens,
-        cast(null as {{ dbt.type_int() }}) as cache_read_tokens,
-        cast(null as {{ dbt.type_int() }}) as output_tokens,
+        cast(null as {{ dbt.type_string() }}) as token_unit_type,
+        cast(null as {{ dbt.type_int() }}) as token_quantity,
         cast(null as {{ dbt.type_int() }}) as num_model_requests
         {{ openai.null_passthrough_metrics('openai__completion_passthrough_metrics') }}
         , 'other' as cost_type,
@@ -212,12 +205,35 @@ final as (
         on project_other.project_id = other_cost_grouped.project_id
         and project_other.source_relation = other_cost_grouped.source_relation
     {% endif %}
+
+    union all
+
+    select
+        unmatched_rate_card_cost.source_relation,
+        unmatched_rate_card_cost.date_day,
+        cast(null as {{ dbt.type_string() }}) as project_id,
+        {% if project_enabled %}
+        cast(null as {{ dbt.type_string() }}) as project_name,
+        {% endif %}
+        unmatched_rate_card_cost.model,
+        {{ openai.openai_model_family('unmatched_rate_card_cost.model') }} as model_family,
+        {{ openai.openai_model_variant('unmatched_rate_card_cost.model') }} as model_variant,
+        unmatched_rate_card_cost.token_unit_type,
+        cast(null as {{ dbt.type_int() }}) as token_quantity,
+        cast(null as {{ dbt.type_int() }}) as num_model_requests
+        {{ openai.null_passthrough_metrics('openai__completion_passthrough_metrics') }}
+        , 'tokens' as cost_type,
+        'unmatched' as cost_attribution_method,
+        unmatched_rate_card_cost.cost_amount as openai_cost,
+        unmatched_rate_card_cost.currency_code as currency
+        {{ openai.null_passthrough_metrics('openai__cost_passthrough_metrics') }}
+    from unmatched_rate_card_cost
     {% endif %}
 
 )
 {% else %}
--- cost-only mode: no completion, so no token detail — cost by day, project, model, and
--- cost_type only (project_id/model are null on 'other', non-project/non-model rows).
+-- cost-only mode: no completion, so no usage detail — cost by day, project, model,
+-- token_unit_type, and cost_type only (project_id/model/token_unit_type are null on 'other' rows).
 final as (
 
     select
@@ -230,6 +246,9 @@ final as (
         cost_by_model_day.model,
         {{ openai.openai_model_family('cost_by_model_day.model') }} as model_family,
         {{ openai.openai_model_variant('cost_by_model_day.model') }} as model_variant,
+        cost_by_model_day.token_unit_type,
+        cast(null as {{ dbt.type_int() }}) as token_quantity,
+        cast(null as {{ dbt.type_int() }}) as num_model_requests,
         cost_by_model_day.cost_type,
         case when cost_by_model_day.project_id is not null then 'direct' else 'unallocated' end as cost_attribution_method,
         sum(cost_by_model_day.cost_amount) as openai_cost,
@@ -241,7 +260,7 @@ final as (
         on project.project_id = cost_by_model_day.project_id
         and project.source_relation = cost_by_model_day.source_relation
     {% endif %}
-    {{ dbt_utils.group_by(n=(9 if project_enabled else 8)) }}
+    {{ dbt_utils.group_by(n=(10 if project_enabled else 9)) }}
 
 )
 {% endif %}

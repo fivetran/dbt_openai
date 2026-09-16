@@ -591,3 +591,4 @@ fvco_other04,proj-brightbyfdc02,Batch API,2.03,usd,1751932800,false,2025-12-31 0
 fvco_other05,proj-internaltools04,Fine-tuning,6.7,usd,1760486400,false,2025-12-31 08:00:00
 fvco_unmatched01,proj-brightbyfdc02,"gpt-4o, output",8.4,usd,1754352000,false,2025-12-31 08:00:00
 fvco_unmatched02,proj-brightbyfdc02,"gpt-4o, input",3.15,usd,1754352000,false,2025-12-31 08:00:00
+fvco_unallocated01,,"gpt-4o-mini-2024-07-18, input",0.00014,usd,1756771200,false,2025-12-31 08:00:00

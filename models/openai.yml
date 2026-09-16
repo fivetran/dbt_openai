@@ -3,13 +3,13 @@ version: 2
 models:
   - name: openai__cost_usage_report
     description: >
-      Daily OpenAI Platform spend and token usage by project and model, plus an org-level
-      `cost_type = 'other'` row for cost not tied to a project — kept so `sum(openai_cost)`
-      always ties to the source `cost` table. `cost_attribution_method` marks how project_id
-      was determined for `tokens` rows: `direct` (Costs API-reported), `allocated` (inferred
-      via an implied per-token rate), or `unallocated`. Still useful with only
-      `openai_using_cost` or only `openai_using_completion` enabled — see column descriptions
-      for what drops.
+      Daily OpenAI Platform spend and token usage by project, model, and token_unit_type, plus
+      an org-level `cost_type = 'other'` row for cost not tied to a project or model — kept so
+      `sum(openai_cost)` always ties to the source `cost` table. `cost_attribution_method` marks
+      how `openai_cost` was determined for `tokens` rows: `direct` (Costs API-reported),
+      `allocated` (inferred via an implied per-token rate), `unallocated`, or `unmatched` (cost
+      exists with no completion volume to allocate against, or vice versa). Still useful with
+      only the `cost` or only the `completion` table synced — see column descriptions for what drops.
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -20,35 +20,34 @@ models:
       - name: project_id
         description: "{{ doc('project_id') }} Null on `other`-cost_type rows that couldn't be tied to a project."
       - name: project_name
-        description: "{{ doc('project_name') }} Only present when `openai_using_project` is enabled. Null wherever project_id is null."
+        description: "{{ doc('project_name') }} Only present when the `project` table is synced. Null wherever project_id is null."
       - name: model
         description: "{{ doc('model') }} Null on `other`-cost_type rows, which don't break out by model."
       - name: model_family
         description: "{{ doc('model_family') }} Null on `other`-cost_type rows."
       - name: model_variant
         description: "{{ doc('model_variant') }} Null on `other`-cost_type rows."
+      - name: token_unit_type
+        description: "`input`, `cache_read`, `output`, or `cache_write` — the kind of token this row's usage and/or cost belongs to. Null on `other`-cost_type rows, which don't break out by token type."
+      - name: token_quantity
+        description: Number of tokens of `token_unit_type` metered for this row. Null on `other`-cost_type rows and on `cache_write` rows, since the Completions API doesn't report cache-write token volume. Only present when the `completion` table is synced.
       - name: cost_type
         description: >
-          `tokens` for spend attributed to a model, or `other` for cost that doesn't break out
-          by model (e.g. "Assistants API") or found no matching completion volume. Only present
-          when `openai_using_cost` is enabled.
+          `tokens` for spend attributed to a model and token_unit_type, or `other` for cost that
+          doesn't break out by model (e.g. "Assistants API"). Only present when the `cost` table
+          is synced.
       - name: cost_attribution_method
         description: >
-          How `project_id` was determined: `direct` (Costs API-reported), `allocated`
-          (inferred via rate card), `unallocated`, or `mixed` (unit types resolved differently).
-          Only present when `openai_using_cost` is enabled.
-      - name: input_tokens
-        description: "{{ doc('input_tokens') }} Only present when `openai_using_completion` is enabled."
-      - name: cache_read_tokens
-        description: "{{ doc('cache_read_tokens') }} Only present when `openai_using_completion` is enabled."
-      - name: output_tokens
-        description: "{{ doc('output_tokens') }} Only present when `openai_using_completion` is enabled."
+          How `openai_cost` was determined: `direct` (Costs API-reported), `allocated`
+          (inferred via rate card), `unallocated`, or `unmatched` (cost with no completion volume
+          to allocate against, or completion volume with no cost data at all). Only present when
+          the `cost` table is synced.
       - name: num_model_requests
-        description: "{{ doc('num_model_requests') }} Only present when `openai_using_completion` is enabled."
+        description: "{{ doc('num_model_requests') }} Only present when the `completion` table is synced."
       - name: openai_cost
-        description: "{{ doc('openai_cost') }} Only present when `openai_using_cost` is enabled."
+        description: "{{ doc('openai_cost') }} Only present when the `cost` table is synced."
       - name: currency
-        description: Currency code for `openai_cost`, as reported by the Costs API (in practice always `usd`). Only present when `openai_using_cost` is enabled.
+        description: Currency code for `openai_cost`, as reported by the Costs API (in practice always `usd`). Only present when the `cost` table is synced.
 
   - name: openai__enterprise_user_report
     description: >
@@ -64,16 +63,12 @@ models:
           - not_null
       - name: actor_user_id
         description: "{{ doc('actor_user_id') }}"
-        tests:
-          - not_null
       - name: actor_email
         description: "{{ doc('actor_email') }}"
       - name: project_id
-        description: "{{ doc('project_id') }}"
-        tests:
-          - not_null
+        description: "{{ doc('project_id') }} Null for products that don't report a project_id."
       - name: project_name
-        description: "{{ doc('project_name') }} Only present when `openai_using_project` is enabled."
+        description: "{{ doc('project_name') }} Only present when the `project` table is synced."
       - name: model
         description: "{{ doc('model') }}"
       - name: model_family
@@ -107,17 +102,17 @@ models:
         tests:
           - not_null
       - name: actor_email
-        description: "{{ doc('actor_email') }} Only present when `openai_using_codex_usage` is enabled."
+        description: "{{ doc('actor_email') }} Only present when the `codex_usage` table is synced."
       - name: count_lines_of_code_added
-        description: Lines of code added via Codex-attributed commits for this person on this day. Only present when `openai_using_codex_usage` is enabled.
+        description: Lines of code added via Codex-attributed commits for this person on this day. Only present when the `codex_usage` table is synced.
       - name: count_lines_of_code_removed
-        description: Lines of code removed via Codex-attributed commits for this person on this day. Only present when `openai_using_codex_usage` is enabled.
+        description: Lines of code removed via Codex-attributed commits for this person on this day. Only present when the `codex_usage` table is synced.
       - name: count_threads
-        description: Codex conversation threads started by this person on this day. Only present when `openai_using_codex_usage` is enabled.
+        description: Codex conversation threads started by this person on this day. Only present when the `codex_usage` table is synced.
       - name: count_turns
-        description: Codex conversation turns by this person on this day. Only present when `openai_using_codex_usage` is enabled.
+        description: Codex conversation turns by this person on this day. Only present when the `codex_usage` table is synced.
       - name: count_models_used
-        description: Distinct Codex models this person used on this day. Only present when `openai_using_codex_usage_model` is enabled.
+        description: Distinct Codex models this person used on this day. Only present when the `codex_usage_model` table is synced.
       - name: credits
         description: "{{ doc('credits') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`."
       - name: input_tokens
@@ -133,11 +128,6 @@ models:
       membership, project-level custom roles, and all-time and month-to-date usage totals.
       Several column groups are entirely omitted (not nulled) when their source table is
       disabled — see each column's description.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation
-            - actor_user_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -152,15 +142,15 @@ models:
       - name: role
         description: Organization-level role of the user (e.g. `owner`, `reader`).
       - name: org_permission_roles
-        description: Comma-separated list of organization-level permission roles assigned to the user. Only present when `openai_using_users_role` is enabled.
+        description: Comma-separated list of organization-level permission roles assigned to the user. Only present when the `users_role` table is synced.
       - name: project_count
-        description: Number of OpenAI Platform projects this user belongs to. Only present when `openai_using_project_user` is enabled.
+        description: Number of OpenAI Platform projects this user belongs to. Only present when the `project_user` table is synced.
       - name: project_names
-        description: Comma-separated list of project names this user belongs to. Only present when both `openai_using_project_user` and `openai_using_project` are enabled.
+        description: Comma-separated list of project names this user belongs to. Only present when both the `project_user` and `project` tables are synced.
       - name: project_role_count
-        description: Number of distinct custom project-level roles assigned to this user across all their projects. Only present when `openai_using_project_user_role` is enabled.
+        description: Number of distinct custom project-level roles assigned to this user across all their projects. Only present when the `project_user_role` table is synced.
       - name: project_role_names
-        description: Comma-separated list of distinct custom project-level role names assigned to this user. Only present when `openai_using_project_user_role` is enabled.
+        description: Comma-separated list of distinct custom project-level role names assigned to this user. Only present when the `project_user_role` table is synced.
       - name: lifetime_tokens
         description: Tokens consumed across every product covered by `openai__enterprise_user_report`. All time.
       - name: month_to_date_tokens

@@ -4,12 +4,12 @@
 ) }}
 
 with prod as (
-    select *
+    select {{ dbt_utils.star(from=ref('openai__cost_usage_report')) }}
     from {{ target.schema }}_openai_prod.openai__cost_usage_report
 ),
 
 dev as (
-    select *
+    select {{ dbt_utils.star(from=ref('openai__cost_usage_report')) }}
     from {{ target.schema }}_openai_dev.openai__cost_usage_report
 ),
 

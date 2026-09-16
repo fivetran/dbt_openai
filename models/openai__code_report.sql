@@ -9,9 +9,13 @@
 with
 
 {% if codex_usage_enabled %}
+-- date_trunc'd defensively here rather than trusting usage_started_at is always midnight — a
+-- day/user grain must join and de-dupe on the same truncated value everywhere below.
 codex_usage as (
 
-    select *
+    select
+        *,
+        cast({{ dbt.date_trunc('day', 'usage_started_at') }} as date) as date_day
     from {{ ref('stg_openai__codex_usage') }}
 
 ),
@@ -20,7 +24,9 @@ codex_usage as (
 {% if codex_usage_model_enabled %}
 codex_usage_model as (
 
-    select *
+    select
+        *,
+        cast({{ dbt.date_trunc('day', 'usage_started_at') }} as date) as date_day
     from {{ ref('stg_openai__codex_usage_model') }}
 
 ),
@@ -30,16 +36,16 @@ codex_usage_model as (
 -- speed), so select distinct (not plain union all) keeps this de-duplicated to (day, user).
 spine as (
 
-    select 
+    select
         distinct source_relation,
-        usage_started_at,
+        date_day,
         user_id
     from (
 
         {% if codex_usage_enabled %}
-        select 
+        select
             source_relation,
-            usage_started_at,
+            date_day,
             user_id
         from codex_usage
         {% endif %}
@@ -49,7 +55,7 @@ spine as (
         {% if codex_usage_model_enabled %}
         select
             source_relation,
-            usage_started_at,
+            date_day,
             user_id
         from codex_usage_model
         {% endif %}
@@ -63,7 +69,7 @@ model_rollup as (
 
     select
         source_relation,
-        usage_started_at,
+        date_day,
         user_id,
         count(distinct model) as count_models_used,
         sum(credits) as credits,
@@ -81,42 +87,42 @@ final as (
 
     select
         spine.source_relation,
-        cast({{ dbt.date_trunc('day', 'spine.usage_started_at') }} as date) as date_day,
+        spine.date_day,
         spine.user_id
         {% if codex_usage_enabled %}
         , codex_usage.actor_email
-        , codex_usage.code_attribution_lines_added as count_lines_of_code_added
-        , codex_usage.code_attribution_lines_removed as count_lines_of_code_removed
-        , codex_usage.total_threads as count_threads
-        , codex_usage.total_turns as count_turns
+        , coalesce(codex_usage.code_attribution_lines_added, 0) as count_lines_of_code_added
+        , coalesce(codex_usage.code_attribution_lines_removed, 0) as count_lines_of_code_removed
+        , coalesce(codex_usage.total_threads, 0) as count_threads
+        , coalesce(codex_usage.total_turns, 0) as count_turns
         {% endif %}
         {% if codex_usage_model_enabled %}
-        , model_rollup.count_models_used
+        , coalesce(model_rollup.count_models_used, 0) as count_models_used
         {{ fivetran_utils.persist_pass_through_columns('openai__codex_usage_model_passthrough_metrics', identifier='model_rollup') }}
         {% endif %}
         {% if codex_usage_enabled %}
-        , codex_usage.credits
-        , codex_usage.input_tokens
-        , codex_usage.cache_read_tokens
-        , codex_usage.output_tokens
+        , coalesce(codex_usage.credits, 0) as credits
+        , coalesce(codex_usage.input_tokens, 0) as input_tokens
+        , coalesce(codex_usage.cache_read_tokens, 0) as cache_read_tokens
+        , coalesce(codex_usage.output_tokens, 0) as output_tokens
         {{ fivetran_utils.persist_pass_through_columns('openai__codex_usage_passthrough_metrics', identifier='codex_usage') }}
         {% elif codex_usage_model_enabled %}
-        , model_rollup.credits
-        , model_rollup.input_tokens
-        , model_rollup.cache_read_tokens
-        , model_rollup.output_tokens
+        , coalesce(model_rollup.credits, 0) as credits
+        , coalesce(model_rollup.input_tokens, 0) as input_tokens
+        , coalesce(model_rollup.cache_read_tokens, 0) as cache_read_tokens
+        , coalesce(model_rollup.output_tokens, 0) as output_tokens
         {% endif %}
     from spine
     {% if codex_usage_enabled %}
     left join codex_usage
         on codex_usage.source_relation = spine.source_relation
-        and codex_usage.usage_started_at = spine.usage_started_at
+        and codex_usage.date_day = spine.date_day
         and codex_usage.user_id = spine.user_id
     {% endif %}
     {% if codex_usage_model_enabled %}
     left join model_rollup
         on model_rollup.source_relation = spine.source_relation
-        and model_rollup.usage_started_at = spine.usage_started_at
+        and model_rollup.date_day = spine.date_day
         and model_rollup.user_id = spine.user_id
     {% endif %}
 

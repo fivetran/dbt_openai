@@ -24,9 +24,10 @@ final as (
     select
         source_relation,
         cast(id as {{ dbt.type_string() }}) as user_id,
-        email,
+        lower(email) as email,
         name as user_name,
         role as user_role,
+        _fivetran_deleted,
         _fivetran_synced
     -- Not filtering _fivetran_deleted: offboarded users still need their email/name attributed
     -- to historical usage in downstream reports, not dropped.

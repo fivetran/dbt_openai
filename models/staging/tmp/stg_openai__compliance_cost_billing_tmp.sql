@@ -4,8 +4,8 @@
 
 {{
     fivetran_utils.union_connections(
-        connection_dictionary='openai_compliance_sources',
-        single_source_name='openai_compliance',
-        single_table_name='costs_organization_log_billing'
+        connection_dictionary='openai_sources',
+        single_source_name='openai',
+        single_table_name='compliance_costs_organization_log_billing'
     )
 }}

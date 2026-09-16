@@ -21,9 +21,9 @@ unioned as (
     select
         source_relation,
         cast({{ dbt.date_trunc('day', 'usage_started_at') }} as date) as date_day,
-        coalesce(cast(project_id as {{ dbt.type_string() }}), '__none__') as project_id,
-        coalesce(cast(user_id as {{ dbt.type_string() }}), '__none__') as user_id,
-        {{ "'__none__'" if product_config.no_model is defined else "coalesce(cast(model as " ~ dbt.type_string() ~ "), '__none__')" }} as model,
+        cast(project_id as {{ dbt.type_string() }}) as project_id,
+        cast(user_id as {{ dbt.type_string() }}) as user_id,
+        {{ "cast(null as " ~ dbt.type_string() ~ ")" if product_config.no_model is defined else "cast(model as " ~ dbt.type_string() ~ ")" }} as model,
         '{{ product_config.product }}' as product,
         {{ (product_config.quantity_expr if product_config.quantity_expr else 'cast(null as ' ~ dbt.type_int() ~ ')' ) }} as quantity,
         {{ "'" ~ product_config.quantity_unit ~ "'" if product_config.quantity_unit else "cast(null as " ~ dbt.type_string() ~ ")" }} as quantity_unit,

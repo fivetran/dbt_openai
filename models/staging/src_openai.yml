@@ -17,8 +17,16 @@ sources:
         columns:
           - name: _fivetran_id
             description: Fivetran-generated unique identifier for this cost record.
+          - name: organization_id
+            description: "{{ doc('organization_id') }}"
+          - name: project_id
+            description: "{{ doc('project_id') }}"
           - name: start_time
             description: "{{ doc('usage_started_at') }}"
+          - name: end_time
+            description: "{{ doc('usage_ended_at') }}"
+          - name: object
+            description: "{{ doc('api_object_type') }}"
           - name: line_item
             description: Free-text label identifying what was billed — either "<model>, <unit type>" for model spend, or a feature name for non-model charges.
           - name: amount_value
@@ -47,12 +55,24 @@ sources:
             description: "{{ doc('model') }}"
           - name: start_time
             description: "{{ doc('usage_started_at') }}"
+          - name: end_time
+            description: "{{ doc('usage_ended_at') }}"
+          - name: object
+            description: "{{ doc('api_object_type') }}"
+          - name: batch
+            description: Whether this usage was processed through the Batch API.
+          - name: service_tier
+            description: The service tier the request was billed under (for example, `default`, `flex`, or `priority`).
           - name: input_token
             description: "{{ doc('input_tokens') }}"
           - name: input_cached_token
             description: "{{ doc('cache_read_tokens') }}"
+          - name: input_audio_token
+            description: Number of audio input tokens metered for this usage record.
           - name: output_token
             description: "{{ doc('output_tokens') }}"
+          - name: output_audio_token
+            description: Number of audio output tokens metered for this usage record.
           - name: num_model_request
             description: "{{ doc('num_model_requests') }}"
           - name: _fivetran_synced
@@ -75,6 +95,10 @@ sources:
             description: "{{ doc('model') }}"
           - name: start_time
             description: "{{ doc('usage_started_at') }}"
+          - name: end_time
+            description: "{{ doc('usage_ended_at') }}"
+          - name: object
+            description: "{{ doc('api_object_type') }}"
           - name: input_token
             description: "{{ doc('input_tokens') }}"
           - name: num_model_request
@@ -99,6 +123,10 @@ sources:
             description: "{{ doc('model') }}"
           - name: start_time
             description: "{{ doc('usage_started_at') }}"
+          - name: end_time
+            description: "{{ doc('usage_ended_at') }}"
+          - name: object
+            description: "{{ doc('api_object_type') }}"
           - name: second
             description: Seconds of audio transcribed in this usage bucket.
           - name: num_model_request
@@ -123,6 +151,12 @@ sources:
             description: "{{ doc('model') }}"
           - name: start_time
             description: "{{ doc('usage_started_at') }}"
+          - name: end_time
+            description: "{{ doc('usage_ended_at') }}"
+          - name: object
+            description: "{{ doc('api_object_type') }}"
+          - name: character
+            description: Number of characters synthesized in this usage record.
           - name: input_token
             description: "{{ doc('input_tokens') }}"
           - name: num_model_request
@@ -137,6 +171,8 @@ sources:
         config:
           enabled: "{{ var('openai_using_image', True) and var('openai_sources', []) == [] }}"
         columns:
+          - name: _fivetran_id
+            description: Fivetran-generated unique identifier for this image record.
           - name: project_id
             description: "{{ doc('project_id') }}"
           - name: user_id
@@ -147,6 +183,14 @@ sources:
             description: "{{ doc('model') }}"
           - name: start_time
             description: "{{ doc('usage_started_at') }}"
+          - name: end_time
+            description: "{{ doc('usage_ended_at') }}"
+          - name: image
+            description: Number of images generated in this usage record.
+          - name: size
+            description: Dimensions of the generated image (for example, `1024x1024`).
+          - name: source
+            description: How the image was produced (for example, generation vs. edit).
           - name: num_model_request
             description: "{{ doc('num_model_requests') }}"
           - name: _fivetran_synced
@@ -159,6 +203,8 @@ sources:
         config:
           enabled: "{{ var('openai_using_moderation', True) and var('openai_sources', []) == [] }}"
         columns:
+          - name: _fivetran_id
+            description: Fivetran-generated unique identifier for this moderation record.
           - name: project_id
             description: "{{ doc('project_id') }}"
           - name: user_id
@@ -169,6 +215,8 @@ sources:
             description: "{{ doc('model') }}"
           - name: start_time
             description: "{{ doc('usage_started_at') }}"
+          - name: end_time
+            description: "{{ doc('usage_ended_at') }}"
           - name: input_token
             description: "{{ doc('input_tokens') }}"
           - name: num_model_request
@@ -195,6 +243,10 @@ sources:
             description: "{{ doc('model') }}"
           - name: start_time
             description: "{{ doc('usage_started_at') }}"
+          - name: end_time
+            description: "{{ doc('usage_ended_at') }}"
+          - name: context_level
+            description: The search context size configured for the tool call (for example, `low`, `medium`, or `high`).
           - name: num_request
             description: "{{ doc('num_requests') }}"
           - name: num_model_request
@@ -217,8 +269,12 @@ sources:
             description: "{{ doc('user_id') }}"
           - name: api_key_id
             description: "{{ doc('api_key_id') }}"
+          - name: vector_store_id
+            description: Identifier of the vector store searched by this tool call.
           - name: start_time
             description: "{{ doc('usage_started_at') }}"
+          - name: end_time
+            description: "{{ doc('usage_ended_at') }}"
           - name: num_request
             description: "{{ doc('num_requests') }}"
           - name: _fivetran_synced
@@ -233,10 +289,16 @@ sources:
         columns:
           - name: start_time
             description: Timestamp marking the start of the daily Codex usage bucket.
+          - name: end_time
+            description: Timestamp marking the end of the daily Codex usage bucket.
           - name: user_id
             description: "{{ doc('user_id') }}"
           - name: actor_email
             description: Email address of the person behind this Codex usage. Used as the durable person key across the Codex report.
+          - name: actor_type
+            description: The type of actor behind this Codex usage (for example, `user` or `service_account`).
+          - name: workspace_id
+            description: Identifier of the Codex workspace this usage belongs to.
           - name: code_attribution_lines_added
             description: Total lines of code added via Codex-attributed commits for this person on this day.
           - name: code_attribution_lines_removed
@@ -245,6 +307,16 @@ sources:
             description: Total Codex conversation threads started by this person on this day.
           - name: total_turn
             description: Total Codex conversation turns by this person on this day.
+          - name: total_credit
+            description: "{{ doc('credits') }}"
+          - name: total_uncached_text_input_token
+            description: "{{ doc('input_tokens') }}"
+          - name: total_cached_text_input_token
+            description: "{{ doc('cache_read_tokens') }}"
+          - name: total_text_output_token
+            description: "{{ doc('output_tokens') }}"
+          - name: total_text_total_token
+            description: Total text tokens (input, cached input, and output combined) for this person on this day.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
 
@@ -255,6 +327,8 @@ sources:
         config:
           enabled: "{{ var('openai_using_codex_usage_model', True) and var('openai_sources', []) == [] }}"
         columns:
+          - name: index
+            description: Fivetran-generated ordinal position of this model/speed breakdown within its parent `codex_usage` record.
           - name: codex_usage_start_time
             description: Foreign key to `codex_usage.start_time` — the day this model breakdown belongs to.
           - name: codex_usage_user_id
@@ -271,6 +345,8 @@ sources:
             description: "{{ doc('cache_read_tokens') }}"
           - name: text_output_token
             description: "{{ doc('output_tokens') }}"
+          - name: text_total_token
+            description: Total text tokens (input, cached input, and output combined) for this model/speed breakdown.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
 
@@ -285,6 +361,14 @@ sources:
             description: "{{ doc('project_id') }}"
           - name: name
             description: Display name of the project.
+          - name: status
+            description: Current status of the project (for example, `active` or `archived`).
+          - name: object
+            description: "{{ doc('api_object_type') }}"
+          - name: created_at
+            description: Timestamp the project was created.
+          - name: archived_at
+            description: Timestamp the project was archived, if applicable.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
 
@@ -297,8 +381,22 @@ sources:
         columns:
           - name: id
             description: "{{ doc('api_key_id') }}"
+          - name: project_id
+            description: "{{ doc('project_id') }}"
           - name: name
             description: Display name given to the API key when it was created.
+          - name: owner_type
+            description: Type of principal that owns the key — `user` or `service_account`.
+          - name: user_id
+            description: "{{ doc('user_id') }} Populated when `owner_type` is `user`."
+          - name: service_account_id
+            description: Identifier of the service account that owns the key. Populated when `owner_type` is `service_account`.
+          - name: redacted_value
+            description: Masked version of the API key value (for example, `sk-...abcd`).
+          - name: created_at
+            description: Timestamp the API key was created.
+          - name: last_used_at
+            description: Timestamp the API key was last used to make a request.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
 
@@ -317,6 +415,10 @@ sources:
             description: Display name of the user.
           - name: role
             description: Organization-level role of the user (e.g. `owner`, `reader`).
+          - name: object
+            description: "{{ doc('api_object_type') }}"
+          - name: added_at
+            description: Timestamp the user was added to the organization.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
 
@@ -341,12 +443,26 @@ sources:
         config:
           enabled: "{{ var('openai_using_project_user_role', True) and var('openai_sources', []) == [] }}"
         columns:
+          - name: id
+            description: Unique identifier for the role assignment.
           - name: project_id
             description: "{{ doc('project_id') }}"
           - name: project_user_id
             description: Foreign key to `project_user.id` — the project membership this role assignment applies to.
           - name: name
             description: Name of the custom role assigned within the project.
+          - name: description
+            description: Description of the custom role assigned within the project.
+          - name: predefined_role
+            description: Whether this is one of OpenAI's built-in roles rather than a custom-defined role.
+          - name: resource_type
+            description: The type of resource this role's permissions apply to.
+          - name: created_at
+            description: Timestamp the role assignment was created.
+          - name: created_by
+            description: Identifier of the user who created the role assignment.
+          - name: updated_at
+            description: Timestamp the role assignment was last updated.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
 
@@ -363,6 +479,12 @@ sources:
             description: "{{ doc('project_id') }}"
           - name: name
             description: Name of the project-level role.
+          - name: description
+            description: Description of the project-level role.
+          - name: predefined_role
+            description: Whether this is one of OpenAI's built-in roles rather than a custom-defined role.
+          - name: resource_type
+            description: The type of resource this role's permissions apply to.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
 
@@ -373,10 +495,24 @@ sources:
         config:
           enabled: "{{ var('openai_using_users_role', True) and var('openai_sources', []) == [] }}"
         columns:
+          - name: id
+            description: Unique identifier for the role assignment.
           - name: users_id
             description: "{{ doc('user_id') }}"
           - name: name
             description: Name of the organization-level permission role.
+          - name: description
+            description: Description of the organization-level permission role.
+          - name: predefined_role
+            description: Whether this is one of OpenAI's built-in roles rather than a custom-defined role.
+          - name: resource_type
+            description: The type of resource this role's permissions apply to.
+          - name: created_at
+            description: Timestamp the role assignment was created.
+          - name: created_by
+            description: Identifier of the user who created the role assignment.
+          - name: updated_at
+            description: Timestamp the role assignment was last updated.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
 
@@ -391,6 +527,10 @@ sources:
             description: Unique identifier for the group.
           - name: name
             description: Display name of the group.
+          - name: is_scim_managed
+            description: Whether this group is managed via SCIM provisioning rather than manually.
+          - name: created_at
+            description: Timestamp the group was created.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
 
@@ -409,27 +549,21 @@ sources:
             description: Organization-level role the invitee will receive upon accepting.
           - name: status
             description: Current status of the invite (e.g. `pending`, `accepted`, `expired`).
+          - name: invited_at
+            description: Timestamp the invite was sent.
+          - name: accepted_at
+            description: Timestamp the invite was accepted, if applicable.
+          - name: expires_at
+            description: Timestamp the invite expires.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
 
-  - name: openai_compliance
-    schema: "{{ var('openai_compliance_schema', 'openai_compliance') }}"
-    database: "{% if target.type != 'spark' %}{{ var('openai_compliance_database', target.database) }}{% endif %}"
 
-    description: >
-      ChatGPT Enterprise Compliance Platform data, synced alongside the OpenAI Platform
-      connector. Only cost data from this connector is modeled — conversation, audit, and auth
-      log data are out of scope for this package.
-
-    config:
-      enabled: "{{ var('openai_compliance_sources', []) == [] }}"
-
-    tables:
-      - name: costs_organization_log
+      - name: compliance_costs_organization_log
         identifier: "{{ var('openai_compliance_costs_organization_log_identifier', 'costs_organization_log') }}"
-        description: Org-level cost events at (event, organization). Keyed on (event_id, organization_id) — a later sync of the same event's cumulative total overwrites the row already at rest, so no restatement handling is needed downstream.
+        description: Org-level cost events at (event, organization) from the ChatGPT Enterprise Compliance Platform, synced alongside the rest of this connector. Only cost data from Compliance Platform is modeled — conversation, audit, and auth log data are out of scope for this package. Keyed on (event_id, organization_id) — a later sync of the same event's cumulative total overwrites the row already at rest, so no restatement handling is needed downstream.
         config:
-          enabled: "{{ var('openai_using_compliance_cost', True) and var('openai_compliance_sources', []) == [] }}"
+          enabled: "{{ var('openai_using_compliance_cost', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: event_id
             description: Identifier for a cost event.
@@ -443,6 +577,10 @@ sources:
             description: Hour of day (0-23) the event occurred in.
           - name: identity_user_id
             description: "{{ doc('user_id') }}"
+          - name: identity_agent_id
+            description: Identifier of the agent (for example, a custom GPT or automation) acting on the user's behalf, if applicable.
+          - name: identity_agent_name
+            description: Display name of the agent acting on the user's behalf, if applicable.
           - name: product
             description: The ChatGPT Enterprise product this spend belongs to (for example, chat, codex).
           - name: surface
@@ -455,6 +593,14 @@ sources:
             description: The service tier the request was billed under.
           - name: reasoning
             description: The reasoning effort level used, if applicable to the model.
+          - name: principal_id
+            description: Identifier of the principal (user or agent) that generated this cost event.
+          - name: principal_type
+            description: Type of principal that generated this cost event (for example, `user` or `agent`).
+          - name: actor_type
+            description: Type of actor that generated this cost event.
+          - name: actor_id
+            description: Identifier of the actor that generated this cost event.
           - name: text_input_token
             description: "{{ doc('input_tokens') }}"
           - name: text_cached_input_token
@@ -466,11 +612,11 @@ sources:
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
 
-      - name: costs_organization_log_billing
+      - name: compliance_costs_organization_log_billing
         identifier: "{{ var('openai_compliance_costs_organization_log_billing_identifier', 'costs_organization_log_billing') }}"
-        description: Repeated SKU line items per cost event, carrying cost in credits (never USD) plus a connector-estimated USD equivalent. Keyed on (event_id, organization_id, sku).
+        description: Repeated SKU line items per cost event from the ChatGPT Enterprise Compliance Platform, carrying cost in credits (never USD) plus a connector-estimated USD equivalent. Keyed on (event_id, organization_id, sku).
         config:
-          enabled: "{{ var('openai_using_compliance_cost', True) and var('openai_compliance_sources', []) == [] }}"
+          enabled: "{{ var('openai_using_compliance_cost', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: event_id
             description: Identifier for the parent cost event. Joins to costs_organization_log.
@@ -493,11 +639,11 @@ sources:
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
 
-      - name: users
+      - name: compliance_users
         identifier: "{{ var('openai_compliance_users_identifier', 'users') }}"
-        description: ChatGPT workspace users. The only path from a cost event's identity_user_id to an email address.
+        description: ChatGPT workspace users from the Compliance Platform. The only path from a cost event's identity_user_id to an email address.
         config:
-          enabled: "{{ var('openai_using_compliance_users', True) and var('openai_compliance_sources', []) == [] }}"
+          enabled: "{{ var('openai_using_compliance_users', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: id
             description: "{{ doc('user_id') }}"

@@ -352,6 +352,8 @@ models:
         description: Display name of the user.
       - name: user_role
         description: Organization-level role of the user (e.g. `owner`, `reader`).
+      - name: _fivetran_deleted
+        description: Whether the user has been removed from the organization. Not filtered out of this model — see the package description for why.
       - name: _fivetran_synced
         description: "{{ doc('fivetran_synced') }}"
 

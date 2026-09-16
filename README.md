@@ -19,7 +19,7 @@ This dbt package transforms data from Fivetran's OpenAI Platform/Enterprise conn
 ## What does this dbt package do?
 This package enables you to analyze OpenAI Platform spend, usage, and Codex Enterprise productivity across your organization. It creates enriched models with metrics focused on daily cost by project and model, per-user activity across every OpenAI product, Codex Enterprise coding productivity, and per-user usage summaries.
 
-> Note: No single source table in this connector's schema is used by the majority of active connections (the most common, `project`, is used by roughly 39% of them). Because of this, every one of the 20 source tables this package can use is gated behind its own `openai_using_<table>` variable (see [Enable/Disable models](#enabledisable-models) below) — this package guards far more tables than most Fivetran dbt packages do, and that's intentional rather than a placeholder.
+> Note: Different customers configure their OpenAI connector with different combinations of Admin, Project, and Codex Enterprise API keys, and each key type only unlocks a subset of the connector's tables. Because of this, every one of the 20 source tables this package can use is gated behind its own `openai_using_<table>` variable (see [Enable/Disable models](#enabledisable-models) below) — this package guards far more tables than most Fivetran dbt packages do, and that's intentional rather than a placeholder.
 
 ### Output schema
 Final output tables are generated in the following target schema:
@@ -101,9 +101,9 @@ If you use [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/
 
 ### Enable/Disable models
 
-> _This step is optional if you are unioning multiple connections together in the previous step. The `union_data` macro will create empty staging models for sources that are not found in any of your OpenAI schemas/databases. However, you can still leverage the below variables if you would like to avoid this behavior._
+> _This step is optional if you are unioning multiple connections together in the previous step. The `union_connections` macro will create empty staging models for sources that are not found in any of your OpenAI schemas/databases. However, you can still leverage the below variables if you would like to avoid this behavior._
 
-This package takes into consideration that not every OpenAI Platform/Enterprise account syncs every source table, and allows you to disable the corresponding functionality for any of them: `cost`, `completion`, `embedding`, `audio_transcription`, `audio_speech`, `image`, `moderation`, `web_search_call`, `file_search_call`, `codex_usage`, `codex_usage_model`, `project`, `project_api_key`, `project_user`, `project_user_role`, `project_role`, `users_role`, `groups`, and `invite`. `users` isn't included here — it's the spine of `openai__user_summary` with no partial-value alternative, so `stg_openai__users` and `openai__user_summary` always build.
+This package takes into consideration that not every OpenAI Platform/Enterprise account syncs every source table, and allows you to disable the corresponding functionality for all tables except `users`: `cost`, `completion`, `embedding`, `audio_transcription`, `audio_speech`, `image`, `moderation`, `web_search_call`, `file_search_call`, `codex_usage`, `codex_usage_model`, `project`, `project_api_key`, `project_user`, `project_user_role`, `project_role`, `users_role`, `groups`, and `invite`. `users` is the spine of `openai__user_summary` with no partial-value alternative, so `stg_openai__users` and `openai__user_summary` always build.
 
 By default, all of these variables are assumed to be `true`. Add variables for only the tables you want to disable:
 
@@ -136,7 +136,7 @@ vars:
 #### Partial cost and code reporting
 `openai__cost_usage_report` and `openai__code_report` are each built from two optional source-table pairs, and each model still produces useful (differently-shaped) output when only one side of its pair is enabled:
 
-- `openai__cost_usage_report` uses `cost` and `completion`. With only `openai_using_cost` enabled, the model falls back to cost by day, project, model, and `cost_type` (no token columns, since only `completion` reports token counts). With only `openai_using_completion` enabled, the cost and currency columns drop entirely and only usage remains.
+- `openai__cost_usage_report` uses `cost` and `completion`. With only `openai_using_cost` enabled, the model falls back to cost by day, project, model, and `token_unit_type` (`token_quantity` and `num_model_requests` are null, since only `completion` reports token counts). With only `openai_using_completion` enabled, the cost, currency, and `cost_attribution_method` columns drop entirely and only usage remains.
 - `openai__code_report` uses `codex_usage` and `codex_usage_model`. `codex_usage` reports its own day-level credit/token totals, so those columns are present whenever either table is enabled — only `count_models_used` requires `openai_using_codex_usage_model` specifically. With `openai_using_codex_usage` disabled, `actor_email` and the productivity columns (lines of code, threads, turns) drop entirely, since only `codex_usage` resolves the email or reports that activity.
 
 Disabling one table in a pair doesn't disable the whole model — it just drops the columns that table alone can supply. See the column descriptions in [models/openai.yml](https://github.com/fivetran/dbt_openai/blob/main/models/openai.yml) for the full breakdown of which columns depend on which variable.
@@ -158,17 +158,16 @@ The cost and enterprise user reports retain the original `model` and add two par
 Parsing trims and lowercases names, unwraps fine-tuned `ft:` names, and removes a trailing YYYY-MM-DD-shaped snapshot suffix. Numeric GPT and o-series families are structural, so future versions following those conventions work automatically. Known named prefixes such as `codex` and `text-embedding` also form families; their remaining suffix stays intact as the variant. Unrecognized names retain the original `model` as the family and have a null variant. Names without a variant also have a null variant. These fields describe names, not architecture, capabilities, or billing rates.
 
 #### Model family overrides
-
-To override an exact base-model name, including any dated suffix:
+`model_family` (see [Model family and variant](#model-family-and-variant) above) is parsed automatically for known naming patterns, but a new or unrecognized model name falls back to using the full model name as its own family. If OpenAI releases a model whose name doesn't fit those patterns, or you want a specific model to report under a different family than it parses to, set `openai_model_family_overrides` in your root `dbt_project.yml`. Each key is the exact model name (as it appears in your data, including any dated snapshot suffix) and each value is the family you want it to report as:
 
 ```yml
 vars:
   openai_model_family_overrides:
-    gpt-4o-mini: gpt-4o-mini
-    codex-mini-latest: codex-mini
+    gpt-4o-mini: gpt-4o-mini        # report gpt-4o-mini's own snapshots under their own family, not folded into gpt-4o
+    codex-mini-latest: codex-mini   # rename a specific model's family
 ```
 
-Keys are trimmed and lowercased, and match after removing the `ft:` wrapper. Overrides take precedence over built-in family rules and do not change the structurally parsed variant. Use the `openai_model_family` macro for family SQL and `openai_model_variant` for variant SQL. Warehouse syntax is selected with Jinja.
+Keys are trimmed and lowercased, and matched after removing the `ft:` fine-tune wrapper. Overrides take precedence over the built-in parsing rules and don't change how `model_variant` is parsed.
 
 #### Change the source table references
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
@@ -204,18 +203,18 @@ vars:
     openai__compliance_cost_billing_passthrough_metrics: []
 ```
 
-These variables allow you to bring in additional columns from `stg_openai__cost`, `stg_openai__completion`, `stg_openai__codex_usage`, `stg_openai__codex_usage_model`, `stg_openai__compliance_cost`, and `stg_openai__compliance_cost_billing`, respectively. Each field is summed at every point between its source table and the report(s) it feeds (a no-op when the field already reaches its report at the source table's own grain, with nothing aggregating it further). They all accept the same format, supporting datatype casting, aliasing, and custom transformations:
+These variables allow you to bring in additional columns from the `cost`, `completion`, `codex_usage`, `codex_usage_model`, `compliance_costs_organization_log`, and `compliance_costs_organization_log_billing` source tables, respectively. Each field is summed at every point between its source table and the report(s) it feeds (a no-op when the field already reaches its report at the source table's own grain, with nothing aggregating it further). They all accept the same format, supporting datatype casting, aliasing, and custom transformations:
 
 ```yml
 vars:
   openai__completion_passthrough_metrics:
     - name: "field_id"
       alias: "field_name"
-      transform_sql: "cast(field_id as int64)"
+      transform_sql: "cast(field_name as int64)"
     - name: "another_field_name"
 ```
 
-`name` is required and is the column name as it appears in the raw source table. `alias` and `transform_sql` are optional — `alias` renames the output column, and `transform_sql` provides a custom SQL expression (referencing `name` or `alias`) instead of a plain passthrough.
+`name` is required and is the column name as it appears in the raw source table. `alias` and `transform_sql` are optional — `alias` renames the output column, and `transform_sql` provides a custom SQL expression instead of a plain passthrough. If both `alias` and `transform_sql` are set, `transform_sql` should reference the `alias`, not the raw `name` — the column has already been renamed to its alias by the time `transform_sql` runs.
 
 #### Source casing for case-sensitive destinations
 By default, the package applies case-insensitive comparisons when resolving `source_relation` values. If your destination is case-sensitive and you want downstream transformations to respect the exact casing of your source database and schema names, set the following variable:

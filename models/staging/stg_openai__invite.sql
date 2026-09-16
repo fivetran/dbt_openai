@@ -26,7 +26,7 @@ final as (
     select
         source_relation,
         cast(id as {{ dbt.type_string() }}) as invite_id,
-        email,
+        lower(email) as email,
         role as invited_role,
         status as invite_status,
         _fivetran_synced

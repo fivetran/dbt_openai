@@ -18,6 +18,18 @@ Name of the OpenAI model used for this request (e.g. `gpt-4o`, `text-embedding-3
 Timestamp marking the start of the usage or cost reporting bucket this record covers.
 {% enddocs %}
 
+{% docs usage_ended_at %}
+Timestamp marking the end of the usage or cost reporting bucket this record covers.
+{% enddocs %}
+
+{% docs api_object_type %}
+The API object type for this record, as reported by OpenAI (for example, `organization.usage.completions.result`).
+{% enddocs %}
+
+{% docs organization_id %}
+Unique identifier for the OpenAI organization.
+{% enddocs %}
+
 {% docs input_tokens %}
 Number of input tokens metered for this usage record.
 {% enddocs %}
@@ -61,11 +73,11 @@ Day the cost and usage apply to.
 {% enddocs %}
 
 {% docs model_family %}
-Structural reporting family derived from the model name, preserving version lines such as `gpt-4o`, `gpt-5.2`, and `o4`. Names are trimmed and lowercased for parsing; fine-tuned `ft:` names use their base model. Numeric GPT versions allow an optional decimal version and single-letter suffix; o-series versions contain `o` followed by digits. Known named product prefixes include `codex`, `gpt-image`, and `text-embedding`. Exact normalized base-model overrides in `openai_model_family_overrides` take precedence, including any snapshot suffix in the key. Unrecognized names return the original model value; null remains null. These labels are reporting categories, not architecture or pricing rules.
+Structural reporting family parsed from the model name, preserving version lines such as `gpt-4o`, `gpt-5.2`, and `o4`. Fine-tuned `ft:` names use their base model. `openai_model_family_overrides` takes precedence for exact base-model names. Unrecognized names return the original model value.
 {% enddocs %}
 
 {% docs model_variant %}
-The remaining normalized model-name suffix after its structurally recognized family and a trailing YYYY-MM-DD-shaped snapshot suffix are removed. For example, `gpt-4o-mini-2024-07-18` yields `mini`, `gpt-5.2-codex` yields `codex`, and `o3-deep-research` yields `deep-research`. Compound suffixes stay intact; no size or capability is inferred. Named product families follow the same rule, so `text-embedding-3-large` yields `3-large`. Null when no suffix remains or the name structure is unrecognized. Fine-tuned names use their base model. Family overrides do not change variant parsing. The original `model` value is preserved in reports.
+The model-name suffix remaining after its family and any dated snapshot suffix are removed — for example, `gpt-4o-mini-2024-07-18` yields `mini`. Null when no suffix remains or the name is unrecognized.
 {% enddocs %}
 
 {% docs project_name %}

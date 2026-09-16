@@ -1,6 +1,6 @@
 {% macro get_compliance_cost_billing_columns() %}
 {% set columns = [
-    {"name": "_fivetran_deleted", "datatype": "boolean"},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "cost_unit", "datatype": dbt.type_string()},
     {"name": "cost_value", "datatype": dbt.type_float()},

@@ -16,7 +16,7 @@ fields as (
                 staging_columns=get_compliance_users_columns()
             )
         }}
-        {{ fivetran_utils.apply_source_relation('openai_compliance') }}
+        {{ fivetran_utils.apply_source_relation('openai') }}
     from base
 
 ),
