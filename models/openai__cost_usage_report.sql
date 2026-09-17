@@ -260,7 +260,7 @@ final as (
         on project.project_id = cost_by_model_day.project_id
         and project.source_relation = cost_by_model_day.source_relation
     {% endif %}
-    {{ dbt_utils.group_by(n=(10 if project_enabled else 9)) }}
+    {{ dbt_utils.group_by(n=(12 if project_enabled else 11)) }}
 
 )
 {% endif %}
