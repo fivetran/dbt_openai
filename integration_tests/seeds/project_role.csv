@@ -1,0 +1,3 @@
+id,project_id,name,_fivetran_deleted,_fivetran_synced
+prole-editor01,proj-patientportal01,Editor,false,2025-12-31 08:00:00
+prole-viewer02,proj-brightbyfdc02,Content Reviewer,false,2025-12-31 08:00:00

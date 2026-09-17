@@ -1,0 +1,7 @@
+id,email,name,role,_fivetran_deleted,_fivetran_synced
+user-kylepla0001,kyle.plaque@fictionaldental.invalid,Kyle Plaque,owner,false,2025-12-31 08:00:00
+user-pattyflo0002,patty.floss@fictionaldental.invalid,Patty Floss,owner,false,2025-12-31 08:00:00
+user-sandygum0003,sandy.gumsworth@fictionaldental.invalid,Sandy Gumsworth,reader,false,2025-12-31 08:00:00
+user-tamarabi0004,tamara.bicuspid@fictionaldental.invalid,Tamara Bicuspid,reader,false,2025-12-31 08:00:00
+user-priyaroo0005,priya.rootcanal@fictionaldental.invalid,Priya Rootcanal,reader,false,2025-12-31 08:00:00
+user-brendanw0006,brendan.whitening@fictionaldental.invalid,Brendan Whitening,reader,false,2025-12-31 08:00:00

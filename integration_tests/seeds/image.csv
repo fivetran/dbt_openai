@@ -1,0 +1,27 @@
+_fivetran_id,project_id,user_id,api_key_id,model,num_model_request,start_time,_fivetran_deleted,_fivetran_synced
+fvim000001,proj-brightbyfdc02,user-brendanw0006,key-brightimages04,dall-e-3,2,1748822400,false,2025-12-31 08:00:00
+fvim000002,proj-brightbyfdc02,user-tamarabi0004,key-brightimages04,dall-e-3,7,1748995200,false,2025-12-31 08:00:00
+fvim000003,proj-brightbyfdc02,user-tamarabi0004,key-brightimages04,dall-e-3,6,1749427200,false,2025-12-31 08:00:00
+fvim000004,proj-brightbyfdc02,user-tamarabi0004,key-brightimages04,dall-e-3,7,1749513600,false,2025-12-31 08:00:00
+fvim000005,proj-brightbyfdc02,user-brendanw0006,key-brightimages04,dall-e-3,5,1749686400,false,2025-12-31 08:00:00
+fvim000006,proj-brightbyfdc02,user-brendanw0006,key-brightimages04,dall-e-3,4,1749772800,false,2025-12-31 08:00:00
+fvim000007,proj-brightbyfdc02,user-tamarabi0004,key-brightimages04,dall-e-3,4,1750032000,false,2025-12-31 08:00:00
+fvim000008,proj-brightbyfdc02,user-brendanw0006,key-brightimages04,dall-e-3,5,1750204800,false,2025-12-31 08:00:00
+fvim000009,proj-brightbyfdc02,user-tamarabi0004,key-brightimages04,dall-e-3,8,1750291200,false,2025-12-31 08:00:00
+fvim000010,proj-brightbyfdc02,user-tamarabi0004,key-brightimages04,dall-e-3,8,1750377600,false,2025-12-31 08:00:00
+fvim000011,proj-brightbyfdc02,user-tamarabi0004,key-brightimages04,dall-e-3,5,1750636800,false,2025-12-31 08:00:00
+fvim000012,proj-brightbyfdc02,user-tamarabi0004,key-brightimages04,dall-e-3,5,1750809600,false,2025-12-31 08:00:00
+fvim000013,proj-brightbyfdc02,user-brendanw0006,key-brightimages04,dall-e-3,7,1750896000,false,2025-12-31 08:00:00
+fvim000014,proj-brightbyfdc02,user-brendanw0006,key-brightimages04,dall-e-3,5,1751241600,false,2025-12-31 08:00:00
+fvim000015,proj-brightbyfdc02,user-tamarabi0004,key-brightimages04,dall-e-3,4,1762128000,false,2025-12-31 08:00:00
+fvim000016,proj-brightbyfdc02,user-tamarabi0004,key-brightimages04,dall-e-3,7,1762214400,false,2025-12-31 08:00:00
+fvim000017,proj-brightbyfdc02,user-brendanw0006,key-brightimages04,dall-e-3,4,1762300800,false,2025-12-31 08:00:00
+fvim000018,proj-brightbyfdc02,user-tamarabi0004,key-brightimages04,dall-e-3,5,1762473600,false,2025-12-31 08:00:00
+fvim000019,proj-brightbyfdc02,user-brendanw0006,key-brightimages04,dall-e-3,6,1762732800,false,2025-12-31 08:00:00
+fvim000020,proj-brightbyfdc02,user-tamarabi0004,key-brightimages04,dall-e-3,5,1763078400,false,2025-12-31 08:00:00
+fvim000021,proj-brightbyfdc02,user-brendanw0006,key-brightimages04,dall-e-3,2,1763510400,false,2025-12-31 08:00:00
+fvim000022,proj-brightbyfdc02,user-tamarabi0004,key-brightimages04,dall-e-3,5,1763596800,false,2025-12-31 08:00:00
+fvim000023,proj-brightbyfdc02,user-brendanw0006,key-brightimages04,dall-e-3,8,1763683200,false,2025-12-31 08:00:00
+fvim000024,proj-brightbyfdc02,user-brendanw0006,key-brightimages04,dall-e-3,4,1765238400,false,2025-12-31 08:00:00
+fvim000025,proj-brightbyfdc02,user-tamarabi0004,key-brightimages04,dall-e-3,2,1765497600,false,2025-12-31 08:00:00
+fvim000026,proj-brightbyfdc02,user-brendanw0006,key-brightimages04,dall-e-3,3,1766102400,false,2025-12-31 08:00:00
