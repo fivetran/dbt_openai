@@ -1,0 +1,12 @@
+id,project_id,_fivetran_deleted,_fivetran_synced
+user-kylepla0001,proj-patientportal01,false,2025-12-31 08:00:00
+user-kylepla0001,proj-brightbyfdc02,false,2025-12-31 08:00:00
+user-kylepla0001,proj-riverside03,false,2025-12-31 08:00:00
+user-kylepla0001,proj-internaltools04,false,2025-12-31 08:00:00
+user-priyaroo0005,proj-brightbyfdc02,false,2025-12-31 08:00:00
+user-priyaroo0005,proj-riverside03,false,2025-12-31 08:00:00
+user-priyaroo0005,proj-internaltools04,false,2025-12-31 08:00:00
+user-tamarabi0004,proj-brightbyfdc02,false,2025-12-31 08:00:00
+user-brendanw0006,proj-brightbyfdc02,false,2025-12-31 08:00:00
+user-pattyflo0002,proj-patientportal01,false,2025-12-31 08:00:00
+user-sandygum0003,proj-riverside03,false,2025-12-31 08:00:00

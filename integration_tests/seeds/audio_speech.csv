@@ -1,0 +1,19 @@
+project_id,user_id,api_key_id,model,input_token,num_model_request,start_time,_fivetran_deleted,_fivetran_synced
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,251,1,1746576000,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,107,2,1747094400,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,399,1,1747353600,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,180,4,1747699200,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,299,1,1748304000,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,261,6,1749772800,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,303,1,1752796800,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,397,6,1754265600,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,263,1,1754611200,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,214,4,1758585600,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,344,3,1759449600,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,224,1,1759708800,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,367,1,1761264000,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,339,2,1762214400,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,225,5,1762732800,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,158,1,1762905600,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,313,4,1764028800,false,2025-12-31 08:00:00
+proj-patientportal01,user-kylepla0001,key-portalsearch02,tts-1,160,2,1764720000,false,2025-12-31 08:00:00

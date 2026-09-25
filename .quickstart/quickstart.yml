@@ -1,0 +1,91 @@
+database_key: openai_database
+schema_key: openai_schema
+
+dbt_versions: ">=1.3.0 <3.0.0"
+
+table_variables:
+  openai__using_cost:
+    - cost
+  openai__using_completion:
+    - completion
+  openai__using_embedding:
+    - embedding
+  openai__using_audio_transcription:
+    - audio_transcription
+  openai__using_audio_speech:
+    - audio_speech
+  openai__using_image:
+    - image
+  openai__using_moderation:
+    - moderation
+  openai__using_web_search_call:
+    - web_search_call
+  openai__using_file_search_call:
+    - file_search_call
+  openai__using_codex_usage:
+    - codex_usage
+  openai__using_codex_usage_model:
+    - codex_usage_model
+  openai__using_project:
+    - project
+  openai__using_project_api_key:
+    - project_api_key
+  openai__using_project_user:
+    - project_user
+  openai__using_project_user_role:
+    - project_user_role
+  openai__using_users_role:
+    - users_role
+  openai__using_invite:
+    - invite
+  openai__using_compliance_cost:
+    - costs_organization_log
+    - costs_organization_log_billing
+    - compliance_costs_log_file
+  openai__using_compliance_users:
+    - users
+
+destination_configurations:
+  databricks:
+    dispatch:
+      - macro_namespace: dbt_utils
+        search_order: [ 'spark_utils', 'dbt_utils' ]
+
+public_models: [
+  "openai__cost_usage_report",
+  "openai__enterprise_user_report",
+  "openai__code_report",
+  "openai__user_summary",
+  "openai__compliance_cost_report"
+]
+
+supported_vars:
+  openai__cost_passthrough_metrics:
+    type: dictionary
+    description: "Additional numeric `COST` columns to sum into `openai__cost_usage_report`"
+    display_name: "Additional Cost Metrics"
+
+  openai__completion_passthrough_metrics:
+    type: dictionary
+    description: "Additional numeric `COMPLETION` columns to sum into `openai__cost_usage_report`"
+    display_name: "Additional Completion Metrics"
+
+  openai__codex_usage_passthrough_metrics:
+    type: dictionary
+    description: "Additional `CODEX_USAGE` columns to include in `openai__code_report`"
+    display_name: "Additional Codex Usage Columns"
+
+  openai__codex_usage_model_passthrough_metrics:
+    type: dictionary
+    description: "Additional numeric `CODEX_USAGE_MODEL` columns to sum into `openai__code_report`"
+    display_name: "Additional Codex Usage Model Metrics"
+
+  openai__compliance_cost_passthrough_metrics:
+    type: dictionary
+    description: "Additional `COSTS_ORGANIZATION_LOG` columns to include in `stg_openai__compliance_cost`"
+    display_name: "Additional Compliance Cost Columns"
+
+  openai__compliance_cost_billing_passthrough_metrics:
+    type: dictionary
+    description: "Additional numeric `COSTS_ORGANIZATION_LOG_BILLING` columns to sum into `openai__compliance_cost_report`"
+    display_name: "Additional Compliance Cost Billing Metrics"

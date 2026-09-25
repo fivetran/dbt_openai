@@ -1,0 +1,25 @@
+_fivetran_id,project_id,user_id,api_key_id,model,num_request,num_model_request,start_time,_fivetran_deleted,_fivetran_synced
+fvws000069,proj-riverside03,user-priyaroo0005,key-riversidesearch06,gpt-4o-mini-2024-07-18,2,2,1757030400,false,2025-12-31 08:00:00
+fvws000070,proj-riverside03,user-kylepla0001,key-riversidesearch06,gpt-4o-mini-2024-07-18,3,3,1757376000,false,2025-12-31 08:00:00
+fvws000071,proj-riverside03,user-priyaroo0005,key-riversidesearch06,gpt-4o-mini-2024-07-18,2,2,1757462400,false,2025-12-31 08:00:00
+fvws000072,proj-riverside03,user-priyaroo0005,key-riversidesearch06,gpt-4o-mini-2024-07-18,3,3,1757548800,false,2025-12-31 08:00:00
+fvws000073,proj-riverside03,user-priyaroo0005,key-riversidesearch06,gpt-4o-mini-2024-07-18,1,1,1758240000,false,2025-12-31 08:00:00
+fvws000074,proj-riverside03,user-priyaroo0005,key-riversidesearch06,gpt-4o-mini-2024-07-18,2,2,1759449600,false,2025-12-31 08:00:00
+fvws000075,proj-riverside03,user-priyaroo0005,key-riversidesearch06,gpt-4o-mini-2024-07-18,3,3,1759881600,false,2025-12-31 08:00:00
+fvws000076,proj-riverside03,user-kylepla0001,key-riversidesearch06,gpt-4o-mini-2024-07-18,5,5,1760400000,false,2025-12-31 08:00:00
+fvws000077,proj-riverside03,user-kylepla0001,key-riversidesearch06,gpt-4o-mini-2024-07-18,3,3,1760572800,false,2025-12-31 08:00:00
+fvws000078,proj-riverside03,user-priyaroo0005,key-riversidesearch06,gpt-4o-mini-2024-07-18,5,5,1760918400,false,2025-12-31 08:00:00
+fvws000079,proj-riverside03,user-kylepla0001,key-riversidesearch06,gpt-4o-mini-2024-07-18,3,3,1761091200,false,2025-12-31 08:00:00
+fvws000080,proj-riverside03,user-kylepla0001,key-riversidesearch06,gpt-4o-mini-2024-07-18,5,5,1761696000,false,2025-12-31 08:00:00
+fvws000081,proj-riverside03,user-kylepla0001,key-riversidesearch06,gpt-4o-mini-2024-07-18,5,5,1761782400,false,2025-12-31 08:00:00
+fvws000082,proj-riverside03,user-kylepla0001,key-riversidesearch06,gpt-4o-mini-2024-07-18,5,5,1762128000,false,2025-12-31 08:00:00
+fvws000083,proj-riverside03,user-kylepla0001,key-riversidesearch06,gpt-4o-mini-2024-07-18,2,2,1762387200,false,2025-12-31 08:00:00
+fvws000084,proj-riverside03,user-kylepla0001,key-riversidesearch06,gpt-4o-mini-2024-07-18,2,2,1762473600,false,2025-12-31 08:00:00
+fvws000085,proj-riverside03,user-kylepla0001,key-riversidesearch06,gpt-4o-mini-2024-07-18,4,4,1763424000,false,2025-12-31 08:00:00
+fvws000086,proj-riverside03,user-priyaroo0005,key-riversidesearch06,gpt-4o-mini-2024-07-18,3,3,1763596800,false,2025-12-31 08:00:00
+fvws000087,proj-riverside03,user-priyaroo0005,key-riversidesearch06,gpt-4o-mini-2024-07-18,1,1,1763683200,false,2025-12-31 08:00:00
+fvws000088,proj-riverside03,user-priyaroo0005,key-riversidesearch06,gpt-4o-mini-2024-07-18,3,3,1764806400,false,2025-12-31 08:00:00
+fvws000089,proj-riverside03,user-priyaroo0005,key-riversidesearch06,gpt-4o-mini-2024-07-18,1,1,1765843200,false,2025-12-31 08:00:00
+fvws000090,proj-riverside03,user-priyaroo0005,key-riversidesearch06,gpt-4o-mini-2024-07-18,2,2,1766102400,false,2025-12-31 08:00:00
+fvws000091,proj-riverside03,user-kylepla0001,key-riversidesearch06,gpt-4o-mini-2024-07-18,5,5,1766361600,false,2025-12-31 08:00:00
+fvws000092,proj-riverside03,user-kylepla0001,key-riversidesearch06,gpt-4o-mini-2024-07-18,5,5,1766620800,false,2025-12-31 08:00:00

@@ -1,0 +1,131 @@
+name: 'openai_integration_tests'
+version: '0.1.0'
+config-version: 2
+profile: 'integration_tests'
+
+vars:
+  openai:
+    openai_schema: openai_integration_tests
+    openai_cost_identifier: "cost"
+    openai_completion_identifier: "completion"
+    openai_embedding_identifier: "embedding"
+    openai_audio_transcription_identifier: "audio_transcription"
+    openai_audio_speech_identifier: "audio_speech"
+    openai_image_identifier: "image"
+    openai_moderation_identifier: "moderation"
+    openai_web_search_call_identifier: "web_search_call"
+    openai_file_search_call_identifier: "file_search_call"
+    openai_codex_usage_identifier: "codex_usage"
+    openai_codex_usage_model_identifier: "codex_usage_model"
+    openai_project_identifier: "project"
+    openai_project_api_key_identifier: "project_api_key"
+    openai_users_identifier: "users"
+    openai_project_user_identifier: "project_user"
+    openai_project_user_role_identifier: "project_user_role"
+    openai_users_role_identifier: "users_role"
+    openai_invite_identifier: "invite"
+    openai_compliance_costs_organization_log_identifier: "costs_organization_log"
+    openai_compliance_costs_log_file_identifier: "compliance_costs_log_file"
+    openai_compliance_costs_organization_log_billing_identifier: "costs_organization_log_billing"
+    openai_compliance_users_identifier: "compliance_users"
+
+models:
+  +persist_docs:
+    relation: true
+    columns: "{{ false if target.type in ('databricks') else true }}"
+
+seeds:
+  +docs:
+    show: False
+  openai_integration_tests:
+    +column_types:
+      _fivetran_synced: timestamp
+    cost:
+      +column_types:
+        start_time: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    completion:
+      +column_types:
+        input_token: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        input_cached_token: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        output_token: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        num_model_request: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        start_time: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    embedding:
+      +column_types:
+        input_token: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        num_model_request: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        start_time: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    audio_transcription:
+      +column_types:
+        second: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        num_model_request: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        start_time: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    audio_speech:
+      +column_types:
+        input_token: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        num_model_request: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        start_time: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    image:
+      +column_types:
+        num_model_request: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        start_time: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    moderation:
+      +column_types:
+        input_token: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        num_model_request: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        start_time: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    web_search_call:
+      +column_types:
+        num_request: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        num_model_request: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        start_time: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    file_search_call:
+      +column_types:
+        num_request: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        start_time: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    codex_usage:
+      +column_types:
+        start_time: timestamp
+        total_credit: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
+        code_attribution_lines_added: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        code_attribution_lines_removed: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        total_thread: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        total_turn: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    codex_usage_model:
+      +column_types:
+        codex_usage_start_time: timestamp
+        credit: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
+        uncached_text_input_token: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        cached_text_input_token: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        text_output_token: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    costs_organization_log:
+      +column_types:
+        day: timestamp
+        hour: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        text_input_token: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
+        text_cached_input_token: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
+        text_output_token: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
+        image_output_token: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
+    compliance_costs_log_file:
+      +column_types:
+        end_time: timestamp
+        file_size: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    costs_organization_log_billing:
+      +column_types:
+        quantity_value: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
+        cost_value: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
+        estimated_cost_usd_amount: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
+    compliance_users:
+      +column_types:
+        created_at: timestamp
+    invite:
+      +column_types:
+        invited_at: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['spark_utils', 'dbt_utils']
+
+flags:
+  send_anonymous_usage_stats: False
+  use_colors: True
