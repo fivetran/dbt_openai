@@ -27,6 +27,7 @@ final as (
         source_relation,
         cast(event_id as {{ dbt.type_string() }}) as event_id,
         cast(organization_id as {{ dbt.type_string() }}) as organization_id,
+        cast(costs_log_id as {{ dbt.type_string() }}) as costs_log_id,
         type as event_type,
         cast({{ dbt.date_trunc('day', 'day') }} as date) as date_day,
         cast(hour as {{ dbt.type_int() }}) as hour,

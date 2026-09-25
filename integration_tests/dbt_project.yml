@@ -22,11 +22,10 @@ vars:
     openai_users_identifier: "users"
     openai_project_user_identifier: "project_user"
     openai_project_user_role_identifier: "project_user_role"
-    openai_project_role_identifier: "project_role"
     openai_users_role_identifier: "users_role"
-    openai_groups_identifier: "groups"
     openai_invite_identifier: "invite"
     openai_compliance_costs_organization_log_identifier: "costs_organization_log"
+    openai_compliance_costs_log_file_identifier: "compliance_costs_log_file"
     openai_compliance_costs_organization_log_billing_identifier: "costs_organization_log_billing"
     openai_compliance_users_identifier: "compliance_users"
 
@@ -109,6 +108,10 @@ seeds:
         text_cached_input_token: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
         text_output_token: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
         image_output_token: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
+    compliance_costs_log_file:
+      +column_types:
+        end_time: timestamp
+        file_size: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
     costs_organization_log_billing:
       +column_types:
         quantity_value: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
@@ -117,6 +120,9 @@ seeds:
     compliance_users:
       +column_types:
         created_at: timestamp
+    invite:
+      +column_types:
+        invited_at: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
 
 dispatch:
   - macro_namespace: dbt_utils

@@ -467,28 +467,6 @@ sources:
             description: "{{ doc('fivetran_synced') }}"
 
 
-      - name: project_role
-        identifier: "{{ var('openai_project_role_identifier', 'project_role') }}"
-        description: Catalog of custom roles defined within an OpenAI Platform project.
-        config:
-          enabled: "{{ var('openai_using_project_role', True) and var('openai_sources', []) == [] }}"
-        columns:
-          - name: id
-            description: Unique identifier for the project-level role.
-          - name: project_id
-            description: "{{ doc('project_id') }}"
-          - name: name
-            description: Name of the project-level role.
-          - name: description
-            description: Description of the project-level role.
-          - name: predefined_role
-            description: Whether this is one of OpenAI's built-in roles rather than a custom-defined role.
-          - name: resource_type
-            description: The type of resource this role's permissions apply to.
-          - name: _fivetran_synced
-            description: "{{ doc('fivetran_synced') }}"
-
-
       - name: users_role
         identifier: "{{ var('openai_users_role_identifier', 'users_role') }}"
         description: Organization-level permission role assigned to a user, one row per (user, role).
@@ -513,24 +491,6 @@ sources:
             description: Identifier of the user who created the role assignment.
           - name: updated_at
             description: Timestamp the role assignment was last updated.
-          - name: _fivetran_synced
-            description: "{{ doc('fivetran_synced') }}"
-
-
-      - name: groups
-        identifier: "{{ var('openai_groups_identifier', 'groups') }}"
-        description: Organization-level groups used to manage user access, one row per group.
-        config:
-          enabled: "{{ var('openai_using_groups', True) and var('openai_sources', []) == [] }}"
-        columns:
-          - name: id
-            description: Unique identifier for the group.
-          - name: name
-            description: Display name of the group.
-          - name: is_scim_managed
-            description: Whether this group is managed via SCIM provisioning rather than manually.
-          - name: created_at
-            description: Timestamp the group was created.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
 
@@ -561,14 +521,16 @@ sources:
 
       - name: compliance_costs_organization_log
         identifier: "{{ var('openai_compliance_costs_organization_log_identifier', 'costs_organization_log') }}"
-        description: Org-level cost events at (event, organization) from the ChatGPT Enterprise Compliance Platform, synced alongside the rest of this connector. Only cost data from Compliance Platform is modeled — conversation, audit, and auth log data are out of scope for this package. Keyed on (event_id, organization_id) — a later sync of the same event's cumulative total overwrites the row already at rest, so no restatement handling is needed downstream.
+        description: Org-level cost events at (event, organization) from the ChatGPT Enterprise Compliance Platform, synced alongside the rest of this connector. Only cost data from Compliance Platform is modeled — conversation, audit, and auth log data are out of scope for this package. OpenAI re-emits each event in every log file covering its still-open hour, with a cumulative token count each time, so this table can carry more than one row per (event_id, organization_id) — see `costs_log_id` and `openai__compliance_cost_report` for how the correct (newest) snapshot is picked.
         config:
           enabled: "{{ var('openai_using_compliance_cost', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: event_id
-            description: Identifier for a cost event.
+            description: Identifier for a cost event. Not unique on its own — see the table description.
           - name: organization_id
             description: ChatGPT Enterprise organization identifier.
+          - name: costs_log_id
+            description: Identifier of the log file this snapshot of the event came from. Joins to `compliance_costs_log_file`.
           - name: type
             description: The compliance log event type (always COSTS for this table).
           - name: day
@@ -614,7 +576,7 @@ sources:
 
       - name: compliance_costs_organization_log_billing
         identifier: "{{ var('openai_compliance_costs_organization_log_billing_identifier', 'costs_organization_log_billing') }}"
-        description: Repeated SKU line items per cost event from the ChatGPT Enterprise Compliance Platform, carrying cost in credits (never USD) plus a connector-estimated USD equivalent. Keyed on (event_id, organization_id, sku).
+        description: Repeated SKU line items per cost event from the ChatGPT Enterprise Compliance Platform, carrying cost in credits (never USD) plus a connector-estimated USD equivalent. Keyed on (event_id, organization_id, sku) — like its parent, restated per log file, so also carries `costs_log_id`.
         config:
           enabled: "{{ var('openai_using_compliance_cost', True) and var('openai_sources', []) == [] }}"
         columns:
@@ -622,6 +584,8 @@ sources:
             description: Identifier for the parent cost event. Joins to costs_organization_log.
           - name: organization_id
             description: ChatGPT Enterprise organization identifier.
+          - name: costs_log_id
+            description: Identifier of the log file this billing snapshot came from. Joins to `compliance_costs_log_file`.
           - name: sku
             description: The billed SKU (for example, a specific feature or model tier).
           - name: quantity_unit
@@ -636,6 +600,27 @@ sources:
             description: Connector-estimated USD equivalent of `cost_value`, provided directly by the source.
           - name: estimated_cost_usd_currency
             description: ISO currency code for `estimated_cost_usd_amount`.
+          - name: _fivetran_synced
+            description: "{{ doc('fivetran_synced') }}"
+
+      - name: compliance_costs_log_file
+        identifier: "{{ var('openai_compliance_costs_log_file_identifier', 'compliance_costs_log_file') }}"
+        description: Catalog of the log files OpenAI delivers the Compliance cost log in. Purely infrastructure for picking the newest snapshot of a restated cost event — see `compliance_costs_organization_log`.
+        config:
+          enabled: "{{ var('openai_using_compliance_cost', True) and var('openai_sources', []) == [] }}"
+        columns:
+          - name: id
+            description: Identifier for the log file. Joins to `costs_log_id` on `compliance_costs_organization_log` and `compliance_costs_organization_log_billing`.
+          - name: organization_id
+            description: ChatGPT Enterprise organization identifier.
+          - name: end_time
+            description: "{{ doc('usage_ended_at') }}"
+          - name: file_name
+            description: Name of the log file.
+          - name: file_size
+            description: Size of the log file, in bytes.
+          - name: file_sha256
+            description: SHA-256 checksum of the log file.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
 

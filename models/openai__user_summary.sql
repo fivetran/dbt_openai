@@ -5,6 +5,8 @@
 {% set project_enabled = var('openai_using_project', True) %}
 {% set project_user_role_enabled = var('openai_using_project_user_role', True) %}
 {% set users_role_enabled = var('openai_using_users_role', True) %}
+{% set project_api_key_enabled = var('openai_using_project_api_key', True) %}
+{% set invite_enabled = var('openai_using_invite', True) %}
 {% set usage_enabled = openai.openai_enabled_usage_products() | length > 0 %}
 
 {%- set month_start = 'cast(' ~ dbt.date_trunc('month', 'current_date') ~ ' as date)' -%}
@@ -123,6 +125,63 @@ org_permission_roles as (
 ),
 {% endif %}
 
+{% if project_api_key_enabled %}
+project_api_key as (
+
+    select *
+    from {{ ref('stg_openai__project_api_key') }}
+
+),
+
+-- Service-account-owned keys have no user_id and don't count toward any user's total.
+api_key_counts as (
+
+    select
+        source_relation,
+        user_id,
+        count(api_key_id) as api_key_count
+    from project_api_key
+    where user_id is not null
+    group by 1, 2
+
+),
+{% endif %}
+
+{% if invite_enabled %}
+invite as (
+
+    select *
+    from {{ ref('stg_openai__invite') }}
+
+),
+
+-- An email can have more than one invite (e.g. re-invited after expiring); only the most
+-- recent one per email is relevant to this user's current status.
+ranked_invite as (
+
+    select
+        source_relation,
+        email,
+        invite_status,
+        invited_at,
+        row_number() over (partition by source_relation, email order by invited_at desc) as invite_rank
+    from invite
+
+),
+
+latest_invite as (
+
+    select
+        source_relation,
+        email,
+        invite_status as latest_invite_status,
+        invited_at as latest_invited_at
+    from ranked_invite
+    where invite_rank = 1
+
+),
+{% endif %}
+
 {% if usage_enabled %}
 enterprise_usage as (
 
@@ -159,7 +218,8 @@ final as (
         users.user_id as actor_user_id,
         users.email,
         users.user_name as name,
-        users.user_role as role
+        users.user_role as role,
+        users._fivetran_deleted as is_user_deleted
         {% if users_role_enabled %}
         , org_permission_roles.org_permission_roles
         {% endif %}
@@ -172,6 +232,13 @@ final as (
         {% if project_user_role_enabled %}
         , coalesce(project_roles.project_role_count, 0) as project_role_count
         , project_roles.project_role_names
+        {% endif %}
+        {% if project_api_key_enabled %}
+        , coalesce(api_key_counts.api_key_count, 0) as api_key_count
+        {% endif %}
+        {% if invite_enabled %}
+        , latest_invite.latest_invite_status
+        , latest_invite.latest_invited_at
         {% endif %}
         {% if usage_enabled %}
         , coalesce(usage_rollup.lifetime_tokens, 0) as lifetime_tokens
@@ -198,6 +265,16 @@ final as (
     left join project_roles
         on project_roles.user_id = users.user_id
         and project_roles.source_relation = users.source_relation
+    {% endif %}
+    {% if project_api_key_enabled %}
+    left join api_key_counts
+        on api_key_counts.user_id = users.user_id
+        and api_key_counts.source_relation = users.source_relation
+    {% endif %}
+    {% if invite_enabled %}
+    left join latest_invite
+        on latest_invite.email = users.email
+        and latest_invite.source_relation = users.source_relation
     {% endif %}
     {% if usage_enabled %}
     left join usage_rollup

@@ -1,3 +1,5 @@
-id,email,role,status,_fivetran_deleted,_fivetran_synced
-invite-joel01,joel.tartar@fictionaldental.invalid,reader,accepted,false,2025-12-31 08:00:00
-invite-diego02,diego.cavity@fictionaldental.invalid,reader,expired,false,2025-12-31 08:00:00
+id,email,role,status,invited_at,_fivetran_deleted,_fivetran_synced
+invite-joel01,joel.tartar@fictionaldental.invalid,reader,accepted,1735689600,false,2025-12-31 08:00:00
+invite-diego02,diego.cavity@fictionaldental.invalid,reader,expired,1738368000,false,2025-12-31 08:00:00
+invite-kyle03,kyle.plaque@fictionaldental.invalid,owner,pending,1704067200,false,2025-12-31 08:00:00
+invite-kyle04,kyle.plaque@fictionaldental.invalid,owner,accepted,1706745600,false,2025-12-31 08:00:00

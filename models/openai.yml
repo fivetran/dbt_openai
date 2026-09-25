@@ -141,6 +141,8 @@ models:
         description: Display name of the user.
       - name: role
         description: Organization-level role of the user (e.g. `owner`, `reader`).
+      - name: is_user_deleted
+        description: Whether the user has been removed from the organization. `users` isn't filtered on this — see the DECISIONLOG — so an offboarded user's historical usage stays attributed instead of disappearing; this column is how you tell current members from offboarded ones.
       - name: org_permission_roles
         description: Comma-separated list of organization-level permission roles assigned to the user. Only present when the `users_role` table is synced.
       - name: project_count
@@ -151,6 +153,12 @@ models:
         description: Number of distinct custom project-level roles assigned to this user across all their projects. Only present when the `project_user_role` table is synced.
       - name: project_role_names
         description: Comma-separated list of distinct custom project-level role names assigned to this user. Only present when the `project_user_role` table is synced.
+      - name: api_key_count
+        description: Number of project-scoped API keys owned by this user (excludes keys owned by a service account). Only present when the `project_api_key` table is synced.
+      - name: latest_invite_status
+        description: Status of this user's most recent invite (for example, `pending`, `accepted`, or `expired`), matched by email. Null if no invite record matches this user's email — for example, an organization owner added before the invite flow was used. Only present when the `invite` table is synced.
+      - name: latest_invited_at
+        description: Timestamp of this user's most recent invite, matched by email. Only present when the `invite` table is synced.
       - name: lifetime_tokens
         description: Tokens consumed across every product covered by `openai__enterprise_user_report`. All time.
       - name: month_to_date_tokens
@@ -167,3 +175,50 @@ models:
         description: Earliest day the user recorded product activity.
       - name: last_active_date
         description: Most recent day the user recorded product activity.
+
+  - name: openai__compliance_cost_report
+    description: >
+      Daily ChatGPT Enterprise (Compliance Platform) spend by user, product, surface, model, and
+      SKU. Only its `codex`-product rows cover the same activity as `openai__code_report` — and
+      from a cost angle, not that report's productivity angle — so summing spend across both
+      reports double-counts Codex. Each cost event is re-emitted with a cumulative count in every
+      log file covering its still-open hour; this model keeps only the newest snapshot per event.
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: organization_id
+        description: ChatGPT Enterprise organization identifier.
+      - name: date_day
+        description: "{{ doc('date_day') }}"
+        tests:
+          - not_null
+      - name: user_id
+        description: "{{ doc('user_id') }}"
+      - name: email
+        description: "{{ doc('email') }} Only present when the `compliance_users` table is synced."
+      - name: product
+        description: The ChatGPT Enterprise product this spend belongs to (e.g. `chat`, `image`, `codex`).
+      - name: surface
+        description: The surface the spend originated from.
+      - name: client
+        description: The client application used.
+      - name: model
+        description: "{{ doc('model') }}"
+      - name: service_tier
+        description: The service tier the request was billed under.
+      - name: reasoning
+        description: The reasoning effort level used, if applicable to the model.
+      - name: sku
+        description: The billed SKU.
+      - name: quantity_unit
+        description: The unit `quantity` is denominated in (for example, tokens, counts, duration_s, hours, gib_hours). Only additive within a single unit.
+      - name: cost_unit
+        description: The unit `credits` is denominated in (typically credits).
+      - name: quantity
+        description: Quantity consumed, in the unit named by `quantity_unit`.
+      - name: credits
+        description: "{{ doc('credits') }}"
+      - name: estimated_cost_usd_amount
+        description: Connector-estimated USD equivalent of `credits`, provided directly by the source.
+      - name: estimated_cost_usd_currency
+        description: ISO currency code for `estimated_cost_usd_amount`.

@@ -5,7 +5,7 @@ This dbt package transforms data from Fivetran's OpenAI Platform/Enterprise conn
 
 ## Resources
 
-- Number of materialized models¹: 48
+- Number of materialized models¹: 53
 - Connector documentation
   - [OpenAI connector documentation](https://fivetran.com/docs/connectors/applications/openai)
 - dbt package documentation
@@ -19,7 +19,7 @@ This dbt package transforms data from Fivetran's OpenAI Platform/Enterprise conn
 ## What does this dbt package do?
 This package enables you to analyze OpenAI Platform spend, usage, and Codex Enterprise productivity across your organization. It creates enriched models with metrics focused on daily cost by project and model, per-user activity across every OpenAI product, Codex Enterprise coding productivity, and per-user usage summaries.
 
-> Note: Different customers configure their OpenAI connector with different combinations of Admin, Project, and Codex Enterprise API keys, and each key type only unlocks a subset of the connector's tables. Because of this, every one of the 20 source tables this package can use is gated behind its own `openai_using_<table>` variable (see [Enable/Disable models](#enabledisable-models) below) — this package guards far more tables than most Fivetran dbt packages do, and that's intentional rather than a placeholder.
+> Note: Different customers configure their OpenAI connector with different combinations of Admin, Project, Codex Enterprise, and Compliance Platform API keys, and each key type only unlocks a subset of the connector's tables. Because of this, every one of the 21 source tables this package can use besides `users` is gated behind an `openai_using_<table>` variable (see [Enable/Disable models](#enabledisable-models) below) — this package guards far more tables than most Fivetran dbt packages do, and that's intentional rather than a placeholder.
 
 ### Output schema
 Final output tables are generated in the following target schema:
@@ -37,7 +37,8 @@ By default, this package materializes the following final tables:
 | [openai__cost_usage_report](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__cost_usage_report) | Daily OpenAI Platform spend and token usage by project and model. One row per source relation, day, project, and model, plus one org-level row per source relation/day for cost that can't be attributed to a project (`cost_type = 'other'`, e.g. aggregate feature charges like "Assistants API", or token-type cost with no matching completion volume). Cost is inferred by applying an implied per-token rate (Costs endpoint spend ÷ completion token volume) to each project's token share, since the Costs endpoint doesn't report a project breakdown directly. Still useful with only `openai_using_cost` or only `openai_using_completion` enabled — see [Additional configurations](#optional-additional-configurations). <br><br>**Example Analytics Questions:**<br><ul><li>Which projects or models are driving the most spend day over day?</li><li>How does token usage compare across projects and models over time?</li><li>How much cost can't be attributed to a specific project or model?</li></ul> |
 | [openai__enterprise_user_report](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__enterprise_user_report) | Daily OpenAI Platform activity by user, project, model, and product (completions, embeddings, audio transcription, audio speech, image generation, moderation, web search, and file search). Cost is not available at this grain — the Costs endpoint doesn't report per-user attribution. <br><br>**Example Analytics Questions:**<br><ul><li>Which users are the heaviest consumers of a given product or model?</li><li>How is usage distributed across products (completions, embeddings, image, etc.) day to day?</li><li>Which projects have the most active users?</li></ul> |
 | [openai__code_report](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__code_report) | Daily Codex Enterprise productivity (lines of code added/removed, threads, turns) plus credit and token consumption, one row per source relation, day, and user. Per-model and per-speed detail is rolled up onto this grain rather than fanned out into separate rows. <br><br>**Example Analytics Questions:**<br><ul><li>Who are the most active Codex users by lines of code or threads per day?</li><li>How much credit and token volume is Codex consuming per person over time?</li><li>Is Codex usage trending up or down across the organization?</li></ul> |
-| [openai__user_summary](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__user_summary) | One row per source relation and user, with organization role, project membership, project-level custom roles, and all-time/month-to-date usage totals. <br><br>**Example Analytics Questions:**<br><ul><li>Which users belong to the most projects or hold the most custom roles?</li><li>Who has been most active this month versus all time?</li><li>Which users haven't been active recently?</li></ul> |
+| [openai__user_summary](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__user_summary) | One row per source relation and user, with organization role, project membership, project-level custom roles, API key ownership, invite status, and all-time/month-to-date usage totals. <br><br>**Example Analytics Questions:**<br><ul><li>Which users belong to the most projects or hold the most custom roles?</li><li>Who has been most active this month versus all time?</li><li>Which users haven't been active recently?</li><li>Which users own the most API keys, or haven't accepted their invite yet?</li></ul> |
+| [openai__compliance_cost_report](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__compliance_cost_report) | Daily ChatGPT Enterprise (Compliance Platform) spend by user, product, surface, model, and SKU. Only its `codex`-product rows cover the same activity as `openai__code_report`, and from a cost angle rather than that report's productivity angle — see [Opinionated Modelling Decisions](#opinionated-modelling-decisions) for the double-counting caution if you query both. <br><br>**Example Analytics Questions:**<br><ul><li>Which users or products are driving the most ChatGPT Enterprise spend?</li><li>How does spend break down by surface (web, desktop, API) or client?</li><li>Which SKUs or service tiers make up the bulk of Compliance Platform cost?</li></ul> |
 
 ¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `ephemeral`.
 
@@ -103,7 +104,7 @@ If you use [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/
 
 > _This step is optional if you are unioning multiple connections together in the previous step. The `union_connections` macro will create empty staging models for sources that are not found in any of your OpenAI schemas/databases. However, you can still leverage the below variables if you would like to avoid this behavior._
 
-This package takes into consideration that not every OpenAI Platform/Enterprise account syncs every source table, and allows you to disable the corresponding functionality for all tables except `users`: `cost`, `completion`, `embedding`, `audio_transcription`, `audio_speech`, `image`, `moderation`, `web_search_call`, `file_search_call`, `codex_usage`, `codex_usage_model`, `project`, `project_api_key`, `project_user`, `project_user_role`, `project_role`, `users_role`, `groups`, and `invite`. `users` is the spine of `openai__user_summary` with no partial-value alternative, so `stg_openai__users` and `openai__user_summary` always build.
+This package takes into consideration that not every OpenAI Platform/Enterprise account syncs every source table, and allows you to disable the corresponding functionality for all tables except `users`: `cost`, `completion`, `embedding`, `audio_transcription`, `audio_speech`, `image`, `moderation`, `web_search_call`, `file_search_call`, `codex_usage`, `codex_usage_model`, `project`, `project_api_key`, `project_user`, `project_user_role`, `users_role`, `invite`, `compliance_cost` (which covers the `costs_organization_log`, `costs_organization_log_billing`, and `compliance_costs_log_file` tables together), and `compliance_users`. `users` is the spine of `openai__user_summary` with no partial-value alternative, so `stg_openai__users` and `openai__user_summary` always build.
 
 By default, all of these variables are assumed to be `true`. Add variables for only the tables you want to disable:
 
@@ -124,10 +125,10 @@ vars:
     openai_using_project_api_key:        False   # Disable if you are not syncing the project_api_key table
     openai_using_project_user:           False   # Disable if you are not syncing the project_user table
     openai_using_project_user_role:      False   # Disable if you are not syncing the project_user_role table
-    openai_using_project_role:           False   # Disable if you are not syncing the project_role table
     openai_using_users_role:             False   # Disable if you are not syncing the users_role table
-    openai_using_groups:                 False   # Disable if you are not syncing the groups table
     openai_using_invite:                 False   # Disable if you are not syncing the invite table
+    openai_using_compliance_cost:        False   # Disable if you are not syncing Compliance Platform cost data
+    openai_using_compliance_users:       False   # Disable if you are not syncing the Compliance Platform users table
 ```
 
 ### (Optional) Additional configurations
@@ -262,6 +263,7 @@ This dbt package takes an opinionated stance on a few points worth knowing befor
 
 - `openai_cost` in `openai__cost_usage_report` is used directly from the Costs API when it already reports a project, and inferred via an implied per-token rate card otherwise — see [Inferred cost attribution](#inferred-cost-attribution) above for the mechanism.
 - This package is designed to eventually roll up alongside a Claude/Anthropic usage package into a shared multi-vendor AI reporting package. Column names such as `source_relation`, `date_day`, `actor_user_id`, `actor_email`, `openai_cost`, `currency`, and `cost_type` were deliberately aligned with the equivalent columns in Fivetran's Claude/Anthropic dbt package where the underlying concepts match.
+- `openai__compliance_cost_report` and `openai__code_report` both cover Codex activity, from different angles — the former reports Codex spend (`credits`, `product = 'codex'` rows), the latter reports Codex productivity (lines of code, threads, turns) alongside its own credit/token totals. Querying both and summing spend/credits across them double-counts Codex.
 
 <!--section-end-->
 

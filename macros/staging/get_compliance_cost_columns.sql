@@ -5,6 +5,7 @@
     {"name": "actor_id", "datatype": dbt.type_string()},
     {"name": "actor_type", "datatype": dbt.type_string()},
     {"name": "client", "datatype": dbt.type_string()},
+    {"name": "costs_log_id", "datatype": dbt.type_string()},
     {"name": "day", "datatype": dbt.type_timestamp()},
     {"name": "event_id", "datatype": dbt.type_string()},
     {"name": "hour", "datatype": dbt.type_int()},

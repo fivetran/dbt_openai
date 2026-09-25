@@ -29,6 +29,7 @@ final as (
         lower(email) as email,
         role as invited_role,
         status as invite_status,
+        cast({{ dbt.dateadd('second', 'invited_at', "cast('1970-01-01' as timestamp)") }} as {{ dbt.type_timestamp() }}) as invited_at,
         _fivetran_synced
     from fields
     where not coalesce(_fivetran_deleted, false)

@@ -31,6 +31,6 @@ test_scenarios:
       openai_using_codex_usage_model: false
       openai_using_project: false
       openai_using_project_user_role: false
-      openai_using_groups: false
+      openai_using_project_api_key: false
       openai_using_invite: false
     include_incremental: false

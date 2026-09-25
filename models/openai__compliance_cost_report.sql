@@ -1,21 +1,71 @@
--- Enabled by default; not yet wired into any report (overlaps with codex_usage for the codex
--- product). No restatement dedup needed: cost/billing keys have no log-file id, so a later sync just overwrites the row.
+-- Daily ChatGPT Enterprise (Compliance Platform) spend by user, product, and SKU. Enabled by
+-- default. Only its `codex` product rows overlap with openai__code_report, and from a different
+-- angle (cost, not productivity) — summing credits across both reports double-counts Codex spend.
 
 {% set email_enabled = var('openai_using_compliance_users', True) %}
 
 {{ config(enabled=var('openai_using_compliance_cost', True)) }}
 
-with cost_events as (
+with cost_events_raw as (
 
     select *
     from {{ ref('stg_openai__compliance_cost') }}
 
 ),
 
-billing as (
+log_file as (
+
+    select *
+    from {{ ref('stg_openai__compliance_costs_log_file') }}
+
+),
+
+billing_raw as (
 
     select *
     from {{ ref('stg_openai__compliance_cost_billing') }}
+
+),
+
+-- OpenAI re-emits a cost event in every later log file covering its still-open hour, each time
+-- with a cumulative credit/token count — the same event_id can appear under multiple
+-- costs_log_ids with different values. Summing across them overstates spend, and picking an
+-- arbitrary one keeps a possibly-stale snapshot. Only the file with the latest end_time is a
+-- correct read; costs_log_id desc is just a tiebreaker for two files with the same end_time.
+ranked_cost_events as (
+
+    select
+        cost_events_raw.*,
+        row_number() over (
+            partition by cost_events_raw.source_relation, cost_events_raw.organization_id, cost_events_raw.event_id
+            order by log_file.end_time desc, cost_events_raw.costs_log_id desc
+        ) as file_recency
+    from cost_events_raw
+    left join log_file
+        on log_file.source_relation = cost_events_raw.source_relation
+        and log_file.costs_log_id = cost_events_raw.costs_log_id
+
+),
+
+cost_events as (
+
+    select *
+    from ranked_cost_events
+    where file_recency = 1
+
+),
+
+-- Scoped to the same winning costs_log_id as cost_events, so a stale file's billing lines
+-- aren't pulled in alongside the current event.
+billing as (
+
+    select billing_raw.*
+    from billing_raw
+    inner join cost_events
+        on cost_events.source_relation = billing_raw.source_relation
+        and cost_events.organization_id = billing_raw.organization_id
+        and cost_events.event_id = billing_raw.event_id
+        and cost_events.costs_log_id = billing_raw.costs_log_id
 
 ),
 

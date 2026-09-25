@@ -34,14 +34,16 @@ table_variables:
     - project_user
   openai_using_project_user_role:
     - project_user_role
-  openai_using_project_role:
-    - project_role
   openai_using_users_role:
     - users_role
-  openai_using_groups:
-    - groups
   openai_using_invite:
     - invite
+  openai_using_compliance_cost:
+    - costs_organization_log
+    - costs_organization_log_billing
+    - compliance_costs_log_file
+  openai_using_compliance_users:
+    - users
 
 destination_configurations:
   databricks:
@@ -53,7 +55,8 @@ public_models: [
   "openai__cost_usage_report",
   "openai__enterprise_user_report",
   "openai__code_report",
-  "openai__user_summary"
+  "openai__user_summary",
+  "openai__compliance_cost_report"
 ]
 
 supported_vars:
@@ -84,5 +87,5 @@ supported_vars:
 
   openai__compliance_cost_billing_passthrough_metrics:
     type: dictionary
-    description: "Additional numeric `COSTS_ORGANIZATION_LOG_BILLING` columns to sum into `int_openai__compliance_cost_rollup`"
+    description: "Additional numeric `COSTS_ORGANIZATION_LOG_BILLING` columns to sum into `openai__compliance_cost_report`"
     display_name: "Additional Compliance Cost Billing Metrics"
