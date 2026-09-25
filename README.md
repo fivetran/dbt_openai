@@ -19,7 +19,7 @@ This dbt package transforms data from Fivetran's OpenAI Platform/Enterprise conn
 ## What does this dbt package do?
 This package enables you to analyze OpenAI Platform spend, usage, and Codex Enterprise productivity across your organization. It creates enriched models with metrics focused on daily cost by project and model, per-user activity across every OpenAI product, Codex Enterprise coding productivity, and per-user usage summaries.
 
-> Note: Different customers configure their OpenAI connector with different combinations of Admin, Project, Codex Enterprise, and Compliance Platform API keys, and each key type only unlocks a subset of the connector's tables. Because of this, every one of the 21 source tables this package can use besides `users` is gated behind an `openai_using_<table>` variable (see [Enable/Disable models](#enabledisable-models) below) — this package guards far more tables than most Fivetran dbt packages do, and that's intentional rather than a placeholder.
+> Note: Different customers configure their OpenAI connector with different combinations of Admin, Project, Codex Enterprise, and Compliance Platform API keys, and each key type only unlocks a subset of the connector's tables. Because of this, most of the 21 source tables this package can use besides `users` are gated behind an `openai_using_<table>` variable, and a few share one variable between multiple related tables (see [Enable/Disable models](#enabledisable-models) below) — this package guards far more tables than most Fivetran dbt packages do, and that's intentional rather than a placeholder.
 
 ### Output schema
 Final output tables are generated in the following target schema:
