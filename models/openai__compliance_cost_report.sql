@@ -37,7 +37,8 @@ ranked_cost_events as (
     select
         cost_events_raw.*,
         row_number() over (
-            partition by cost_events_raw.source_relation, cost_events_raw.organization_id, cost_events_raw.event_id
+            partition by cost_events_raw.organization_id, cost_events_raw.event_id
+                {{ fivetran_utils.partition_by_source_relation(package_name='openai', alias='cost_events_raw') }}
             order by log_file.end_time desc, cost_events_raw.costs_log_id desc
         ) as file_recency
     from cost_events_raw

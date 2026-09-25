@@ -164,7 +164,7 @@ ranked_invite as (
         email,
         invite_status,
         invited_at,
-        row_number() over (partition by source_relation, email order by invited_at desc) as invite_rank
+        row_number() over (partition by email {{ fivetran_utils.partition_by_source_relation(package_name='openai') }} order by invited_at desc) as invite_rank
     from invite
 
 ),
