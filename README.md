@@ -159,16 +159,18 @@ The cost and enterprise user reports retain the original `model` and add two par
 Parsing trims and lowercases names, unwraps fine-tuned `ft:` names, and removes a trailing YYYY-MM-DD-shaped snapshot suffix. Numeric GPT and o-series families are structural, so future versions following those conventions work automatically. Known named prefixes such as `codex` and `text-embedding` also form families; their remaining suffix stays intact as the variant. Unrecognized names retain the original `model` as the family and have a null variant. Names without a variant also have a null variant. These fields describe names, not architecture, capabilities, or billing rates.
 
 #### Model family overrides
-`model_family` (see [Model family and variant](#model-family-and-variant) above) is parsed automatically for known naming patterns, but a new or unrecognized model name falls back to using the full model name as its own family. If OpenAI releases a model whose name doesn't fit those patterns, or you want a specific model to report under a different family than it parses to, set `openai_model_family_overrides` in your root `dbt_project.yml`. Each key is the exact model name (as it appears in your data, including any dated snapshot suffix) and each value is the family you want it to report as:
+`model_family` (see [Model family and variant](#model-family-and-variant) above) is parsed automatically for known naming patterns, but a new or unrecognized model name falls back to using the full model name as its own family. If OpenAI releases a model whose name doesn't fit those patterns, or you want a specific model to report under a different family than it parses to, set `openai_model_family_overrides` in your root `dbt_project.yml`. Each entry's `model` is the exact model name (as it appears in your data, including any dated snapshot suffix) and `family` is what you want it to report as:
 
 ```yml
 vars:
   openai_model_family_overrides:
-    gpt-4o-mini: gpt-4o-mini        # report gpt-4o-mini's own snapshots under their own family, not folded into gpt-4o
-    codex-mini-latest: codex-mini   # rename a specific model's family
+    - model: gpt-4o-mini        # report gpt-4o-mini's own snapshots under their own family, not folded into gpt-4o
+      family: gpt-4o-mini
+    - model: codex-mini-latest  # rename a specific model's family
+      family: codex-mini
 ```
 
-Keys are trimmed and lowercased, and matched after removing the `ft:` fine-tune wrapper. Overrides take precedence over the built-in parsing rules and don't change how `model_variant` is parsed.
+`model` values are trimmed and lowercased, and matched after removing the `ft:` fine-tune wrapper. Overrides take precedence over the built-in parsing rules and don't change how `model_variant` is parsed.
 
 #### Change the source table references
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:

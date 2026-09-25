@@ -41,9 +41,9 @@
         when {{ model_column }} is null then null
         {# Overrides match normalized base models exactly, including dated suffixes.
            Escape literal quotes; overrides are never interpreted as patterns. #}
-        {% for model_name, label in var('openai_model_family_overrides', {}).items() %}
-        when {{ parts.base_model }} = '{{ model_name | trim | lower | replace("'", "''") }}'
-            then '{{ label | replace("'", "''") }}'
+        {% for override in var('openai_model_family_overrides', []) %}
+        when {{ parts.base_model }} = '{{ override.model | trim | lower | replace("'", "''") }}'
+            then '{{ override.family | replace("'", "''") }}'
         {% endfor %}
         else coalesce({{ parts.family }}, {{ model_column }})
     end
