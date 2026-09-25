@@ -1,7 +1,6 @@
 {{ config(enabled=var('openai_using_cost', True) and var('openai_using_completion', True)) }}
 
--- Only token cost the Costs API didn't already attribute to a project needs a rate card — rows
--- with a project_id are used directly; "other" (non-token) rows have no model/token_unit_type to key a rate on.
+-- Only token cost not already attributed to a project needs a rate card; "other" (non-token) rows have no model/token_unit_type to key a rate on.
 with token_cost_by_model_day as (
 
     select *
@@ -18,9 +17,7 @@ unattributed_cost as (
 
 ),
 
--- Projects the Costs API already billed directly for this day/model/unit — their completion
--- token volume is excluded from the rate denominator below, since it's already paid for and
--- isn't part of the population unattributed_cost describes.
+-- Projects already billed directly for this day/model/unit; their token volume is excluded from the rate denominator below since it's already paid for.
 directly_attributed_projects as (
 
     select distinct
@@ -41,9 +38,7 @@ completion_unpivoted as (
 
 ),
 
--- Token volume per day/model/token_unit_type from only the projects with no direct cost that
--- day — the rate denominator. Left joined, not inner: a cost slice may have no matching
--- completion slice, and those get rate_per_token = null instead of being dropped.
+-- The rate denominator: token volume from projects with no direct cost that day. Left joined, not inner, so an unmatched cost slice gets rate_per_token = null instead of being dropped.
 unattributed_token_totals as (
 
     select

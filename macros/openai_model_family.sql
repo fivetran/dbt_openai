@@ -39,8 +39,7 @@
     {% set parts = openai._openai_model_parts(model_column) %}
     case
         when {{ model_column }} is null then null
-        {# Overrides match normalized base models exactly, including dated suffixes.
-           Escape literal quotes; overrides are never interpreted as patterns. #}
+        {# Overrides match normalized base models exactly (including dated suffixes), never as patterns; literal quotes are escaped. #}
         {% for override in var('openai_model_family_overrides', []) %}
         when {{ parts.base_model }} = '{{ override.model | trim | lower | replace("'", "''") }}'
             then '{{ override.family | replace("'", "''") }}'

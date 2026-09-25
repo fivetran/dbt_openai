@@ -1,7 +1,4 @@
--- One row per source relation, day, project, model, and token_unit_type, plus an org-level
--- 'other' row for cost not tied to a project or model. cost_attribution_method marks 'direct'
--- (API-attributed), 'allocated' (rate-carded), 'unallocated', or 'unmatched' (no cost data to
--- allocate from).
+-- One row per source relation/day/project/model/token_unit_type, plus an org-level 'other' row for unattributable cost.
 
 {% set cost_enabled = var('openai_using_cost', True) %}
 {% set completion_enabled = var('openai_using_completion', True) %}
@@ -81,9 +78,7 @@ other_cost_grouped as (
 
 ),
 
--- Token-type cost with no project_id that also found no matching completion volume anywhere in
--- the org that day (e.g. cache_write, which the Completions API never reports token volume for)
--- — surfaced as its own model/token_unit_type row instead of the model-less 'other' bucket.
+-- Cost with no project and no matching completion volume anywhere that day (e.g. cache_write) gets its own row instead of the model-less 'other' bucket.
 unmatched_rate_card_cost as (
 
     select
@@ -100,10 +95,7 @@ unmatched_rate_card_cost as (
 {% endif %}
 
 {% if completion_enabled %}
--- Full outer join, not left join from completion: a direct-cost row can have no completion
--- counterpart at all (e.g. cache_write, which the Completions API never reports token volume
--- for), and a plain left join from completion would silently drop that cost instead of
--- surfacing it as its own token_unit_type row.
+-- Full outer join: a direct-cost row can have no completion counterpart (e.g. cache_write), and a left join would silently drop that cost instead of surfacing it.
 attributed as (
 
     select

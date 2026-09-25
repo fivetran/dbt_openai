@@ -1,6 +1,4 @@
--- Catalog of the log files OpenAI's Compliance cost log is delivered in. Purely infrastructure
--- for openai__compliance_cost_report's restatement dedup (see that model) — not intended
--- to be queried on its own.
+-- Catalog of Compliance cost log files. Purely infrastructure for openai__compliance_cost_report's restatement dedup — not intended to be queried on its own.
 
 {{ config(enabled=var('openai_using_compliance_cost', True)) }}
 

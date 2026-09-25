@@ -1,6 +1,4 @@
--- Daily ChatGPT Enterprise (Compliance Platform) spend by user, product, and SKU. Enabled by
--- default. Only its `codex` product rows overlap with openai__code_report, and from a different
--- angle (cost, not productivity) — summing credits across both reports double-counts Codex spend.
+-- Daily ChatGPT Enterprise (Compliance Platform) spend by user, product, and SKU. Only its `codex` rows overlap openai__code_report, and from a cost angle, not productivity — summing both double-counts.
 
 {% set email_enabled = var('openai_using_compliance_users', True) %}
 
@@ -27,11 +25,7 @@ billing_raw as (
 
 ),
 
--- OpenAI re-emits a cost event in every later log file covering its still-open hour, each time
--- with a cumulative credit/token count — the same event_id can appear under multiple
--- costs_log_ids with different values. Summing across them overstates spend, and picking an
--- arbitrary one keeps a possibly-stale snapshot. Only the file with the latest end_time is a
--- correct read; costs_log_id desc is just a tiebreaker for two files with the same end_time.
+-- OpenAI re-emits a still-open event with a cumulative count in every later log file; only the latest end_time is a correct read (costs_log_id desc just tiebreaks equal end_times).
 ranked_cost_events as (
 
     select
@@ -56,8 +50,7 @@ cost_events as (
 
 ),
 
--- Scoped to the same winning costs_log_id as cost_events, so a stale file's billing lines
--- aren't pulled in alongside the current event.
+-- Scoped to cost_events' winning costs_log_id, so stale billing lines aren't pulled in alongside the current event.
 billing as (
 
     select billing_raw.*
@@ -99,15 +92,13 @@ final as (
         billing.sku,
         billing.quantity_unit,
         billing.cost_unit,
-        -- quantity is only additive within a single quantity_unit (tokens, counts, duration_s,
-        -- hours, gib_hours all appear across different SKUs), so it must stay grouped by unit.
+        -- quantity is only additive within a single quantity_unit (different SKUs use tokens, counts, duration_s, hours, gib_hours), so it must stay grouped by unit.
         sum(billing.quantity) as quantity,
         sum(billing.credits) as credits,
         sum(billing.estimated_cost_usd_amount) as estimated_cost_usd_amount,
         max(billing.estimated_cost_usd_currency) as estimated_cost_usd_currency
         {{ fivetran_utils.persist_pass_through_columns('openai__compliance_cost_billing_passthrough_metrics', identifier='billing', transform='sum') }}
-        -- compliance_cost_passthrough_metrics (event-level) isn't wired in: the billing join fans
-        -- one event out across its SKU lines, so summing it here would multiply the value.
+        -- compliance_cost_passthrough_metrics (event-level) isn't wired in: the billing join fans it out per SKU, so summing here would multiply the value.
     from cost_events
     inner join billing
         on billing.event_id = cost_events.event_id

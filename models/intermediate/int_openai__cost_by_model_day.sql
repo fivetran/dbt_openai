@@ -41,9 +41,7 @@ typed as (
 
 ),
 
--- line items that parsed into a model + token unit type (e.g. "gpt-4o, output"). cache_write has
--- no completion counterpart (the Completions API never reports it), but openai__cost_usage_report
--- handles that with a full outer join, not a classification difference here.
+-- Line items that parsed into a model + token unit type. cache_write's missing completion counterpart is handled by a full outer join in openai__cost_usage_report, not here.
 token_cost as (
 
     select

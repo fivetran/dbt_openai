@@ -26,11 +26,7 @@ with_date as (
 
 ),
 
--- num_model_requests (and any passthrough metric) is one count per source row, so it's only
--- carried on the never-filtered 'input' branch — avoids triple-counting and keeps zero-input requests.
--- api_key_id is intentionally dropped here (summed away, not carried through): the Costs API
--- never reports cost per key, so keeping it would fan a project's directly-attributed cost out
--- once per key in openai__cost_usage_report instead of once per project.
+-- num_model_requests is carried only on the never-filtered 'input' branch to avoid triple-counting. api_key_id is dropped (summed away) so cost doesn't fan out per key downstream.
 unpivoted as (
 
     {% for token_unit_type in token_unit_types %}
