@@ -1,4 +1,4 @@
-{{ config(enabled=var('openai_using_image', True)) }}
+{{ config(enabled=var('openai__using_image', True)) }}
 
 with base as (
 

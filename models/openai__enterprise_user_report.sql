@@ -17,7 +17,7 @@ users as (
 
 ),
 
-{% if var('openai_using_project', True) %}
+{% if var('openai__using_project', True) %}
 project as (
 
     select *
@@ -34,7 +34,7 @@ final as (
         enterprise_usage.user_id as actor_user_id,
         users.email as actor_email,
         enterprise_usage.project_id,
-        {% if var('openai_using_project', True) %}
+        {% if var('openai__using_project', True) %}
         project.project_name,
         {% endif %}
         enterprise_usage.model,
@@ -48,7 +48,7 @@ final as (
     left join users
         on users.user_id = enterprise_usage.user_id
         and users.source_relation = enterprise_usage.source_relation
-    {% if var('openai_using_project', True) %}
+    {% if var('openai__using_project', True) %}
     left join project
         on project.project_id = enterprise_usage.project_id
         and project.source_relation = enterprise_usage.source_relation

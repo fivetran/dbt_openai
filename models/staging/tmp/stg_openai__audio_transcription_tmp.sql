@@ -1,6 +1,6 @@
---To disable this model, set the openai_using_audio_transcription variable within your dbt_project.yml file to False.
+--To disable this model, set the openai__using_audio_transcription variable within your dbt_project.yml file to False.
 
-{{ config(enabled=var('openai_using_audio_transcription', True)) }}
+{{ config(enabled=var('openai__using_audio_transcription', True)) }}
 
 {{
     fivetran_utils.union_connections(

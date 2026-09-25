@@ -1,6 +1,6 @@
---To disable this model, set the openai_using_project variable within your dbt_project.yml file to False.
+--To disable this model, set the openai__using_project variable within your dbt_project.yml file to False.
 
-{{ config(enabled=var('openai_using_project', True)) }}
+{{ config(enabled=var('openai__using_project', True)) }}
 
 {{
     fivetran_utils.union_connections(

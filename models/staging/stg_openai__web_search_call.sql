@@ -1,4 +1,4 @@
-{{ config(enabled=var('openai_using_web_search_call', True)) }}
+{{ config(enabled=var('openai__using_web_search_call', True)) }}
 
 with base as (
 

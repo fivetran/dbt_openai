@@ -1,8 +1,8 @@
 -- One row per source relation, day, and user. Per-model/speed detail rolls up onto this grain
 -- rather than fanning out; credits/tokens come from codex_usage when enabled, else a codex_usage_model rollup — either table alone is still useful.
 
-{% set codex_usage_enabled = var('openai_using_codex_usage', True) %}
-{% set codex_usage_model_enabled = var('openai_using_codex_usage_model', True) %}
+{% set codex_usage_enabled = var('openai__using_codex_usage', True) %}
+{% set codex_usage_model_enabled = var('openai__using_codex_usage_model', True) %}
 
 {{ config(enabled=codex_usage_enabled or codex_usage_model_enabled) }}
 

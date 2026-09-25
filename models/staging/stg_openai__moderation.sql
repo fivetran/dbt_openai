@@ -1,4 +1,4 @@
-{{ config(enabled=var('openai_using_moderation', True)) }}
+{{ config(enabled=var('openai__using_moderation', True)) }}
 
 with base as (
 

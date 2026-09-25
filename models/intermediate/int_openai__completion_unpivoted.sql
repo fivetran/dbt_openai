@@ -1,4 +1,4 @@
-{{ config(enabled=var('openai_using_completion', True)) }}
+{{ config(enabled=var('openai__using_completion', True)) }}
 
 {% set token_unit_types = ['input', 'cache_read', 'output'] %}
 {% set passthrough_metrics = var('openai__completion_passthrough_metrics', []) %}

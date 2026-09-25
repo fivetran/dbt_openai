@@ -1,4 +1,4 @@
-{{ config(enabled=var('openai_using_cost', True)) }}
+{{ config(enabled=var('openai__using_cost', True)) }}
 
 with cost as (
 

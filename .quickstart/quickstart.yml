@@ -4,45 +4,45 @@ schema_key: openai_schema
 dbt_versions: ">=1.3.0 <3.0.0"
 
 table_variables:
-  openai_using_cost:
+  openai__using_cost:
     - cost
-  openai_using_completion:
+  openai__using_completion:
     - completion
-  openai_using_embedding:
+  openai__using_embedding:
     - embedding
-  openai_using_audio_transcription:
+  openai__using_audio_transcription:
     - audio_transcription
-  openai_using_audio_speech:
+  openai__using_audio_speech:
     - audio_speech
-  openai_using_image:
+  openai__using_image:
     - image
-  openai_using_moderation:
+  openai__using_moderation:
     - moderation
-  openai_using_web_search_call:
+  openai__using_web_search_call:
     - web_search_call
-  openai_using_file_search_call:
+  openai__using_file_search_call:
     - file_search_call
-  openai_using_codex_usage:
+  openai__using_codex_usage:
     - codex_usage
-  openai_using_codex_usage_model:
+  openai__using_codex_usage_model:
     - codex_usage_model
-  openai_using_project:
+  openai__using_project:
     - project
-  openai_using_project_api_key:
+  openai__using_project_api_key:
     - project_api_key
-  openai_using_project_user:
+  openai__using_project_user:
     - project_user
-  openai_using_project_user_role:
+  openai__using_project_user_role:
     - project_user_role
-  openai_using_users_role:
+  openai__using_users_role:
     - users_role
-  openai_using_invite:
+  openai__using_invite:
     - invite
-  openai_using_compliance_cost:
+  openai__using_compliance_cost:
     - costs_organization_log
     - costs_organization_log_billing
     - compliance_costs_log_file
-  openai_using_compliance_users:
+  openai__using_compliance_users:
     - users
 
 destination_configurations:

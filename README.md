@@ -19,7 +19,7 @@ This dbt package transforms data from Fivetran's OpenAI Platform/Enterprise conn
 ## What does this dbt package do?
 This package enables you to analyze OpenAI Platform spend, usage, and Codex Enterprise productivity across your organization. It creates enriched models with metrics focused on daily cost by project and model, per-user activity across every OpenAI product, Codex Enterprise coding productivity, and per-user usage summaries.
 
-> Note: Different customers configure their OpenAI connector with different combinations of Admin, Project, Codex Enterprise, and Compliance Platform API keys, and each key type only unlocks a subset of the connector's tables. Because of this, most of the 21 source tables this package can use besides `users` are gated behind an `openai_using_<table>` variable, and a few share one variable between multiple related tables (see [Enable/Disable models](#enabledisable-models) below) — this package guards far more tables than most Fivetran dbt packages do, and that's intentional rather than a placeholder.
+> Note: Different customers configure their OpenAI connector with different combinations of Admin, Project, Codex Enterprise, and Compliance Platform API keys, and each key type only unlocks a subset of the connector's tables. Because of this, most of the 21 source tables this package can use besides `users` are gated behind an `openai__using_<table>` variable, and a few share one variable between multiple related tables (see [Enable/Disable models](#enabledisable-models) below) — this package guards far more tables than most Fivetran dbt packages do, and that's intentional rather than a placeholder.
 
 ### Output schema
 Final output tables are generated in the following target schema:
@@ -34,7 +34,7 @@ By default, this package materializes the following final tables:
 
 | Table | Description |
 | :---- | :---- |
-| [openai__cost_usage_report](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__cost_usage_report) | Daily OpenAI Platform spend and token usage by project and model. One row per source relation, day, project, and model, plus one org-level row per source relation/day for cost that can't be attributed to a project (`cost_type = 'other'`, e.g. aggregate feature charges like "Assistants API", or token-type cost with no matching completion volume). Cost is inferred by applying an implied per-token rate (Costs endpoint spend ÷ completion token volume) to each project's token share, since the Costs endpoint doesn't report a project breakdown directly. Still useful with only `openai_using_cost` or only `openai_using_completion` enabled — see [Additional configurations](#optional-additional-configurations). <br><br>**Example Analytics Questions:**<br><ul><li>Which projects or models are driving the most spend day over day?</li><li>How does token usage compare across projects and models over time?</li><li>How much cost can't be attributed to a specific project or model?</li></ul> |
+| [openai__cost_usage_report](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__cost_usage_report) | Daily OpenAI Platform spend and token usage by project and model. One row per source relation, day, project, and model, plus one org-level row per source relation/day for cost that can't be attributed to a project (`cost_type = 'other'`, e.g. aggregate feature charges like "Assistants API", or token-type cost with no matching completion volume). Cost is inferred by applying an implied per-token rate (Costs endpoint spend ÷ completion token volume) to each project's token share, since the Costs endpoint doesn't report a project breakdown directly. Still useful with only `openai__using_cost` or only `openai__using_completion` enabled — see [Additional configurations](#optional-additional-configurations). <br><br>**Example Analytics Questions:**<br><ul><li>Which projects or models are driving the most spend day over day?</li><li>How does token usage compare across projects and models over time?</li><li>How much cost can't be attributed to a specific project or model?</li></ul> |
 | [openai__enterprise_user_report](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__enterprise_user_report) | Daily OpenAI Platform activity by user, project, model, and product (completions, embeddings, audio transcription, audio speech, image generation, moderation, web search, and file search). Cost is not available at this grain — the Costs endpoint doesn't report per-user attribution. <br><br>**Example Analytics Questions:**<br><ul><li>Which users are the heaviest consumers of a given product or model?</li><li>How is usage distributed across products (completions, embeddings, image, etc.) day to day?</li><li>Which projects have the most active users?</li></ul> |
 | [openai__code_report](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__code_report) | Daily Codex Enterprise productivity (lines of code added/removed, threads, turns) plus credit and token consumption, one row per source relation, day, and user. Per-model and per-speed detail is rolled up onto this grain rather than fanned out into separate rows. <br><br>**Example Analytics Questions:**<br><ul><li>Who are the most active Codex users by lines of code or threads per day?</li><li>How much credit and token volume is Codex consuming per person over time?</li><li>Is Codex usage trending up or down across the organization?</li></ul> |
 | [openai__user_summary](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__user_summary) | One row per source relation and user, with organization role, project membership, project-level custom roles, API key ownership, invite status, and all-time/month-to-date usage totals. <br><br>**Example Analytics Questions:**<br><ul><li>Which users belong to the most projects or hold the most custom roles?</li><li>Who has been most active this month versus all time?</li><li>Which users haven't been active recently?</li><li>Which users own the most API keys, or haven't accepted their invite yet?</li></ul> |
@@ -110,25 +110,25 @@ By default, all of these variables are assumed to be `true`. Add variables for o
 
 ```yml
 vars:
-    openai_using_cost:                   False   # Disable if you are not syncing the cost table
-    openai_using_completion:             False   # Disable if you are not syncing the completion table
-    openai_using_embedding:              False   # Disable if you are not syncing the embedding table
-    openai_using_audio_transcription:    False   # Disable if you are not syncing the audio_transcription table
-    openai_using_audio_speech:           False   # Disable if you are not syncing the audio_speech table
-    openai_using_image:                  False   # Disable if you are not syncing the image table
-    openai_using_moderation:             False   # Disable if you are not syncing the moderation table
-    openai_using_web_search_call:        False   # Disable if you are not syncing the web_search_call table
-    openai_using_file_search_call:       False   # Disable if you are not syncing the file_search_call table
-    openai_using_codex_usage:            False   # Disable if you are not syncing the codex_usage table
-    openai_using_codex_usage_model:      False   # Disable if you are not syncing the codex_usage_model table
-    openai_using_project:                False   # Disable if you are not syncing the project table
-    openai_using_project_api_key:        False   # Disable if you are not syncing the project_api_key table
-    openai_using_project_user:           False   # Disable if you are not syncing the project_user table
-    openai_using_project_user_role:      False   # Disable if you are not syncing the project_user_role table
-    openai_using_users_role:             False   # Disable if you are not syncing the users_role table
-    openai_using_invite:                 False   # Disable if you are not syncing the invite table
-    openai_using_compliance_cost:        False   # Disable if you are not syncing Compliance Platform cost data
-    openai_using_compliance_users:       False   # Disable if you are not syncing the Compliance Platform users table
+    openai__using_cost:                  False   # Disable if you are not syncing the cost table
+    openai__using_completion:            False   # Disable if you are not syncing the completion table
+    openai__using_embedding:             False   # Disable if you are not syncing the embedding table
+    openai__using_audio_transcription:   False   # Disable if you are not syncing the audio_transcription table
+    openai__using_audio_speech:          False   # Disable if you are not syncing the audio_speech table
+    openai__using_image:                 False   # Disable if you are not syncing the image table
+    openai__using_moderation:            False   # Disable if you are not syncing the moderation table
+    openai__using_web_search_call:       False   # Disable if you are not syncing the web_search_call table
+    openai__using_file_search_call:      False   # Disable if you are not syncing the file_search_call table
+    openai__using_codex_usage:           False   # Disable if you are not syncing the codex_usage table
+    openai__using_codex_usage_model:     False   # Disable if you are not syncing the codex_usage_model table
+    openai__using_project:               False   # Disable if you are not syncing the project table
+    openai__using_project_api_key:       False   # Disable if you are not syncing the project_api_key table
+    openai__using_project_user:          False   # Disable if you are not syncing the project_user table
+    openai__using_project_user_role:     False   # Disable if you are not syncing the project_user_role table
+    openai__using_users_role:            False   # Disable if you are not syncing the users_role table
+    openai__using_invite:                False   # Disable if you are not syncing the invite table
+    openai__using_compliance_cost:       False   # Disable if you are not syncing Compliance Platform cost data
+    openai__using_compliance_users:      False   # Disable if you are not syncing the Compliance Platform users table
 ```
 
 ### (Optional) Additional configurations
@@ -137,8 +137,8 @@ vars:
 #### Partial cost and code reporting
 `openai__cost_usage_report` and `openai__code_report` are each built from two optional source-table pairs, and each model still produces useful (differently-shaped) output when only one side of its pair is enabled:
 
-- `openai__cost_usage_report` uses `cost` and `completion`. With only `openai_using_cost` enabled, the model falls back to cost by day, project, model, and `token_unit_type` (`token_quantity` and `num_model_requests` are null, since only `completion` reports token counts). With only `openai_using_completion` enabled, the cost, currency, and `cost_attribution_method` columns drop entirely and only usage remains.
-- `openai__code_report` uses `codex_usage` and `codex_usage_model`. `codex_usage` reports its own day-level credit/token totals, so those columns are present whenever either table is enabled — only `count_models_used` requires `openai_using_codex_usage_model` specifically. With `openai_using_codex_usage` disabled, `actor_email` and the productivity columns (lines of code, threads, turns) drop entirely, since only `codex_usage` resolves the email or reports that activity.
+- `openai__cost_usage_report` uses `cost` and `completion`. With only `openai__using_cost` enabled, the model falls back to cost by day, project, model, and `token_unit_type` (`token_quantity` and `num_model_requests` are null, since only `completion` reports token counts). With only `openai__using_completion` enabled, the cost, currency, and `cost_attribution_method` columns drop entirely and only usage remains.
+- `openai__code_report` uses `codex_usage` and `codex_usage_model`. `codex_usage` reports its own day-level credit/token totals, so those columns are present whenever either table is enabled — only `count_models_used` requires `openai__using_codex_usage_model` specifically. With `openai__using_codex_usage` disabled, `actor_email` and the productivity columns (lines of code, threads, turns) drop entirely, since only `codex_usage` resolves the email or reports that activity.
 
 Disabling one table in a pair doesn't disable the whole model — it just drops the columns that table alone can supply. See the column descriptions in [models/openai.yml](https://github.com/fivetran/dbt_openai/blob/main/models/openai.yml) for the full breakdown of which columns depend on which variable.
 

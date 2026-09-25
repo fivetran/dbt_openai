@@ -1,4 +1,4 @@
-{{ config(enabled=var('openai_using_codex_usage', True)) }}
+{{ config(enabled=var('openai__using_codex_usage', True)) }}
 
 with base as (
 

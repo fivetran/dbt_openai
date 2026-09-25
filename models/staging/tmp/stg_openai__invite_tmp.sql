@@ -1,6 +1,6 @@
---To disable this model, set the openai_using_invite variable within your dbt_project.yml file to False.
+--To disable this model, set the openai__using_invite variable within your dbt_project.yml file to False.
 
-{{ config(enabled=var('openai_using_invite', True)) }}
+{{ config(enabled=var('openai__using_invite', True)) }}
 
 {{
     fivetran_utils.union_connections(

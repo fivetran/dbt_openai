@@ -1,8 +1,8 @@
 -- One row per source relation/day/project/model/token_unit_type, plus an org-level 'other' row for unattributable cost.
 
-{% set cost_enabled = var('openai_using_cost', True) %}
-{% set completion_enabled = var('openai_using_completion', True) %}
-{% set project_enabled = var('openai_using_project', True) %}
+{% set cost_enabled = var('openai__using_cost', True) %}
+{% set completion_enabled = var('openai__using_completion', True) %}
+{% set project_enabled = var('openai__using_project', True) %}
 
 {{ config(enabled=cost_enabled or completion_enabled) }}
 

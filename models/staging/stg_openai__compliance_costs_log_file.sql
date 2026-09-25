@@ -1,6 +1,6 @@
 -- Catalog of Compliance cost log files. Purely infrastructure for openai__compliance_cost_report's restatement dedup — not intended to be queried on its own.
 
-{{ config(enabled=var('openai_using_compliance_cost', True)) }}
+{{ config(enabled=var('openai__using_compliance_cost', True)) }}
 
 with base as (
 

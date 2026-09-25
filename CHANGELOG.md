@@ -13,7 +13,7 @@ This is the initial release of this package.
   - [openai__user_summary](https://github.com/fivetran/dbt_openai/blob/main/models/openai__user_summary.sql): One row per user, with organization role, project membership, project-level custom roles, and all-time/month-to-date usage totals.
   - [openai__compliance_cost_report](https://github.com/fivetran/dbt_openai/blob/main/models/openai__compliance_cost_report.sql): Daily ChatGPT Enterprise (Compliance Platform) spend by user, product, surface, model, and SKU.
 - Supports unioning multiple OpenAI Platform/Enterprise connections into a single set of models.
-- Lets you disable any of the 19 optional source tables independently through `openai_using_<table>` variables, so the package still produces useful output from a partial sync.
+- Lets you disable any of the 19 optional source tables independently through `openai__using_<table>` variables, so the package still produces useful output from a partial sync.
 - Supports passthrough metrics for bringing in custom cost, completion, Codex usage, and Compliance Platform cost fields unique to your account.
 - Generates a comprehensive data dictionary of your source and modeled OpenAI data through the [dbt docs site](https://fivetran.github.io/dbt_openai/#!/overview).
 

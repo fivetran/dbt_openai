@@ -1,12 +1,12 @@
 -- One row per source relation and user. Optional column groups are entirely omitted (not
 -- nulled) when their source table is disabled — see each column's description.
 
-{% set project_user_enabled = var('openai_using_project_user', True) %}
-{% set project_enabled = var('openai_using_project', True) %}
-{% set project_user_role_enabled = var('openai_using_project_user_role', True) %}
-{% set users_role_enabled = var('openai_using_users_role', True) %}
-{% set project_api_key_enabled = var('openai_using_project_api_key', True) %}
-{% set invite_enabled = var('openai_using_invite', True) %}
+{% set project_user_enabled = var('openai__using_project_user', True) %}
+{% set project_enabled = var('openai__using_project', True) %}
+{% set project_user_role_enabled = var('openai__using_project_user_role', True) %}
+{% set users_role_enabled = var('openai__using_users_role', True) %}
+{% set project_api_key_enabled = var('openai__using_project_api_key', True) %}
+{% set invite_enabled = var('openai__using_invite', True) %}
 {% set usage_enabled = openai.openai_enabled_usage_products() | length > 0 %}
 
 {%- set month_start = 'cast(' ~ dbt.date_trunc('month', 'current_date') ~ ' as date)' -%}

@@ -1,8 +1,8 @@
 -- Daily ChatGPT Enterprise (Compliance Platform) spend by user, product, and SKU. Only its `codex` rows overlap openai__code_report, and from a cost angle, not productivity — summing both double-counts.
 
-{% set email_enabled = var('openai_using_compliance_users', True) %}
+{% set email_enabled = var('openai__using_compliance_users', True) %}
 
-{{ config(enabled=var('openai_using_compliance_cost', True)) }}
+{{ config(enabled=var('openai__using_compliance_cost', True)) }}
 
 with cost_events_raw as (
 

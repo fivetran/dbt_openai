@@ -1,4 +1,4 @@
-{{ config(enabled=var('openai_using_audio_transcription', True)) }}
+{{ config(enabled=var('openai__using_audio_transcription', True)) }}
 
 with base as (
 

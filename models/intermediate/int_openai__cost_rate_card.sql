@@ -1,4 +1,4 @@
-{{ config(enabled=var('openai_using_cost', True) and var('openai_using_completion', True)) }}
+{{ config(enabled=var('openai__using_cost', True) and var('openai__using_completion', True)) }}
 
 -- Only token cost not already attributed to a project needs a rate card; "other" (non-token) rows have no model/token_unit_type to key a rate on.
 with token_cost_by_model_day as (

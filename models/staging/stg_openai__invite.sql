@@ -1,4 +1,4 @@
-{{ config(enabled=var('openai_using_invite', True)) }}
+{{ config(enabled=var('openai__using_invite', True)) }}
 
 with base as (
 

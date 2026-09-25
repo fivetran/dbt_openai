@@ -1,4 +1,4 @@
-{{ config(enabled=var('openai_using_project_user_role', True)) }}
+{{ config(enabled=var('openai__using_project_user_role', True)) }}
 
 with base as (
 

@@ -1,4 +1,4 @@
-{{ config(enabled=var('openai_using_embedding', True)) }}
+{{ config(enabled=var('openai__using_embedding', True)) }}
 
 with base as (
 
