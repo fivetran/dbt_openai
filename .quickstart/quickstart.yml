@@ -89,8 +89,3 @@ supported_vars:
     type: dictionary
     description: "Additional numeric `COSTS_ORGANIZATION_LOG_BILLING` columns to sum into `openai__compliance_cost_report`"
     display_name: "Additional Compliance Cost Billing Metrics"
-
-  openai_model_family_overrides:
-    type: list
-    description: "Exact model name to model_family overrides for `model_family`/`model_variant` parsing"
-    display_name: "Model Family Overrides"
