@@ -143,11 +143,11 @@ vars:
 Disabling one table in a pair doesn't disable the whole model — it just drops the columns that table alone can supply. See the column descriptions in [models/openai.yml](https://github.com/fivetran/dbt_openai/blob/main/models/openai.yml) for the full breakdown of which columns depend on which variable.
 
 #### Estimated Codex cost
-`openai__code_report` reports Codex credits, but the source data has no universal credits-to-USD conversion rate. If you know your organization's rate, set it to get an estimated `estimated_cost_usd_amount` column:
+`openai__code_report` reports Codex credits, but the source data has no universal credits-to-currency conversion rate. If you know your organization's rate, set it to get an estimated `estimated_cost_amount` column, in whatever currency your rate is denominated in:
 
 ```yml
 vars:
-    openai_code_report_credit_rate: 0.01   # USD per credit
+    openai__code_report_credit_rate: 0.01   # currency amount per credit
 ```
 
 This column is omitted entirely (not nulled) when the variable isn't set.

@@ -121,8 +121,8 @@ models:
         description: "{{ doc('cache_read_tokens') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`."
       - name: output_tokens
         description: "{{ doc('output_tokens') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`."
-      - name: estimated_cost_usd_amount
-        description: "`credits` converted to USD using the `openai_code_report_credit_rate` variable. Only present when that variable is set — there's no universal credits-to-USD rate in the source data itself."
+      - name: estimated_cost_amount
+        description: "`credits` converted to a monetary amount using the `openai__code_report_credit_rate` variable, in whatever currency that rate is denominated in. Only present when that variable is set — there's no universal credits-to-currency rate in the source data itself."
 
   - name: openai__user_summary
     description: >
