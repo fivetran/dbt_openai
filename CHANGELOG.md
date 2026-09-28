@@ -4,7 +4,7 @@
 
 This is the initial release of this package.
 
-# 📣 What does this dbt package do?
+# What does this dbt package do?
 - Transforms data from Fivetran's [OpenAI Platform/Enterprise connector](https://fivetran.com/docs/connectors/applications/openai) into analytics-ready tables covering spend, usage, and Codex Enterprise productivity across your organization.
 - Materializes five end models:
   - [openai__cost_usage_report](https://github.com/fivetran/dbt_openai/blob/main/models/openai__cost_usage_report.sql): Daily OpenAI Platform spend and token usage by project and model. Cost is inferred via an implied per-token rate card whenever the Costs API doesn't already report a project directly.
