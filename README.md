@@ -216,7 +216,18 @@ vars:
     openai__compliance_cost_billing_passthrough_metrics: []
 ```
 
-These variables allow you to bring in additional columns from the `cost`, `completion`, `codex_usage`, `codex_usage_model`, `compliance_costs_organization_log`, and `compliance_costs_organization_log_billing` source tables, respectively. Each field is summed at every point between its source table and the report(s) it feeds (a no-op when the field already reaches its report at the source table's own grain, with nothing aggregating it further). They all accept the same format, supporting datatype casting, aliasing, and custom transformations:
+Each variable brings in columns from one source table and feeds them into a specific end model, aggregated as needed to reach that model's grain:
+
+| Variable | Source table | End model | Aggregation |
+| --- | --- | --- | --- |
+| `openai__cost_passthrough_metrics` | `cost` | `openai__cost_usage_report` | Summed |
+| `openai__completion_passthrough_metrics` | `completion` | `openai__cost_usage_report` | Summed |
+| `openai__codex_usage_passthrough_metrics` | `codex_usage` | `openai__code_report` | None (already at report grain) |
+| `openai__codex_usage_model_passthrough_metrics` | `codex_usage_model` | `openai__code_report` | Summed |
+| `openai__compliance_cost_passthrough_metrics` | `compliance_costs_organization_log` | `openai__compliance_cost_report` | None (constant per event; read with `max`) |
+| `openai__compliance_cost_billing_passthrough_metrics` | `compliance_costs_organization_log_billing` | `openai__compliance_cost_report` | Summed |
+
+They all accept the same format, supporting datatype casting, aliasing, and custom transformations:
 
 ```yml
 vars:
@@ -271,11 +282,7 @@ A small team of analytics engineers at Fivetran develops these dbt packages. How
 We highly encourage and welcome contributions to this package. Learn how to contribute to a package in dbt's [Contributing to an external dbt package article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657).
 
 ### Opinionated Modelling Decisions
-This dbt package takes an opinionated stance on a few points worth knowing before you build on top of it:
-
-- `openai_cost` in `openai__cost_usage_report` is used directly from the Costs API when it already reports a project, and inferred via an implied per-token rate card otherwise — see [Inferred cost attribution](#inferred-cost-attribution) above for the mechanism.
-- This package is designed to eventually roll up alongside a Claude/Anthropic usage package into a shared multi-vendor AI reporting package. Column names such as `source_relation`, `date_day`, `actor_user_id`, `actor_email`, `openai_cost`, `currency`, and `cost_type` were deliberately aligned with the equivalent columns in Fivetran's Claude/Anthropic dbt package where the underlying concepts match.
-- `openai__compliance_cost_report` and `openai__code_report` both cover Codex activity, from different angles — the former reports Codex spend (`credits`, `product = 'codex'` rows), the latter reports Codex productivity (lines of code, threads, turns) alongside its own credit/token totals. Querying both and summing spend/credits across them double-counts Codex.
+This dbt package takes an opinionated stance on a few points worth knowing before you build on top of it — most notably, `openai__compliance_cost_report` and `openai__code_report` both cover Codex activity from different angles (spend versus productivity), and summing spend/credits across the two double-counts Codex. See the [DECISIONLOG](https://github.com/fivetran/dbt_openai/blob/main/DECISIONLOG.md) for this and the rest of our opinionated modeling choices, along with the reasoning behind them.
 
 <!--section-end-->
 

@@ -34,3 +34,29 @@ test_scenarios:
       openai__using_project_api_key: false
       openai__using_invite: false
     include_incremental: false
+
+  - name: "Passthrough"
+    vars:
+      openai__cost_passthrough_metrics:
+        - name: "start_time"
+          alias: "start_time_passthrough_test"
+          datatype: "numeric"
+      openai__completion_passthrough_metrics:
+        - name: "input_token"
+          alias: "input_token_passthrough_test"
+          datatype: "numeric"
+      openai__codex_usage_passthrough_metrics:
+        - name: "total_credit"
+          alias: "total_credit_passthrough_test"
+      openai__codex_usage_model_passthrough_metrics:
+        - name: "credit"
+          alias: "credit_passthrough_test"
+          datatype: "numeric"
+      openai__compliance_cost_passthrough_metrics:
+        - name: "identity_agent_name"
+          alias: "agent_name_passthrough_test"
+      openai__compliance_cost_billing_passthrough_metrics:
+        - name: "quantity_value"
+          alias: "quantity_value_passthrough_test"
+          datatype: "numeric"
+    include_incremental: false
