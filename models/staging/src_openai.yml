@@ -520,7 +520,7 @@ sources:
 
 
       - name: compliance_costs_organization_log
-        identifier: "{{ var('openai_compliance_costs_organization_log_identifier', 'costs_organization_log') }}"
+        identifier: "{{ var('openai_compliance_costs_organization_log_identifier', 'compliance_costs_organization_log') }}"
         description: Org-level cost events at (event, organization) from the ChatGPT Enterprise Compliance Platform, synced alongside the rest of this connector. Only cost data from Compliance Platform is modeled — conversation, audit, and auth log data are out of scope for this package. OpenAI re-emits each event in every log file covering its still-open hour, with a cumulative token count each time, so this table can carry more than one row per (event_id, organization_id) — see `costs_log_id` and `openai__compliance_cost_report` for how the correct (newest) snapshot is picked.
         config:
           enabled: "{{ var('openai__using_compliance_cost', True) and var('openai_sources', []) == [] }}"
@@ -575,13 +575,13 @@ sources:
             description: "{{ doc('fivetran_synced') }}"
 
       - name: compliance_costs_organization_log_billing
-        identifier: "{{ var('openai_compliance_costs_organization_log_billing_identifier', 'costs_organization_log_billing') }}"
+        identifier: "{{ var('openai_compliance_costs_organization_log_billing_identifier', 'compliance_costs_organization_log_billing') }}"
         description: Repeated SKU line items per cost event from the ChatGPT Enterprise Compliance Platform, carrying cost in credits (never USD) plus a connector-estimated USD equivalent. Keyed on (event_id, organization_id, sku) — like its parent, restated per log file, so also carries `costs_log_id`.
         config:
           enabled: "{{ var('openai__using_compliance_cost', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: event_id
-            description: Identifier for the parent cost event. Joins to costs_organization_log.
+            description: Identifier for the parent cost event. Joins to compliance_costs_organization_log.
           - name: organization_id
             description: ChatGPT Enterprise organization identifier.
           - name: costs_log_id

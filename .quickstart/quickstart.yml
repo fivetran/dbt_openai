@@ -39,8 +39,8 @@ table_variables:
   openai__using_invite:
     - invite
   openai__using_compliance_cost:
-    - costs_organization_log
-    - costs_organization_log_billing
+    - compliance_costs_organization_log
+    - compliance_costs_organization_log_billing
     - compliance_costs_log_file
   openai__using_compliance_users:
     - users
@@ -82,7 +82,7 @@ supported_vars:
 
   openai__compliance_cost_passthrough_metrics:
     type: dictionary
-    description: "Additional `COSTS_ORGANIZATION_LOG` columns to include in `stg_openai__compliance_cost`"
+    description: "Additional `COMPLIANCE_COSTS_ORGANIZATION_LOG` columns to include in `openai__compliance_cost_report`"
     display_name: "Additional Compliance Cost Columns"
 
   openai__compliance_cost_billing_passthrough_metrics:

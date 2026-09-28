@@ -98,7 +98,8 @@ final as (
         sum(billing.estimated_cost_usd_amount) as estimated_cost_usd_amount,
         max(billing.estimated_cost_usd_currency) as estimated_cost_usd_currency
         {{ fivetran_utils.persist_pass_through_columns('openai__compliance_cost_billing_passthrough_metrics', identifier='billing', transform='sum') }}
-        -- compliance_cost_passthrough_metrics (event-level) isn't wired in: the billing join fans it out per SKU, so summing here would multiply the value.
+        -- max, not sum: an event-level field is constant across its SKU lines, so max reads it once instead of multiplying it per SKU like sum would.
+        {{ fivetran_utils.persist_pass_through_columns('openai__compliance_cost_passthrough_metrics', identifier='cost_events', transform='max') }}
     from cost_events
     inner join billing
         on billing.event_id = cost_events.event_id

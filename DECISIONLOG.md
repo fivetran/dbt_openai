@@ -43,3 +43,6 @@ Reports keep the original `model` and add structural `model_family` and `model_v
 
 ## Usage Totals Preserve Known Components
 Completion input tokens include cached input, so total tokens are input plus output without adding cache-read tokens again. If only one component is populated, the report retains that known quantity; if both are missing, the total remains null. Web and file search use tool-call counts in the shared request-count column. Products metered in other units retain null token quantities.
+
+## Codex Credit Cost Is Estimated From a Customer-Set Rate, Not Derived
+`openai__code_report`'s `estimated_cost_usd_amount` multiplies `credits` by `openai_code_report_credit_rate`, a variable the customer sets themselves — the source data has no universal credits-to-USD rate to read directly. An implied rate could instead be derived from `openai__compliance_cost_report`, which has both `credits` and `estimated_cost_usd_amount` on its `codex`-product rows, but that assumes the rate is uniform across SKUs/service tiers and requires Compliance Platform data to be enabled just to price Codex Enterprise usage — an assumption this package isn't in a position to confirm. The column is omitted (not nulled) when the rate variable isn't set.

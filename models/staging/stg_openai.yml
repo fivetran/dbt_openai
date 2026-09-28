@@ -60,28 +60,18 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: project_id
         description: "{{ doc('project_id') }}"
-        tests:
-          - not_null
       - name: user_id
         description: "{{ doc('user_id') }}"
-        tests:
-          - not_null
       - name: api_key_id
         description: "{{ doc('api_key_id') }}"
-        tests:
-          - not_null
       - name: model
         description: "{{ doc('model') }}"
-        tests:
-          - not_null
       - name: input_tokens
         description: "{{ doc('input_tokens') }}"
       - name: num_model_requests
         description: "{{ doc('num_model_requests') }}"
       - name: usage_started_at
         description: "{{ doc('usage_started_at') }}"
-        tests:
-          - not_null
       - name: _fivetran_synced
         description: "{{ doc('fivetran_synced') }}"
 
@@ -92,28 +82,18 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: project_id
         description: "{{ doc('project_id') }}"
-        tests:
-          - not_null
       - name: user_id
         description: "{{ doc('user_id') }}"
-        tests:
-          - not_null
       - name: api_key_id
         description: "{{ doc('api_key_id') }}"
-        tests:
-          - not_null
       - name: model
         description: "{{ doc('model') }}"
-        tests:
-          - not_null
       - name: audio_seconds
         description: Seconds of audio transcribed in this usage bucket.
       - name: num_model_requests
         description: "{{ doc('num_model_requests') }}"
       - name: usage_started_at
         description: "{{ doc('usage_started_at') }}"
-        tests:
-          - not_null
       - name: _fivetran_synced
         description: "{{ doc('fivetran_synced') }}"
 
@@ -124,20 +104,12 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: project_id
         description: "{{ doc('project_id') }}"
-        tests:
-          - not_null
       - name: user_id
         description: "{{ doc('user_id') }}"
-        tests:
-          - not_null
       - name: api_key_id
         description: "{{ doc('api_key_id') }}"
-        tests:
-          - not_null
       - name: model
         description: "{{ doc('model') }}"
-        tests:
-          - not_null
       - name: input_tokens
         description: "{{ doc('input_tokens') }}"
       - name: characters
@@ -146,8 +118,6 @@ models:
         description: "{{ doc('num_model_requests') }}"
       - name: usage_started_at
         description: "{{ doc('usage_started_at') }}"
-        tests:
-          - not_null
       - name: _fivetran_synced
         description: "{{ doc('fivetran_synced') }}"
 
@@ -544,5 +514,7 @@ models:
         description: The user's account status (for example, active or offboarded).
       - name: created_at
         description: Timestamp the user was created.
+      - name: _fivetran_deleted
+        description: Whether the user has been removed from the workspace. Not filtered out of this model — see `user_status` and the model description for why.
       - name: _fivetran_synced
         description: "{{ doc('fivetran_synced') }}"

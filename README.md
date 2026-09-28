@@ -104,7 +104,7 @@ If you use [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/
 
 > _This step is optional if you are unioning multiple connections together in the previous step. The `union_connections` macro will create empty staging models for sources that are not found in any of your OpenAI schemas/databases. However, you can still leverage the below variables if you would like to avoid this behavior._
 
-This package takes into consideration that not every OpenAI Platform/Enterprise account syncs every source table, and allows you to disable the corresponding functionality for all tables except `users`: `cost`, `completion`, `embedding`, `audio_transcription`, `audio_speech`, `image`, `moderation`, `web_search_call`, `file_search_call`, `codex_usage`, `codex_usage_model`, `project`, `project_api_key`, `project_user`, `project_user_role`, `users_role`, `invite`, `compliance_cost` (which covers the `costs_organization_log`, `costs_organization_log_billing`, and `compliance_costs_log_file` tables together), and `compliance_users`. `users` is the spine of `openai__user_summary` with no partial-value alternative, so `stg_openai__users` and `openai__user_summary` always build.
+This package takes into consideration that not every OpenAI Platform/Enterprise account syncs every source table, and allows you to disable the corresponding functionality for all tables except `users`: `cost`, `completion`, `embedding`, `audio_transcription`, `audio_speech`, `image`, `moderation`, `web_search_call`, `file_search_call`, `codex_usage`, `codex_usage_model`, `project`, `project_api_key`, `project_user`, `project_user_role`, `users_role`, `invite`, `compliance_cost` (which covers the `compliance_costs_organization_log`, `compliance_costs_organization_log_billing`, and `compliance_costs_log_file` tables together), and `compliance_users`. `users` is the spine of `openai__user_summary` with no partial-value alternative, so `stg_openai__users` and `openai__user_summary` always build.
 
 By default, all of these variables are assumed to be `true`. Add variables for only the tables you want to disable:
 
@@ -141,6 +141,16 @@ vars:
 - `openai__code_report` uses `codex_usage` and `codex_usage_model`. `codex_usage` reports its own day-level credit/token totals, so those columns are present whenever either table is enabled — only `count_models_used` requires `openai__using_codex_usage_model` specifically. With `openai__using_codex_usage` disabled, `actor_email` and the productivity columns (lines of code, threads, turns) drop entirely, since only `codex_usage` resolves the email or reports that activity.
 
 Disabling one table in a pair doesn't disable the whole model — it just drops the columns that table alone can supply. See the column descriptions in [models/openai.yml](https://github.com/fivetran/dbt_openai/blob/main/models/openai.yml) for the full breakdown of which columns depend on which variable.
+
+#### Estimated Codex cost
+`openai__code_report` reports Codex credits, but the source data has no universal credits-to-USD conversion rate. If you know your organization's rate, set it to get an estimated `estimated_cost_usd_amount` column:
+
+```yml
+vars:
+    openai_code_report_credit_rate: 0.01   # USD per credit
+```
+
+This column is omitted entirely (not nulled) when the variable isn't set.
 
 #### Inferred cost attribution
 The OpenAI Costs API doesn't report a project-level cost breakdown. To still provide per-project spend, `openai_cost` in `openai__cost_usage_report` is inferred: this package derives an implied per-token rate from the Costs endpoint's daily spend per model and unit type, then applies that rate to each project's share of that day's token volume (from `completion`). Cost that can't be tied back to a matching model/day of completion volume — or that isn't token-based to begin with (e.g. aggregate feature charges like "Assistants API") — lands in a `cost_type = 'other'` row so that `sum(openai_cost)` still ties out to the total in the source `cost` table.

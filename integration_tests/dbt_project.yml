@@ -24,9 +24,9 @@ vars:
     openai_project_user_role_identifier: "project_user_role"
     openai_users_role_identifier: "users_role"
     openai_invite_identifier: "invite"
-    openai_compliance_costs_organization_log_identifier: "costs_organization_log"
+    openai_compliance_costs_organization_log_identifier: "compliance_costs_organization_log"
     openai_compliance_costs_log_file_identifier: "compliance_costs_log_file"
-    openai_compliance_costs_organization_log_billing_identifier: "costs_organization_log_billing"
+    openai_compliance_costs_organization_log_billing_identifier: "compliance_costs_organization_log_billing"
     openai_compliance_users_identifier: "compliance_users"
 
 models:
@@ -98,7 +98,7 @@ seeds:
         uncached_text_input_token: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         cached_text_input_token: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         text_output_token: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
-    costs_organization_log:
+    compliance_costs_organization_log:
       +column_types:
         day: timestamp
         hour: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
@@ -110,7 +110,7 @@ seeds:
       +column_types:
         end_time: timestamp
         file_size: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
-    costs_organization_log_billing:
+    compliance_costs_organization_log_billing:
       +column_types:
         quantity_value: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
         cost_value: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"

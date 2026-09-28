@@ -34,6 +34,7 @@ final as (
         role as user_role,
         status as user_status,
         created_at,
+        _fivetran_deleted,
         _fivetran_synced
     from fields
 

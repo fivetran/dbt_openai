@@ -3,6 +3,14 @@
 
 {% set codex_usage_enabled = var('openai__using_codex_usage', True) %}
 {% set codex_usage_model_enabled = var('openai__using_codex_usage_model', True) %}
+-- No universal credits-to-USD rate is available from the source data itself, so estimated cost
+-- only appears when a customer sets their own known rate.
+{% set credit_rate = var('openai_code_report_credit_rate', none) %}
+{% if codex_usage_enabled %}
+    {% set credits_expr = 'codex_usage.credits' %}
+{% elif codex_usage_model_enabled %}
+    {% set credits_expr = 'model_rollup.credits' %}
+{% endif %}
 
 {{ config(enabled=codex_usage_enabled or codex_usage_model_enabled) }}
 
@@ -111,6 +119,9 @@ final as (
         , coalesce(model_rollup.input_tokens, 0) as input_tokens
         , coalesce(model_rollup.cache_read_tokens, 0) as cache_read_tokens
         , coalesce(model_rollup.output_tokens, 0) as output_tokens
+        {% endif %}
+        {% if credit_rate is not none %}
+        , coalesce({{ credits_expr }}, 0) * {{ credit_rate }} as estimated_cost_usd_amount
         {% endif %}
     from spine
     {% if codex_usage_enabled %}
