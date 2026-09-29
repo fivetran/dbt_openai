@@ -35,6 +35,11 @@ test_scenarios:
       openai__using_invite: false
     include_incremental: false
 
+  - name: "Completion Only"
+    vars:
+      openai__using_cost: false
+    include_incremental: false
+
   - name: "Passthrough"
     vars:
       openai__cost_passthrough_metrics:

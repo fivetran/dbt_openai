@@ -99,11 +99,19 @@ unmatched_rate_card_cost as (
 attributed as (
 
     select
+        {% if cost_enabled %}
         coalesce(completion_unpivoted.source_relation, directly_attributed_cost.source_relation) as source_relation,
         coalesce(completion_unpivoted.date_day, directly_attributed_cost.date_day) as date_day,
         coalesce(completion_unpivoted.project_id, directly_attributed_cost.project_id) as project_id,
         coalesce(completion_unpivoted.model, directly_attributed_cost.model) as model,
         coalesce(completion_unpivoted.token_unit_type, directly_attributed_cost.token_unit_type) as token_unit_type,
+        {% else %}
+        completion_unpivoted.source_relation,
+        completion_unpivoted.date_day,
+        completion_unpivoted.project_id,
+        completion_unpivoted.model,
+        completion_unpivoted.token_unit_type,
+        {% endif %}
         completion_unpivoted.token_quantity,
         completion_unpivoted.num_model_requests
         {{ fivetran_utils.persist_pass_through_columns('openai__completion_passthrough_metrics', identifier='completion_unpivoted') }}
