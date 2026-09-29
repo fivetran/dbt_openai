@@ -65,3 +65,9 @@ test_scenarios:
           alias: "quantity_value_passthrough_test"
           datatype: "numeric"
     include_incremental: false
+
+  - name: "MDLS"
+    vars:
+      fivetran_using_source_casing: true
+    include_incremental: false
+    include_dbt_seed: true
