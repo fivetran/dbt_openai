@@ -48,7 +48,7 @@ By default, this package materializes the following final tables:
 To use this dbt package, you must have the following:
 
 - At least one Fivetran OpenAI Platform/Enterprise connection syncing data into your destination.
-- A **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, or **PostgreSQL** destination.
+- A **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, **PostgreSQL**, or **DuckDB** destination.
 
 ## How do I use the dbt package?
 You can either add this dbt package in the Fivetran dashboard or import it into your dbt project:
@@ -97,10 +97,10 @@ vars:
         name: connection_2_source_name
 ```
 
-#### Recommended: Incorporate unioned sources into DAG
+#### Optional: Incorporate unioned sources into DAG
 If you use [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore) and are unioning multiple OpenAI connections, you can define your sources in a property `.yml` file, [using this as a template](https://github.com/fivetran/dbt_openai/blob/main/models/staging/src_openai.yml). Set the variable `has_defined_sources: true` under the OpenAI namespace in your `dbt_project.yml`. Otherwise, your OpenAI connections won't appear in your DAG. See the `union_connections` macro [documentation](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#optional-union-connections-defined-sources-configuration) for full configuration details.
 
-### Enable/Disable models
+### Disable models for non-existent sources
 
 > _This step is optional if you are unioning multiple connections together in the previous step. The `union_connections` macro will create empty staging models for sources that are not found in any of your OpenAI schemas/databases. However, you can still leverage the below variables if you would like to avoid this behavior._
 
@@ -239,6 +239,8 @@ vars:
 ```
 
 `name` is required and is the column name as it appears in the raw source table. `alias` and `transform_sql` are optional — `alias` renames the output column, and `transform_sql` provides a custom SQL expression instead of a plain passthrough. If both `alias` and `transform_sql` are set, `transform_sql` should reference the `alias`, not the raw `name` — the column has already been renamed to its alias by the time `transform_sql` runs.
+
+> Please create an [issue](https://github.com/fivetran/dbt_openai/issues) if you'd like to see passthrough column support for other tables in the OpenAI schema.
 
 #### Source casing for case-sensitive destinations
 By default, the package applies case-insensitive comparisons when resolving `source_relation` values. If your destination is case-sensitive and you want downstream transformations to respect the exact casing of your source database and schema names, set the following variable:
