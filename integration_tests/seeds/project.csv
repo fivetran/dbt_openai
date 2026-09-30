@@ -1,0 +1,5 @@
+id,name,_fivetran_deleted,_fivetran_synced
+proj-patientportal01,Patient Portal,false,2025-12-31 08:00:00
+proj-brightbyfdc02,Bright by FDC Launch,false,2025-12-31 08:00:00
+proj-riverside03,Riverside Location Tech Setup,false,2025-12-31 08:00:00
+proj-internaltools04,Internal Tools,false,2025-12-31 08:00:00

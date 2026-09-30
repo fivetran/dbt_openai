@@ -1,0 +1,8 @@
+id,project_id,user_id,owner_type,name,_fivetran_deleted,_fivetran_synced
+key-portalchatbot01,proj-patientportal01,user-kylepla0001,user,patient-portal-chatbot,false,2025-12-31 08:00:00
+key-portalsearch02,proj-patientportal01,user-kylepla0001,user,patient-portal-kb-search,false,2025-12-31 08:00:00
+key-brightcopy03,proj-brightbyfdc02,user-tamarabi0004,user,bright-marketing-copy,false,2025-12-31 08:00:00
+key-brightimages04,proj-brightbyfdc02,user-brendanw0006,user,bright-product-images,false,2025-12-31 08:00:00
+key-riversidevoice05,proj-riverside03,user-sandygum0003,user,riverside-call-transcripts,false,2025-12-31 08:00:00
+key-riversidesearch06,proj-riverside03,,service_account,riverside-competitive-research,false,2025-12-31 08:00:00
+key-internaltools07,proj-internaltools04,user-priyaroo0005,user,internal-tools-misc,false,2025-12-31 08:00:00

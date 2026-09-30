@@ -1,0 +1,7 @@
+id,users_id,name,_fivetran_deleted,_fivetran_synced
+urole-kyle01,user-kylepla0001,api.organization.owner,false,2025-12-31 08:00:00
+urole-patty02,user-pattyflo0002,api.organization.owner,false,2025-12-31 08:00:00
+urole-sandy03,user-sandygum0003,api.organization.reader,false,2025-12-31 08:00:00
+urole-tamara04,user-tamarabi0004,api.organization.reader,false,2025-12-31 08:00:00
+urole-priya05,user-priyaroo0005,api.organization.reader,false,2025-12-31 08:00:00
+urole-brendan06,user-brendanw0006,api.organization.reader,false,2025-12-31 08:00:00

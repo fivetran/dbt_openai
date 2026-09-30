@@ -1,0 +1,17 @@
+_fivetran_id,project_id,user_id,api_key_id,num_request,start_time,_fivetran_deleted,_fivetran_synced
+fvfs000093,proj-patientportal01,user-kylepla0001,key-portalsearch02,2,1741737600,false,2025-12-31 08:00:00
+fvfs000094,proj-patientportal01,user-kylepla0001,key-portalsearch02,3,1742947200,false,2025-12-31 08:00:00
+fvfs000095,proj-patientportal01,user-kylepla0001,key-portalsearch02,2,1743724800,false,2025-12-31 08:00:00
+fvfs000096,proj-patientportal01,user-kylepla0001,key-portalsearch02,2,1744761600,false,2025-12-31 08:00:00
+fvfs000097,proj-patientportal01,user-kylepla0001,key-portalsearch02,3,1746403200,false,2025-12-31 08:00:00
+fvfs000098,proj-patientportal01,user-kylepla0001,key-portalsearch02,2,1747180800,false,2025-12-31 08:00:00
+fvfs000099,proj-patientportal01,user-kylepla0001,key-portalsearch02,1,1747353600,false,2025-12-31 08:00:00
+fvfs000100,proj-patientportal01,user-kylepla0001,key-portalsearch02,4,1747958400,false,2025-12-31 08:00:00
+fvfs000101,proj-patientportal01,user-kylepla0001,key-portalsearch02,1,1749427200,false,2025-12-31 08:00:00
+fvfs000102,proj-patientportal01,user-kylepla0001,key-portalsearch02,4,1751414400,false,2025-12-31 08:00:00
+fvfs000103,proj-patientportal01,user-kylepla0001,key-portalsearch02,1,1754611200,false,2025-12-31 08:00:00
+fvfs000104,proj-patientportal01,user-kylepla0001,key-portalsearch02,1,1756080000,false,2025-12-31 08:00:00
+fvfs000105,proj-patientportal01,user-kylepla0001,key-portalsearch02,1,1757548800,false,2025-12-31 08:00:00
+fvfs000106,proj-patientportal01,user-kylepla0001,key-portalsearch02,3,1759795200,false,2025-12-31 08:00:00
+fvfs000107,proj-patientportal01,user-kylepla0001,key-portalsearch02,3,1759968000,false,2025-12-31 08:00:00
+fvfs000108,proj-patientportal01,user-kylepla0001,key-portalsearch02,4,1764201600,false,2025-12-31 08:00:00

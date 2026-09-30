@@ -1,0 +1,7 @@
+id,workspace_id,email,name,role,status,created_at,_fivetran_deleted,_fivetran_synced
+cxu-kyleplaque01,ws-fictionaldental01,kyle.plaque@fictionaldental.invalid,Kyle Plaque,owner,active,2024-01-15 09:00:00,false,2025-12-31 08:00:00
+cxu-pattyfloss01,ws-fictionaldental01,patty.floss@fictionaldental.invalid,Patty Floss,owner,active,2024-01-15 09:00:00,false,2025-12-31 08:00:00
+cxu-sandygumsworth01,ws-fictionaldental01,sandy.gumsworth@fictionaldental.invalid,Sandy Gumsworth,member,active,2024-02-01 09:00:00,false,2025-12-31 08:00:00
+cxu-tamarabicuspid01,ws-fictionaldental01,tamara.bicuspid@fictionaldental.invalid,Tamara Bicuspid,member,active,2024-03-10 09:00:00,false,2025-12-31 08:00:00
+cxu-priyarootcanal01,ws-fictionaldental01,priya.rootcanal@fictionaldental.invalid,Priya Rootcanal,member,active,2025-05-01 09:00:00,false,2025-12-31 08:00:00
+cxu-brendanwhitening01,ws-fictionaldental01,brendan.whitening@fictionaldental.invalid,Brendan Whitening,member,deprovisioned,2024-06-01 09:00:00,false,2025-12-31 08:00:00
