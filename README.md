@@ -5,7 +5,7 @@ This dbt package transforms data from Fivetran's OpenAI Platform/Enterprise conn
 
 ## Resources
 
-- Number of materialized models¹: 53
+- Number of materialized models¹: 49
 - Connector documentation
   - [OpenAI connector documentation](https://fivetran.com/docs/connectors/applications/openai)
 - dbt package documentation
@@ -40,7 +40,7 @@ By default, this package materializes the following final tables:
 | [openai__user_summary](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__user_summary) | One row per source relation and user, with organization role, project membership, project-level custom roles, API key ownership, invite status, and all-time/month-to-date usage totals. <br><br>**Example Analytics Questions:**<br><ul><li>Which users belong to the most projects or hold the most custom roles?</li><li>Who has been most active this month versus all time?</li><li>Which users haven't been active recently?</li><li>Which users own the most API keys, or haven't accepted their invite yet?</li></ul> |
 | [openai__compliance_cost_report](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__compliance_cost_report) | Daily ChatGPT Enterprise (Compliance Platform) spend by user, product, surface, model, and SKU. Only its `codex`-product rows cover the same activity as `openai__code_report`, and from a cost angle rather than that report's productivity angle — see [Opinionated Modelling Decisions](https://github.com/fivetran/dbt_openai/blob/main/README.md#opinionated-modelling-decisions) for the double-counting caution if you query both. <br><br>**Example Analytics Questions:**<br><ul><li>Which users or products are driving the most ChatGPT Enterprise spend?</li><li>How does spend break down by surface (web, desktop, API) or client?</li><li>Which SKUs or service tiers make up the bulk of Compliance Platform cost?</li></ul> |
 
-¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `ephemeral`.
+¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 
 ---
 
