@@ -19,7 +19,7 @@ This dbt package transforms data from Fivetran's OpenAI Platform/Enterprise conn
 ## What does this dbt package do?
 This package enables you to analyze OpenAI Platform spend, usage, and Codex Enterprise productivity across your organization. It creates enriched models with metrics focused on daily cost by project and model, per-user activity across every OpenAI product, Codex Enterprise coding productivity, and per-user usage summaries.
 
-This package is also designed to roll up alongside Fivetran's `dbt_claude` package into [`dbt_ai_reporting`](https://github.com/fivetran/dbt_ai_reporting), a shared multi-vendor AI reporting package — see [Column Naming Aligned With Fivetran's Claude/Anthropic Package](https://github.com/fivetran/dbt_openai/blob/main/DECISIONLOG.md) in the DECISIONLOG for the column-alignment work that supports this.
+This package is also designed to roll up alongside Fivetran's [Claude](https://github.com/fivetran/dbt_claude) dbt package into the [AI Reporting](https://github.com/fivetran/dbt_ai_reporting) package, which combines Claude and OpenAI data into unified, cross-vendor AI usage and cost reporting models.
 
 > Note: Different customers configure their OpenAI connector with different combinations of Admin, Project, Codex Enterprise, and Compliance Platform API keys, and each key type only unlocks a subset of the connector's tables. Because of this, most of the 21 source tables this package can use besides `users` are gated behind an `openai__using_<table>` variable, and a few share one variable between multiple related tables (see [Enable/Disable models](#enabledisable-models) below) — this package guards far more tables than most Fivetran dbt packages do, and that's intentional rather than a placeholder.
 
@@ -60,8 +60,8 @@ You can either add this dbt package in the Fivetran dashboard or import it into 
 
 <!--section-end-->
 
-### Install the package
-Include the following openai package version in your `packages.yml` file:
+### Install the package (skip if also using the ai_reporting combo package)
+Include the following openai package version in your `packages.yml` file if you are not also using the upstream [AI Reporting](https://github.com/fivetran/dbt_ai_reporting) combination package:
 > TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
 ```yml
 packages:
