@@ -4,7 +4,7 @@
 
 This is the initial release of this package.
 
-# 📣 What does this dbt package do?
+# What does this dbt package do?
 - Transforms data from Fivetran's [OpenAI Platform/Enterprise connector](https://fivetran.com/docs/connectors/applications/openai) into analytics-ready tables covering spend, usage, and Codex Enterprise productivity across your organization.
 - Materializes five end models:
 
