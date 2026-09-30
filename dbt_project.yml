@@ -20,8 +20,6 @@ models:
       +schema: openai_staging
       +materialized: view
       tmp:
-        +schema: openai_staging
         +materialized: view
     intermediate:
-      +schema: openai_staging
       +materialized: ephemeral

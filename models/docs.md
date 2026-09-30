@@ -67,7 +67,9 @@ per-token rate card. See `cost_attribution_method`.
 {% docs fivetran_synced %}
 Timestamp of the most recent Fivetran sync for this record.
 {% enddocs %}
-
+{% docs fivetran_deleted %}
+Boolean indicating whether the record was soft-deleted by Fivetran.
+{% enddocs %}
 {% docs date_day %}
 Day the cost and usage apply to.
 {% enddocs %}
