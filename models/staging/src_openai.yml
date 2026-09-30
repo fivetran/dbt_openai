@@ -35,6 +35,8 @@ sources:
             description: ISO currency code for `amount_value`. Always `usd` in practice.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: completion
@@ -77,6 +79,8 @@ sources:
             description: "{{ doc('num_model_requests') }}"
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: embedding
@@ -105,6 +109,8 @@ sources:
             description: "{{ doc('num_model_requests') }}"
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: audio_transcription
@@ -133,6 +139,8 @@ sources:
             description: "{{ doc('num_model_requests') }}"
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: audio_speech
@@ -163,6 +171,8 @@ sources:
             description: "{{ doc('num_model_requests') }}"
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: image
@@ -195,6 +205,8 @@ sources:
             description: "{{ doc('num_model_requests') }}"
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: moderation
@@ -223,6 +235,8 @@ sources:
             description: "{{ doc('num_model_requests') }}"
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: web_search_call
@@ -253,6 +267,8 @@ sources:
             description: "{{ doc('num_model_requests') }}"
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: file_search_call
@@ -279,6 +295,8 @@ sources:
             description: "{{ doc('num_requests') }}"
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: codex_usage
@@ -319,6 +337,8 @@ sources:
             description: Total text tokens (input, cached input, and output combined) for this person on this day.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: codex_usage_model
@@ -349,6 +369,8 @@ sources:
             description: Total text tokens (input, cached input, and output combined) for this model/speed breakdown.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: project
@@ -371,6 +393,8 @@ sources:
             description: Timestamp the project was archived, if applicable.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: project_api_key
@@ -399,6 +423,8 @@ sources:
             description: Timestamp the API key was last used to make a request.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: users
@@ -421,6 +447,8 @@ sources:
             description: Timestamp the user was added to the organization.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: project_user
@@ -435,6 +463,8 @@ sources:
             description: "{{ doc('project_id') }}"
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: project_user_role
@@ -465,6 +495,8 @@ sources:
             description: Timestamp the role assignment was last updated.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: users_role
@@ -493,6 +525,8 @@ sources:
             description: Timestamp the role assignment was last updated.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: invite
@@ -517,6 +551,8 @@ sources:
             description: Timestamp the invite expires.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
 
       - name: compliance_costs_organization_log
@@ -573,6 +609,8 @@ sources:
             description: Count of image output tokens generated for this event.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
       - name: compliance_costs_organization_log_billing
         identifier: "{{ var('openai_compliance_costs_organization_log_billing_identifier', 'compliance_costs_organization_log_billing') }}"
@@ -602,6 +640,8 @@ sources:
             description: ISO currency code for `estimated_cost_usd_amount`.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
       - name: compliance_costs_log_file
         identifier: "{{ var('openai_compliance_costs_log_file_identifier', 'compliance_costs_log_file') }}"
@@ -623,6 +663,8 @@ sources:
             description: SHA-256 checksum of the log file.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"
 
       - name: compliance_users
         identifier: "{{ var('openai_compliance_users_identifier', 'users') }}"
@@ -646,3 +688,5 @@ sources:
             description: Timestamp the user was created.
           - name: _fivetran_synced
             description: "{{ doc('fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('fivetran_deleted') }}"

@@ -89,3 +89,8 @@ supported_vars:
     type: dictionary
     description: "Additional numeric `COSTS_ORGANIZATION_LOG_BILLING` columns to sum into `openai__compliance_cost_report`"
     display_name: "Additional Compliance Cost Billing Metrics"
+
+  openai__code_report_credit_rate:
+    type: string
+    description: "Currency amount per Codex credit, used to estimate `estimated_cost_amount` in `openai__code_report`"
+    display_name: "Codex Credit Rate"
