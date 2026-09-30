@@ -21,8 +21,6 @@ This package enables you to analyze OpenAI Platform spend, usage, and Codex Ente
 
 This package is also designed to roll up alongside Fivetran's [Claude](https://github.com/fivetran/dbt_claude) dbt package into the [AI Reporting](https://github.com/fivetran/dbt_ai_reporting) package, which combines Claude and OpenAI data into unified, cross-vendor AI usage and cost reporting models.
 
-> Note: Different customers configure their OpenAI connector with different combinations of Admin, Project, Codex Enterprise, and Compliance Platform API keys, and each key type only unlocks a subset of the connector's tables. Because of this, most of the 21 source tables this package can use besides `users` are gated behind an `openai__using_<table>` variable, and a few share one variable between multiple related tables (see [Enable/Disable models](#enabledisable-models) below) — this package guards far more tables than most Fivetran dbt packages do, and that's intentional rather than a placeholder.
-
 ### Output schema
 Final output tables are generated in the following target schema:
 
