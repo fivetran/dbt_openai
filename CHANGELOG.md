@@ -1,3 +1,8 @@
+# dbt_openai v0.1.1
+
+## Under the Hood
+- Ensures the package is backwards-compatible with the `union_data` macro.
+
 # dbt_openai v0.1.0
 
 ## Initial Release
