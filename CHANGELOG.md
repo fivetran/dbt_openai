@@ -1,7 +1,9 @@
 # dbt_openai v0.1.1
 
+[PR #2](https://github.com/fivetran/dbt_openai/pull/2) introduces the following update:
+
 ## Under the Hood
-- Ensures the package is backwards-compatible with the `union_data` macro.
+- Ensures the package is backwards-compatible with the `union_data` macro, which is leveraged in Quickstart for the downstream [AI Reporting](https://github.com/fivetran/dbt_ai_reporting) rollup package.
 
 # dbt_openai v0.1.0
 
