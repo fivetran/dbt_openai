@@ -24,13 +24,13 @@ schema_data_changes:
   - models:
     - openai__cost_usage_report
     change_type: Changed field/model
-    old: '`model`, `model_family`, and `model_variant` were always null for rows
-      where `cost_type = ''other''`, even when the cost line item referenced a specific
+    old: '`model`, `model_family`, and `model_variant` were always null for rows where
+      `cost_type = ''other''`, even when the cost line item referenced a specific
       model (e.g. `text-embedding-3-large`, `GPT-4o`, `OpenAI o1`)'
     new: For `cost_type = 'other'` rows, `model`, `model_family`, and `model_variant`
-      are now populated if the line item references a model, so these costs
-      can be broken down by model. Line items that don't reference a model (e.g.
-      `Assistants API`) still leave these fields null.
+      are now populated if the line item references a model, so these costs can be
+      broken down by model. Line items that don't reference a model (e.g. `Assistants
+      API`) still leave these fields null.
     notes: Restores model attribution for model-specific charges such as embeddings
       that are billed without a token type.
 under_the_hood:
