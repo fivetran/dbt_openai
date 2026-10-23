@@ -7,13 +7,29 @@ with cost as (
 
 ),
 
+{% set label = dbt.split_part('line_item', "' | '", 1) %}
+{% set first_word = dbt.split_part('lower(trim(' ~ label ~ '))', "' '", 1) %}
+
 parsed as (
 
     select
         source_relation,
         cast({{ dbt.date_trunc('day', 'usage_started_at') }} as date) as date_day,
         project_id,
-        replace(line_item, 'evals | ', '') as cleaned_line_item,
+        -- Strip '<label> | ' prefixes from tier-based line items.
+        -- 'evals | ' and 'web search tool calls | ' are features, not tiers; strip prefix but keep tier = 'default'.
+        case
+            when lower(line_item) like '% | %'
+                and lower(line_item) not like 'evals | %'
+                and lower(line_item) not like 'web search tool calls | %'
+                then {{ first_word }} || '-tier'
+            else 'default'
+        end as service_tier,
+        case
+            when lower(line_item) like '% | %'
+                then trim({{ dbt.split_part('line_item', "' | '", 2) }})
+            else line_item
+        end as cleaned_line_item,
         cost_amount,
         currency_code
         {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics') }}
@@ -27,6 +43,7 @@ typed as (
         source_relation,
         date_day,
         project_id,
+        service_tier,
         trim({{ dbt.split_part('cleaned_line_item', "','", 1) }}) as model,
         case
             when lower(cleaned_line_item) like '%, cached input%' then 'cache_read'
@@ -49,6 +66,7 @@ token_cost as (
         date_day,
         project_id,
         model,
+        service_tier,
         token_unit_type,
         'tokens' as cost_type,
         cost_amount,
@@ -68,6 +86,7 @@ other_cost as (
         date_day,
         project_id,
         cast(null as {{ dbt.type_string() }}) as model,
+        'default' as service_tier,
         cast(null as {{ dbt.type_string() }}) as token_unit_type,
         'other' as cost_type,
         cost_amount,
@@ -97,15 +116,16 @@ final as (
         -- via the rate card; a populated project_id here is used directly, no allocation.
         project_id,
         model,
+        service_tier,
         token_unit_type,
         cost_type,
         sum(cost_amount) as cost_amount,
-        -- a day/project/model/token_unit_type/cost_type slice is always billed in one currency in
+        -- a day/project/model/service_tier/token_unit_type/cost_type slice is always billed in one currency in
         -- practice; max() is just a safe way to carry it through this aggregation.
         max(currency_code) as currency_code
         {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics', transform='sum') }}
     from unioned
-    {{ dbt_utils.group_by(n=6) }}
+    {{ dbt_utils.group_by(n=7) }}
 
 )
 

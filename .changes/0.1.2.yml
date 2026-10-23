@@ -1,0 +1,19 @@
+version: 0.1.2
+pr_number: 3
+schema_data_changes:
+  entries:
+    - models:
+        - stg_openai__completion
+        - openai__cost_usage_report
+      change_type: "Changed field/model"
+      old: "`input_tokens` included cached tokens, causing them to be counted in both `input_tokens` and `cache_read_tokens`"
+      new: "`input_tokens` equals net uncached input only — cached tokens appear exclusively in `cache_read_tokens`. A floor of 0 prevents negative values in the rare case where `input_cached_token` exceeds `input_token`"
+      notes: Existing `input_tokens` values decrease for any record that had cached tokens.
+    - models:
+        - openai__cost_usage_report
+      change_type: "Changed field/model"
+      old: "Cost line items with a service-tier prefix (e.g. `priority | gpt-4o, input`, `fast mode | gpt-4o, output`) failed to parse; the associated spend landed as `cost_attribution_method = 'unmatched'` with no project or model attribution"
+      new: "Tier-prefixed line items are now parsed correctly; spend is attributed to the right project and model"
+      notes: No output columns added or removed; output grain is unchanged.
+under_the_hood:
+  - description: "`service_tier` is carried as an internal join key through `stg_openai__completion`, `int_openai__completion_unpivoted`, `int_openai__cost_by_model_day`, and `int_openai__cost_rate_card` and aggregated away in `openai__cost_usage_report`, preserving the existing output grain and schema."

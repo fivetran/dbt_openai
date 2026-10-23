@@ -52,6 +52,7 @@ directly_attributed_cost as (
         date_day,
         project_id,
         model,
+        service_tier,
         token_unit_type,
         cost_amount,
         currency_code
@@ -79,6 +80,7 @@ other_cost_grouped as (
 ),
 
 -- Cost with no project and no matching completion volume anywhere that day (e.g. cache_write) gets its own row instead of the model-less 'other' bucket.
+-- Aggregate away service_tier so the output grain stays at (day, model, token_unit_type).
 unmatched_rate_card_cost as (
 
     select
@@ -86,10 +88,11 @@ unmatched_rate_card_cost as (
         date_day,
         model,
         token_unit_type,
-        cost_amount,
-        currency_code
+        sum(cost_amount) as cost_amount,
+        max(currency_code) as currency_code
     from cost_rate_card
     where rate_per_token is null
+    {{ dbt_utils.group_by(n=4) }}
 
 ),
 {% endif %}
@@ -104,12 +107,14 @@ attributed as (
         coalesce(completion_unpivoted.date_day, directly_attributed_cost.date_day) as date_day,
         coalesce(completion_unpivoted.project_id, directly_attributed_cost.project_id) as project_id,
         coalesce(completion_unpivoted.model, directly_attributed_cost.model) as model,
+        coalesce(completion_unpivoted.service_tier, directly_attributed_cost.service_tier) as service_tier,
         coalesce(completion_unpivoted.token_unit_type, directly_attributed_cost.token_unit_type) as token_unit_type,
         {% else %}
         completion_unpivoted.source_relation,
         completion_unpivoted.date_day,
         completion_unpivoted.project_id,
         completion_unpivoted.model,
+        completion_unpivoted.service_tier,
         completion_unpivoted.token_unit_type,
         {% endif %}
         completion_unpivoted.token_quantity,
@@ -137,11 +142,13 @@ attributed as (
         and directly_attributed_cost.date_day = completion_unpivoted.date_day
         and directly_attributed_cost.project_id = completion_unpivoted.project_id
         and directly_attributed_cost.model = completion_unpivoted.model
+        and directly_attributed_cost.service_tier = completion_unpivoted.service_tier
         and directly_attributed_cost.token_unit_type = completion_unpivoted.token_unit_type
     left join cost_rate_card
         on cost_rate_card.source_relation = coalesce(completion_unpivoted.source_relation, directly_attributed_cost.source_relation)
         and cost_rate_card.date_day = coalesce(completion_unpivoted.date_day, directly_attributed_cost.date_day)
         and cost_rate_card.model = coalesce(completion_unpivoted.model, directly_attributed_cost.model)
+        and cost_rate_card.service_tier = coalesce(completion_unpivoted.service_tier, directly_attributed_cost.service_tier)
         and cost_rate_card.token_unit_type = coalesce(completion_unpivoted.token_unit_type, directly_attributed_cost.token_unit_type)
     {% endif %}
 
@@ -160,15 +167,15 @@ final as (
         {{ openai.openai_model_family('attributed.model') }} as model_family,
         {{ openai.openai_model_variant('attributed.model') }} as model_variant,
         attributed.token_unit_type,
-        attributed.token_quantity,
-        attributed.num_model_requests
-        {{ fivetran_utils.persist_pass_through_columns('openai__completion_passthrough_metrics', identifier='attributed') }}
+        sum(attributed.token_quantity) as token_quantity,
+        sum(attributed.num_model_requests) as num_model_requests
+        {{ fivetran_utils.persist_pass_through_columns('openai__completion_passthrough_metrics', identifier='attributed', transform='sum') }}
         {% if cost_enabled %}
         , 'tokens' as cost_type
-        , attributed.cost_attribution_method
-        , attributed.openai_cost
-        , attributed.currency_code as currency
-        {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics', identifier='attributed') }}
+        , max(attributed.cost_attribution_method) as cost_attribution_method
+        , sum(attributed.openai_cost) as openai_cost
+        , max(attributed.currency_code) as currency
+        {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics', identifier='attributed', transform='sum') }}
         {% endif %}
     from attributed
     {% if project_enabled %}
@@ -176,6 +183,7 @@ final as (
         on project.project_id = attributed.project_id
         and project.source_relation = attributed.source_relation
     {% endif %}
+    {{ dbt_utils.group_by(n=(8 if project_enabled else 7)) }}
 
     {% if cost_enabled %}
     union all

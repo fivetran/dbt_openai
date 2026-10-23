@@ -50,6 +50,8 @@ models:
         description: "{{ doc('num_model_requests') }}"
       - name: usage_started_at
         description: "{{ doc('usage_started_at') }}"
+      - name: service_tier
+        description: Service tier used for this usage record — `default`, `priority-tier`, or `fast-tier`. Null in the source when not reported; filled with `default` in staging.
       - name: _fivetran_synced
         description: "{{ doc('fivetran_synced') }}"
 

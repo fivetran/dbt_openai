@@ -31,7 +31,7 @@ Unique identifier for the OpenAI organization.
 {% enddocs %}
 
 {% docs input_tokens %}
-Number of input tokens metered for this usage record.
+Number of input tokens metered for this usage record, excluding cached tokens (which are counted separately under `cache_read_tokens`).
 {% enddocs %}
 
 {% docs cache_read_tokens %}
