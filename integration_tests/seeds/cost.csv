@@ -597,3 +597,4 @@ fvco_tier02,proj-patientportal01,"priority | gpt-4o-mini-2024-07-18, output",0.0
 fvco_tier03,proj-patientportal01,"priority | gpt-4o-mini-2024-07-18, cached input",0.0001,usd,1767139200,false,2025-12-31 08:00:00
 fvco_tier04,proj-brightbyfdc02,"fast mode | gpt-4o-2024-08-06, input",0.0025,usd,1767139200,false,2025-12-31 08:00:00
 fvco_tier05,proj-brightbyfdc02,"fast mode | gpt-4o-2024-08-06, output",0.001,usd,1767139200,false,2025-12-31 08:00:00
+fvco_tier06,proj-patientportal01,"evals | priority | gpt-4o-mini-2024-07-18, output",0.0004,usd,1767139200,false,2025-12-31 08:00:00

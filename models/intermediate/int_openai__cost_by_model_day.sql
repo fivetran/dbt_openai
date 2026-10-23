@@ -7,7 +7,21 @@ with cost as (
 
 ),
 
-{% set label = dbt.split_part('line_item', "' | '", 1) %}
+-- 'evals | ' can precede a tier label (e.g. 'evals | priority | gpt-x, input'), so strip it before parsing the tier.
+evals_stripped as (
+
+    select
+        *,
+        case
+            when lower(line_item) like 'evals | %'
+                then {{ dbt.right('line_item', dbt.length('line_item') ~ ' - 8') }}
+            else line_item
+        end as feature_stripped_line_item
+    from cost
+
+),
+
+{% set label = dbt.split_part('feature_stripped_line_item', "' | '", 1) %}
 {% set first_word = dbt.split_part('lower(trim(' ~ label ~ '))', "' '", 1) %}
 
 parsed as (
@@ -16,24 +30,22 @@ parsed as (
         source_relation,
         cast({{ dbt.date_trunc('day', 'usage_started_at') }} as date) as date_day,
         project_id,
-        -- Strip '<label> | ' prefixes from tier-based line items.
-        -- 'evals | ' and 'web search tool calls | ' are features, not tiers; strip prefix but keep tier = 'default'.
+        -- Any remaining '<label> | ' prefix is a service tier, except 'web search tool calls', which is a feature.
         case
-            when lower(line_item) like '% | %'
-                and lower(line_item) not like 'evals | %'
-                and lower(line_item) not like 'web search tool calls | %'
+            when lower(feature_stripped_line_item) like '% | %'
+                and lower(feature_stripped_line_item) not like 'web search tool calls | %'
                 then {{ first_word }} || '-tier'
             else 'default'
         end as service_tier,
         case
-            when lower(line_item) like '% | %'
-                then trim({{ dbt.split_part('line_item', "' | '", 2) }})
-            else line_item
+            when lower(feature_stripped_line_item) like '% | %'
+                then trim({{ dbt.split_part('feature_stripped_line_item', "' | '", 2) }})
+            else feature_stripped_line_item
         end as cleaned_line_item,
         cost_amount,
         currency_code
         {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics') }}
-    from cost
+    from evals_stripped
 
 ),
 

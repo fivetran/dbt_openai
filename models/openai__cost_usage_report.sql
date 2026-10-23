@@ -172,7 +172,12 @@ final as (
         {{ fivetran_utils.persist_pass_through_columns('openai__completion_passthrough_metrics', identifier='attributed', transform='sum') }}
         {% if cost_enabled %}
         , 'tokens' as cost_type
-        , max(attributed.cost_attribution_method) as cost_attribution_method
+        -- service tiers merge here, so one row can mix methods; the strongest attribution wins
+        , case
+            when max(case when attributed.cost_attribution_method = 'direct' then 1 else 0 end) = 1 then 'direct'
+            when max(case when attributed.cost_attribution_method = 'allocated' then 1 else 0 end) = 1 then 'allocated'
+            else 'unmatched'
+            end as cost_attribution_method
         , sum(attributed.openai_cost) as openai_cost
         , max(attributed.currency_code) as currency
         {{ fivetran_utils.persist_pass_through_columns('openai__cost_passthrough_metrics', identifier='attributed', transform='sum') }}
