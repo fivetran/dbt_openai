@@ -1,3 +1,19 @@
+# dbt_openai v0.1.2
+
+[PR #3](https://github.com/fivetran/dbt_openai/pull/3) includes the following updates:
+
+## Schema/Data Change
+**3 total changes • 0 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| stg_openai__completion<br>openai__cost_usage_report | Changed field/model | `input_tokens` included cached tokens, causing them to be counted in both `input_tokens` and `cache_read_tokens` | `input_tokens` equals net uncached input only — cached tokens appear exclusively in `cache_read_tokens`. A floor of 0 prevents negative values in the rare case where `input_cached_token` exceeds `input_token` | Existing `input_tokens` values decrease for any record that had cached tokens. |
+| openai__cost_usage_report | Changed field/model | Cost line items with a service-tier prefix (e.g. `priority | gpt-4o, input`, `fast mode | gpt-4o, output`, `evals | priority | gpt-4o, output`) failed to parse; the associated spend landed as `cost_attribution_method = 'unmatched'` with no project or model attribution | Tier-prefixed line items are now parsed correctly; spend is attributed to the right project and model | No output columns added or removed; output grain is unchanged. |
+| openai__cost_usage_report | Changed field/model | `model`, `model_family`, and `model_variant` were always null on `cost_type = 'other'` rows, even when the line item named a model (e.g. `text-embedding-3-large`, `GPT-4o`, `OpenAI o1`) | These columns are populated from the line item when it names a model, so `other` rows split by model. Rows with no model in the line item (e.g. `Assistants API`) stay null | Restores model attribution for model-specific charges such as embeddings that are billed without a token type. |
+
+## Under the Hood
+- `service_tier` is carried as an internal join key through `stg_openai__completion`, `int_openai__completion_unpivoted`, `int_openai__cost_by_model_day`, and `int_openai__cost_rate_card` and aggregated away in `openai__cost_usage_report`, preserving the existing output grain and schema.
+
 # dbt_openai v0.1.1
 
 [PR #2](https://github.com/fivetran/dbt_openai/pull/2) introduces the following update:
