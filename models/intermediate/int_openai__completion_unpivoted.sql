@@ -17,6 +17,7 @@ with_date as (
         cast({{ dbt.date_trunc('day', 'usage_started_at') }} as date) as date_day,
         project_id,
         model,
+        service_tier,
         num_model_requests,
         input_tokens,
         cache_read_tokens,
@@ -35,6 +36,7 @@ unpivoted as (
         date_day,
         project_id,
         model,
+        service_tier,
         {{ 'num_model_requests' if token_unit_type == 'input' else 'cast(null as ' ~ dbt.type_int() ~ ')' }} as num_model_requests,
         '{{ token_unit_type }}' as token_unit_type,
         {{ token_unit_type }}_tokens as token_quantity
@@ -58,12 +60,13 @@ final as (
         date_day,
         project_id,
         model,
+        service_tier,
         token_unit_type,
         sum(token_quantity) as token_quantity,
         sum(num_model_requests) as num_model_requests
         {{ fivetran_utils.persist_pass_through_columns('openai__completion_passthrough_metrics', transform='sum') }}
     from unpivoted
-    {{ dbt_utils.group_by(n=5) }}
+    {{ dbt_utils.group_by(n=6) }}
 
 )
 

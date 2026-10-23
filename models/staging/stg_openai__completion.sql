@@ -30,11 +30,13 @@ final as (
         cast(user_id as {{ dbt.type_string() }}) as user_id,
         cast(api_key_id as {{ dbt.type_string() }}) as api_key_id,
         model,
-        cast(input_token as {{ dbt.type_int() }}) as input_tokens,
+        {# Cached input tokens are included in the input_token by OpenAI -- let's separate them to avoid doublecounting #}
+        cast(greatest(0, input_token - coalesce(input_cached_token, 0)) as {{ dbt.type_int() }}) as input_tokens,
         cast(input_cached_token as {{ dbt.type_int() }}) as cache_read_tokens,
         cast(output_token as {{ dbt.type_int() }}) as output_tokens,
         cast(num_model_request as {{ dbt.type_int() }}) as num_model_requests,
         cast({{ dbt.dateadd('second', 'start_time', "cast('1970-01-01' as timestamp)") }} as {{ dbt.type_timestamp() }}) as usage_started_at,
+        coalesce(service_tier, 'default') as service_tier,
         _fivetran_synced
         {{ fivetran_utils.fill_pass_through_columns('openai__completion_passthrough_metrics') }}
     from fields
