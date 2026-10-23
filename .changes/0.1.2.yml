@@ -3,8 +3,8 @@ pr_number: 3
 schema_data_changes:
   entries:
   - models:
-    - stg_openai__completion
-    - openai__cost_usage_report
+    - `stg_openai__completion`
+    - `openai__cost_usage_report`
     change_type: Changed field/model
     old: '`input_tokens` included cached tokens, causing them to be counted in both
       `input_tokens` and `cache_read_tokens`'
@@ -14,17 +14,17 @@ schema_data_changes:
     notes: Existing `input_tokens` values decrease for any record that had cached
       tokens.
   - models:
-    - openai__cost_usage_report
+    - `openai__cost_usage_report`
     change_type: Changed field/model
-    old: Cost line items with a service-tier prefix (e.g. `priority | gpt-4o, input`,
+    old: "Cost line items with a service-tier prefix (e.g. `priority | gpt-4o, input`,
       `fast mode | gpt-4o, output`, `evals | priority | gpt-4o, output`) failed to
       parse; the associated spend landed as `cost_attribution_method = 'unmatched'`
-      with no project or model attribution
+      with no project or model attribution"
     new: Tier-prefixed line items are now parsed correctly; spend is attributed to
       the right project and model
     notes: No output columns added or removed; output grain is unchanged.
   - models:
-    - openai__cost_usage_report
+    - `openai__cost_usage_report`
     change_type: Changed field/model
     old: '`model`, `model_family`, and `model_variant` were always null on `cost_type
       = ''other''` rows, even when the line item named a model (e.g. `text-embedding-3-large`,
