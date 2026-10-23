@@ -71,11 +71,12 @@ other_cost_grouped as (
         source_relation,
         date_day,
         project_id,
+        model,
         sum(cost_amount) as openai_cost,
         max(currency_code) as currency
     from cost_by_model_day
     where cost_type = 'other'
-    {{ dbt_utils.group_by(n=3) }}
+    {{ dbt_utils.group_by(n=4) }}
 
 ),
 
@@ -200,9 +201,9 @@ final as (
         {% if project_enabled %}
         project_other.project_name,
         {% endif %}
-        cast(null as {{ dbt.type_string() }}) as model,
-        cast(null as {{ dbt.type_string() }}) as model_family,
-        cast(null as {{ dbt.type_string() }}) as model_variant,
+        other_cost_grouped.model,
+        {{ openai.openai_model_family('other_cost_grouped.model') }} as model_family,
+        {{ openai.openai_model_variant('other_cost_grouped.model') }} as model_variant,
         cast(null as {{ dbt.type_string() }}) as token_unit_type,
         cast(null as {{ dbt.type_int() }}) as token_quantity,
         cast(null as {{ dbt.type_int() }}) as num_model_requests
