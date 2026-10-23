@@ -16,8 +16,8 @@ schema_data_changes:
   - models:
     - openai__cost_usage_report
     change_type: Changed field/model
-    old: Cost line items with a service-tier prefix (e.g. `priority | gpt-4o, input`,
-      `fast mode | gpt-4o, output`, `evals | priority | gpt-4o, output`) failed to
+    old: Cost line items with a service-tier prefix (e.g. `priority \| gpt-4o, input`,
+      `fast mode \| gpt-4o, output`, `evals \| priority \| gpt-4o, output`) failed to
       parse; the associated spend landed as `cost_attribution_method = 'unmatched'`
       with no project or model attribution
     new: Tier-prefixed line items are now parsed correctly; spend is attributed to
