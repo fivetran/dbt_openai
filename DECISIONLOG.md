@@ -32,14 +32,6 @@ This package is designed to eventually roll up alongside a Claude/Anthropic usag
 ## Model Names Retain Family and Variant Separately
 Reports keep the original `model` and add structural `model_family` and `model_variant` columns. Families retain numeric GPT and o-series version lines, such as `gpt-4o`, `gpt-5.2`, and `o4`; known named product prefixes also form families. Parsing lowercases and trims the name, unwraps fine-tuned `ft:` names, and strips a trailing YYYY-MM-DD-shaped snapshot suffix. The remaining suffix becomes the variant, with compound values such as `deep-research` preserved intact. Unrecognized names use the original model as their family and a null variant; recognized names without a suffix also have a null variant. Exact customer family overrides take precedence but do not alter how variants are parsed. Neither field asserts architecture, capabilities, or billing rates, and report grain remains based on the original model.
 
-## Input Tokens Exclude Cached Tokens
-
-`input_tokens` in `stg_openai__completion` is `input_token - input_cached_token` (floored at 0). The OpenAI Usage API reports `input_token` as the total including cached tokens, and `input_cached_token` as the cached subset. Without the subtraction, cached tokens counted in both `input_tokens` and `cache_read_tokens`, inflating the `input` rate denominator in `int_openai__cost_rate_card` and understating the implied per-token input rate. One row in production (Oct 2026) had `input_cached_token` > `input_token`; the floor prevents a negative result.
-
-## Service Tier Is an Internal Join Key, Not an Output Column
-
-`openai__cost_usage_report` output grain (source_relation, date_day, project_id, model, token_unit_type) is unchanged. Service-tier-prefixed cost line items (e.g. `priority | gpt-5.6-sol, input`) identify which usage volume a billed amount belongs to. Without parsing the tier, those cost rows can't find a matching usage bucket and land as `unmatched`, misattributing roughly $26K/month in priority-tier spend in Oct 2026. The tier is stripped from the model name in `int_openai__cost_by_model_day` and carried as a join key through `int_openai__completion_unpivoted` and `int_openai__cost_rate_card`, then summed away in `openai__cost_usage_report`. Keeping the tier internal (not exposed) avoids a schema break for existing users.
-
 ## Usage Totals Preserve Known Components
 
 Completion input tokens include cached input, so total tokens are input plus output without adding cache-read tokens again. If only one component is populated, the report retains that known quantity; if both are missing, the total remains null. Web and file search use tool-call counts in the shared request-count column. Products metered in other units retain null token quantities.
