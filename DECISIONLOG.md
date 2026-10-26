@@ -34,7 +34,7 @@ Reports keep the original `model` and add structural `model_family` and `model_v
 
 ## Usage Totals Preserve Known Components
 
-Completion input tokens include cached input, so total tokens are input plus output without adding cache-read tokens again. If only one component is populated, the report retains that known quantity; if both are missing, the total remains null. Web and file search use tool-call counts in the shared request-count column. Products metered in other units retain null token quantities.
+Completion input tokens exclude cached input, so total tokens are input plus cache-read plus output tokens. OpenAI occasionally reports a negative completion row that backs out earlier usage; we keep its values signed rather than flooring them at 0, so totals tie out to the source. If only one component is populated, the report retains that known quantity; if both are missing, the total remains null. Web and file search use tool-call counts in the shared request-count column. Products metered in other units retain null token quantities.
 
 ## Codex Credit Cost Is Estimated From a Customer-Set Rate, Not Derived
 
