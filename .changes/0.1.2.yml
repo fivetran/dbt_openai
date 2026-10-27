@@ -3,10 +3,11 @@ pr_number: 3
 schema_data_changes:
   entries:
   - models:
-    - "`stg_openai__completion`"
+    - '`stg_openai__completion`'
     change_type: New field/model
-    new: "`service_tier`"
-    notes: Rows without a reported tier default to `default`. Used to match tier-prefixed cost line items to completion usage.
+    new: '`service_tier`'
+    notes: Rows without a reported tier default to `default`. Used to match tier-prefixed
+      cost line items to completion usage.
 bug_fixes:
 - description: Fixes cost line items with a service-tier prefix (for example `priority
     \| gpt-4o, input`, `fast mode \| gpt-4o, output`, and `evals \| priority \| gpt-4o,

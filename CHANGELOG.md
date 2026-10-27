@@ -2,8 +2,15 @@
 
 [PR #3](https://github.com/fivetran/dbt_openai/pull/3) includes the following updates:
 
+## Schema/Data Change
+**1 total change • 0 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| `stg_openai__completion` | New field/model |  | `service_tier` | Rows without a reported tier default to `default`. Used to match tier-prefixed cost line items to completion usage. |
+
 ## Bug Fix
-- Fixes cost line items with a service-tier prefix (for example `priority | gpt-4o, input`, `fast mode | gpt-4o, output`, and `evals | priority | gpt-4o, output`) in `openai__cost_usage_report`. The tier prefix stayed in `model`, so cost never matched completion usage. Cost appeared on rows with no token volume, and the matching usage appeared as `unmatched` with no cost. These line items now parse to the model name, so cost and usage land on the same row.
+- Fixes cost line items with a service-tier prefix (for example `priority \| gpt-4o, input`, `fast mode \| gpt-4o, output`, and `evals \| priority \| gpt-4o, output`) in `openai__cost_usage_report`. The tier prefix stayed in `model`, so cost never matched completion usage. Cost appeared on rows with no token volume, and the matching usage appeared as `unmatched` with no cost. These line items now parse to the model name, so cost and usage land on the same row.
 - Fixes `model`, `model_family`, and `model_variant` being null on `cost_type = 'other'` rows in `openai__cost_usage_report` when the line item names a model (for example `text-embedding-3-large`, `GPT-4o`, or `OpenAI o1`). Line items without a model, such as `Assistants API`, stay null.
 - Fixes `input_tokens` in `openai__cost_usage_report` double counting cached tokens. `input_tokens` may decrease as it now excludes cached tokens, which appear only in `cache_read_tokens`.
 - Allows for negative token values in `openai__cost_usage_report`, as OpenAI occasionally reports a negative completion row for adjustment.
