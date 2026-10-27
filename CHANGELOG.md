@@ -2,14 +2,11 @@
 
 [PR #3](https://github.com/fivetran/dbt_openai/pull/3) includes the following updates:
 
-## Schema/Data Change
-**3 total changes • 0 possible breaking changes**
-
-| Data Model(s) | Change type | Old | New | Notes |
-| ------------- | ----------- | --- | --- | ----- |
-| `openai__cost_usage_report`<br>`stg_openai__completion` | Changed field/model | `input_tokens` included cached tokens, causing them to be counted in both `input_tokens` and `cache_read_tokens` | `input_tokens` equals net uncached input only — cached tokens appear exclusively in `cache_read_tokens`. | Existing `input_tokens` values decrease for any record that had cached tokens. |
-| `openai__cost_usage_report` | Changed field/model | Cost line items with a service-tier prefix (e.g. `priority \| gpt-4o, input`, `fast mode \| gpt-4o, output`, `evals \| priority \| gpt-4o, output`) kept the tier prefix in `model` (e.g. `priority \| gpt-4o`), so their cost never matched completion usage. The cost appeared on rows with no token volume, and the matching usage appeared as `cost_attribution_method = 'unmatched'` with no cost | Tier-prefixed line items now parse to the model name, so their cost and usage land on the same row. |  |
-| `openai__cost_usage_report` | Changed field/model | `model`, `model_family`, and `model_variant` were always null for rows where `cost_type = 'other'`, even when the cost line item referenced a specific model (e.g. `text-embedding-3-large`, `GPT-4o`, `OpenAI o1`) | For `cost_type = 'other'` rows, `model`, `model_family`, and `model_variant` are now populated if the line item references a model, so these costs can be broken down by model. Line items that don't reference a model (e.g. `Assistants API`) still leave these fields null. | Restores model attribution for model-specific charges such as embeddings that are billed without a token type. |
+## Bug Fix
+- Fixes cost line items with a service-tier prefix (for example `priority | gpt-4o, input`, `fast mode | gpt-4o, output`, and `evals | priority | gpt-4o, output`) in `openai__cost_usage_report`. The tier prefix stayed in `model`, so cost never matched completion usage. Cost appeared on rows with no token volume, and the matching usage appeared as `unmatched` with no cost. These line items now parse to the model name, so cost and usage land on the same row.
+- Fixes `model`, `model_family`, and `model_variant` being null on `cost_type = 'other'` rows in `openai__cost_usage_report` when the line item names a model (for example `text-embedding-3-large`, `GPT-4o`, or `OpenAI o1`). Line items without a model, such as `Assistants API`, stay null.
+- Fixes `input_tokens` in `openai__cost_usage_report` double counting cached tokens. `input_tokens` may decrease as it now excludes cached tokens, which appear only in `cache_read_tokens`.
+- Allows for negative token values in `openai__cost_usage_report`, as OpenAI occasionally reports a negative completion row for adjustment.
 
 ## Under the Hood
 - `service_tier` is carried as an internal join key through `stg_openai__completion`, `int_openai__completion_unpivoted`, `int_openai__cost_by_model_day`, and `int_openai__cost_rate_card` and aggregated away in `openai__cost_usage_report`, preserving the existing output grain and schema.
