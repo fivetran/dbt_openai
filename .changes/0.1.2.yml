@@ -9,10 +9,11 @@ schema_data_changes:
     notes: Rows without a reported tier default to `default`. Used to match tier-prefixed
       cost line items to completion usage.
 bug_fixes:
-- description: Fixes cost line items with a service-tier prefix (for example `priority | gpt-4o, input`, 
-    `fast mode | gpt-4o, output`, and `evals | priority | gpt-4o, output`) in `openai__cost_usage_report`. 
-    The tier prefix stayed in `model`, so cost never matched completion usage. Cost appeared on rows with 
-    no token volume, and the matching usage appeared as `unmatched` with no cost. These line items
+- description: Fixes cost line items with a service-tier prefix (for example `priority
+    | gpt-4o, input`, `fast mode | gpt-4o, output`, and `evals | priority | gpt-4o,
+    output`) in `openai__cost_usage_report`. The tier prefix stayed in `model`, so
+    cost never matched completion usage. Cost appeared on rows with no token volume,
+    and the matching usage appeared as `unmatched` with no cost. These line items
     now parse to the model name, so cost and usage land on the same row.
 - description: Fixes `model`, `model_family`, and `model_variant` being null on `cost_type
     = 'other'` rows in `openai__cost_usage_report` when the line item names a model
