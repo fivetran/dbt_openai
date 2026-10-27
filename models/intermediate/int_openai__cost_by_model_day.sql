@@ -100,11 +100,11 @@ other_cost as (
         -- some non-token charges are a bare model name (e.g. 'text-embedding-3-large', 'OpenAI o1')
         case
             when lower(model) like 'openai o%'
-                then trim({{ dbt.right('model', dbt.length('model') ~ ' - 7') }})
+                then lower(trim({{ dbt.right('model', dbt.length('model') ~ ' - 7') }}))
             when lower(model) like 'gpt-%'
                 or lower(model) like 'text-embedding-%'
                 or lower(model) like 'ada%'
-                then model
+                then replace(lower(model), ' ', '-')
         end as model,
         'default' as service_tier,
         cast(null as {{ dbt.type_string() }}) as token_unit_type,

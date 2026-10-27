@@ -46,7 +46,8 @@ unpivoted as (
         {% endfor %}
     from with_date
     {% if token_unit_type != 'input' %}
-    where {{ token_unit_type }}_tokens > 0
+    -- <> 0, not > 0: keeps negative adjustment rows so token totals tie out to the source
+    where {{ token_unit_type }}_tokens <> 0
     {% endif %}
     {{ 'union all' if not loop.last }}
     {% endfor %}

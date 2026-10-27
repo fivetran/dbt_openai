@@ -30,6 +30,10 @@ The API object type for this record, as reported by OpenAI (for example, `organi
 Unique identifier for the OpenAI organization.
 {% enddocs %}
 
+{% docs src_input_tokens %}
+Number of input tokens metered for this usage record, including cached tokens.
+{% enddocs %}
+
 {% docs input_tokens %}
 Number of input tokens metered for this usage record, excluding cached tokens (which are counted separately under `cache_read_tokens`).
 {% enddocs %}
