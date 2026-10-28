@@ -328,7 +328,7 @@ sources:
           - name: total_credit
             description: "{{ doc('credits') }}"
           - name: total_uncached_text_input_token
-            description: "{{ doc('src_input_tokens') }}"
+            description: "{{ doc('input_tokens') }}"
           - name: total_cached_text_input_token
             description: "{{ doc('cache_read_tokens') }}"
           - name: total_text_output_token
@@ -360,7 +360,7 @@ sources:
           - name: credit
             description: "{{ doc('credits') }}"
           - name: uncached_text_input_token
-            description: "{{ doc('src_input_tokens') }}"
+            description: "{{ doc('input_tokens') }}"
           - name: cached_text_input_token
             description: "{{ doc('cache_read_tokens') }}"
           - name: text_output_token
