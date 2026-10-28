@@ -66,7 +66,7 @@ sources:
           - name: service_tier
             description: The service tier the request was billed under (for example, `default`, `flex`, or `priority`).
           - name: input_token
-            description: "{{ doc('input_tokens') }}"
+            description: "{{ doc('src_input_tokens') }}"
           - name: input_cached_token
             description: "{{ doc('cache_read_tokens') }}"
           - name: input_audio_token
@@ -104,7 +104,7 @@ sources:
           - name: object
             description: "{{ doc('api_object_type') }}"
           - name: input_token
-            description: "{{ doc('input_tokens') }}"
+            description: "{{ doc('src_input_tokens') }}"
           - name: num_model_request
             description: "{{ doc('num_model_requests') }}"
           - name: _fivetran_synced
@@ -166,7 +166,7 @@ sources:
           - name: character
             description: Number of characters synthesized in this usage record.
           - name: input_token
-            description: "{{ doc('input_tokens') }}"
+            description: "{{ doc('src_input_tokens') }}"
           - name: num_model_request
             description: "{{ doc('num_model_requests') }}"
           - name: _fivetran_synced
@@ -230,7 +230,7 @@ sources:
           - name: end_time
             description: "{{ doc('usage_ended_at') }}"
           - name: input_token
-            description: "{{ doc('input_tokens') }}"
+            description: "{{ doc('src_input_tokens') }}"
           - name: num_model_request
             description: "{{ doc('num_model_requests') }}"
           - name: _fivetran_synced
@@ -600,7 +600,7 @@ sources:
           - name: actor_id
             description: Identifier of the actor that generated this cost event.
           - name: text_input_token
-            description: "{{ doc('input_tokens') }}"
+            description: "{{ doc('src_input_tokens') }}"
           - name: text_cached_input_token
             description: "{{ doc('cache_read_tokens') }}"
           - name: text_output_token

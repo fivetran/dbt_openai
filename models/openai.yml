@@ -22,11 +22,11 @@ models:
       - name: project_name
         description: "{{ doc('project_name') }} Only present when the `project` table is synced. Null wherever project_id is null."
       - name: model
-        description: "{{ doc('model') }} Null on `other`-cost_type rows, which don't break out by model."
+        description: "{{ doc('model') }} On `other`-cost_type rows, populated when the line item names a model (e.g. `text-embedding-3-large`); otherwise null."
       - name: model_family
-        description: "{{ doc('model_family') }} Null on `other`-cost_type rows."
+        description: "{{ doc('model_family') }} Null on `other`-cost_type rows with no model."
       - name: model_variant
-        description: "{{ doc('model_variant') }} Null on `other`-cost_type rows."
+        description: "{{ doc('model_variant') }} Null on `other`-cost_type rows with no model."
       - name: token_unit_type
         description: "`input`, `cache_read`, `output`, or `cache_write` — the kind of token this row's usage and/or cost belongs to. Null on `other`-cost_type rows, which don't break out by token type."
       - name: token_quantity
@@ -34,8 +34,8 @@ models:
       - name: cost_type
         description: >
           `tokens` for spend attributed to a model and token_unit_type, or `other` for cost that
-          doesn't break out by model (e.g. "Assistants API"). Only present when the `cost` table
-          is synced.
+          doesn't break out by token type (e.g. "Assistants API", or embeddings billed under a bare
+          model name). Only present when the `cost` table is synced.
       - name: cost_attribution_method
         description: >
           How `openai_cost` was determined: `direct` (Costs API-reported), `allocated`
