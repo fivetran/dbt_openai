@@ -62,7 +62,7 @@ project_membership as (
         -- count equals count(distinct...) — Redshift disallows a distinct aggregate alongside string_agg anyway.
         count(project_id) as project_count
         {% if project_enabled %}
-        , {{ fivetran_utils.string_agg('project_name', "', '") }} as project_names
+        , {{ dbt.listagg('project_name', "', '") }} as project_names
         {% endif %}
     from distinct_project_membership
     group by 1, 2
@@ -98,7 +98,7 @@ project_roles as (
         source_relation,
         user_id,
         count(role_name) as project_role_count,
-        {{ fivetran_utils.string_agg('role_name', "', '") }} as project_role_names
+        {{ dbt.listagg('role_name', "', '") }} as project_role_names
     from distinct_project_roles
     group by 1, 2
 
@@ -118,7 +118,7 @@ org_permission_roles as (
     select
         source_relation,
         user_id,
-        {{ fivetran_utils.string_agg('distinct role_name', "', '") }} as org_permission_roles
+        {{ dbt.listagg('distinct role_name', "', '") }} as org_permission_roles
     from users_role
     group by 1, 2
 
