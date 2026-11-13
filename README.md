@@ -14,7 +14,7 @@ This dbt package transforms data from Fivetran's OpenAI Platform/Enterprise conn
   - [DAG](https://fivetran.github.io/dbt_openai/#!/overview?g_v=1)
   - [Changelog](https://github.com/fivetran/dbt_openai/blob/main/CHANGELOG.md)
 - dbt Core™ supported versions
-  - `>=1.3.0, <3.0.0`
+  - `>=1.10.0, <3.0.0`
 
 ## What does this dbt package do?
 This package enables you to analyze OpenAI Platform spend, usage, and Codex Enterprise productivity across your organization. It creates enriched models with metrics focused on daily cost by project and model, per-user activity across every OpenAI product, Codex Enterprise coding productivity, and per-user usage summaries.
@@ -64,7 +64,7 @@ Include the following openai package version in your `packages.yml` file if you 
 ```yml
 packages:
   - package: fivetran/openai
-    version: [">=0.1.0", "<0.2.0"]
+    version: [">=0.2.0", "<0.3.0"]
 ```
 
 ### Define database and schema variables
