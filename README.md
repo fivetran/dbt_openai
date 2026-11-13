@@ -281,7 +281,7 @@ The Fivetran team maintaining this package only maintains the [latest version](h
 ### Contributions
 A small team of analytics engineers at Fivetran develops these dbt packages. However, the packages are made better by community contributions.
 
-We highly encourage and welcome contributions to this package. Learn how to contribute to a package in dbt's [Contributing to an external dbt package article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657).
+We highly encourage and welcome contributions to this package. Learn how to contribute to a package by reading the guidelines in our [CONTRIBUTING.md](https://github.com/fivetran/dbt_openai/blob/main/CONTRIBUTING.md) document.
 
 ### Opinionated Modelling Decisions
 This dbt package takes an opinionated stance on a few points worth knowing before you build on top of it — most notably, `openai__compliance_cost_report` and `openai__code_report` both cover Codex activity from different angles (spend versus productivity), and summing spend/credits across the two double-counts Codex. See the [DECISIONLOG](https://github.com/fivetran/dbt_openai/blob/main/DECISIONLOG.md) for this and the rest of our opinionated modeling choices, along with the reasoning behind them.
