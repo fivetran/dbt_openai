@@ -64,7 +64,7 @@ Include the following openai package version in your `packages.yml` file if you 
 ```yml
 packages:
   - package: fivetran/openai
-    version: [">=0.2.0", "<0.3.0"]
+    version: [">=0.3.0", "<0.4.0"]
 ```
 
 ### Define database and schema variables
