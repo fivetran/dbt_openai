@@ -6,9 +6,6 @@
 - Raises the minimum dbt version to 1.10.0.
 - Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_openai/issues/new/choose).
 
-## Under the Hood
-- Audits the yml column documentation against the columns each model outputs. The documentation already matched, so nothing changed.
-
 # dbt_openai v0.1.2
 
 [PR #3](https://github.com/fivetran/dbt_openai/pull/3) includes the following updates:
