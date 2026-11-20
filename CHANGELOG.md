@@ -3,7 +3,7 @@
 [PR #6](https://github.com/fivetran/dbt_openai/pull/6) includes the following updates:
 
 ## Feature Update
-- Raises the minimum dbt version to 1.10.0.
+- **Breaking change**: Raises the minimum dbt version to 1.10.0.
 - Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_openai/issues/new/choose).
 
 # dbt_openai v0.1.2
