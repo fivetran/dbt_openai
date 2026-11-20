@@ -24,7 +24,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: date_day
         description: "{{ doc('date_day') }}"
-        tests:
+        data_tests:
           - not_null
       - name: project_id
         description: "{{ doc('project_id') }} Null on `other`-cost_type rows that couldn't be tied to a project."
@@ -78,7 +78,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: date_day
         description: "{{ doc('date_day') }}"
-        tests:
+        data_tests:
           - not_null
       - name: actor_user_id
         description: "{{ doc('actor_user_id') }}"
@@ -121,11 +121,11 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: date_day
         description: "{{ doc('date_day') }}"
-        tests:
+        data_tests:
           - not_null
       - name: user_id
         description: "{{ doc('user_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: actor_email
         description: "{{ doc('actor_email') }} Only present when the `codex_usage` table is synced."
@@ -167,7 +167,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: actor_user_id
         description: "{{ doc('actor_user_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: email
         description: "{{ doc('email') }}"
@@ -239,7 +239,7 @@ models:
         description: ChatGPT Enterprise organization identifier.
       - name: date_day
         description: "{{ doc('date_day') }}"
-        tests:
+        data_tests:
           - not_null
       - name: user_id
         description: "{{ doc('user_id') }}"

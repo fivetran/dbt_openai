@@ -14,7 +14,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: cost_id
         description: Fivetran-generated unique identifier for this cost record.
-        tests:
+        data_tests:
           - not_null
       - name: project_id
         description: "{{ doc('project_id') }}"
@@ -42,7 +42,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: completion_id
         description: Fivetran-generated unique identifier for this completion record.
-        tests:
+        data_tests:
           - not_null
       - name: project_id
         description: "{{ doc('project_id') }}"
@@ -178,7 +178,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: image_id
         description: Fivetran-generated unique identifier for this image usage record.
-        tests:
+        data_tests:
           - not_null
       - name: project_id
         description: "{{ doc('project_id') }}"
@@ -208,7 +208,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: moderation_id
         description: Fivetran-generated unique identifier for this moderation usage record.
-        tests:
+        data_tests:
           - not_null
       - name: project_id
         description: "{{ doc('project_id') }}"
@@ -240,7 +240,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: web_search_call_id
         description: Fivetran-generated unique identifier for this web search call record.
-        tests:
+        data_tests:
           - not_null
       - name: project_id
         description: "{{ doc('project_id') }}"
@@ -272,7 +272,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: file_search_call_id
         description: Fivetran-generated unique identifier for this file search call record.
-        tests:
+        data_tests:
           - not_null
       - name: project_id
         description: "{{ doc('project_id') }}"
@@ -301,11 +301,11 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: user_id
         description: "{{ doc('user_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: usage_started_at
         description: "{{ doc('usage_started_at') }}"
-        tests:
+        data_tests:
           - not_null
       - name: actor_email
         description: "{{ doc('actor_email') }}"
@@ -344,11 +344,11 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: user_id
         description: "{{ doc('user_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: usage_started_at
         description: "{{ doc('usage_started_at') }}"
-        tests:
+        data_tests:
           - not_null
       - name: model
         description: "{{ doc('model') }}"
@@ -378,7 +378,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: project_id
         description: "{{ doc('project_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: project_name
         description: Display name of the project.
@@ -398,7 +398,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: api_key_id
         description: "{{ doc('api_key_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: project_id
         description: "{{ doc('project_id') }}"
@@ -424,7 +424,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: user_id
         description: "{{ doc('user_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: email
         description: Email address of the user.
@@ -451,11 +451,11 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: user_id
         description: "{{ doc('user_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: project_id
         description: "{{ doc('project_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: _fivetran_synced
         description: "{{ doc('fivetran_synced') }}"
@@ -473,7 +473,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: project_role_assignment_id
         description: Identifier for this project-level role assignment. Not unique on its own, even within a single connection — the same role ID can recur across different (project, assignee) combinations.
-        tests:
+        data_tests:
           - not_null
       - name: project_id
         description: "{{ doc('project_id') }}"
@@ -497,7 +497,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: user_role_id
         description: Identifier for this organization-level role assignment. Not unique on its own, even within a single connection — the same role ID can recur across different users.
-        tests:
+        data_tests:
           - not_null
       - name: user_id
         description: "{{ doc('user_id') }}"
@@ -519,7 +519,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: invite_id
         description: Identifier for the invite.
-        tests:
+        data_tests:
           - not_null
       - name: email
         description: Email address the invite was sent to.
