@@ -468,6 +468,8 @@ models:
             combination_of_columns:
               - source_relation
               - project_role_assignment_id
+              - project_id
+              - project_user_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -492,6 +494,7 @@ models:
             combination_of_columns:
               - source_relation
               - user_role_id
+              - user_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
