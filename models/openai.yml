@@ -10,12 +10,21 @@ models:
       `allocated` (inferred via an implied per-token rate), `unallocated`, or `unmatched` (cost
       exists with no completion volume to allocate against, or vice versa). Still useful with
       only the `cost` or only the `completion` table synced — see column descriptions for what drops.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - date_day
+              - project_id
+              - model
+              - token_unit_type
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: date_day
         description: "{{ doc('date_day') }}"
-        tests:
+        data_tests:
           - not_null
       - name: project_id
         description: "{{ doc('project_id') }} Null on `other`-cost_type rows that couldn't be tied to a project."
@@ -54,12 +63,22 @@ models:
       Daily OpenAI Platform activity by user, project, model, and product — completions,
       embeddings, audio, image, moderation, web search, and file search. Cost isn't available
       at this grain; the Costs endpoint doesn't report per-user attribution.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - date_day
+              - actor_user_id
+              - project_id
+              - model
+              - product
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: date_day
         description: "{{ doc('date_day') }}"
-        tests:
+        data_tests:
           - not_null
       - name: actor_user_id
         description: "{{ doc('actor_user_id') }}"
@@ -90,16 +109,23 @@ models:
       grain rather than fanning out. Credits/tokens come from `codex_usage` when enabled, else
       a `codex_usage_model` rollup — either table alone is still useful; see column descriptions
       for what drops when one is disabled.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - date_day
+              - user_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: date_day
         description: "{{ doc('date_day') }}"
-        tests:
+        data_tests:
           - not_null
       - name: user_id
         description: "{{ doc('user_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: actor_email
         description: "{{ doc('actor_email') }} Only present when the `codex_usage` table is synced."
@@ -130,12 +156,18 @@ models:
       membership, project-level custom roles, and all-time and month-to-date usage totals.
       Several column groups are entirely omitted (not nulled) when their source table is
       disabled — see each column's description.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - actor_user_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: actor_user_id
         description: "{{ doc('actor_user_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: email
         description: "{{ doc('email') }}"
@@ -185,6 +217,21 @@ models:
       from a cost angle, not that report's productivity angle — so summing spend across both
       reports double-counts Codex. Each cost event is re-emitted with a cumulative count in every
       log file covering its still-open hour; this model keeps only the newest snapshot per event.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - organization_id
+              - date_day
+              - user_id
+              - product
+              - surface
+              - client
+              - model
+              - service_tier
+              - reasoning
+              - sku
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -192,7 +239,7 @@ models:
         description: ChatGPT Enterprise organization identifier.
       - name: date_day
         description: "{{ doc('date_day') }}"
-        tests:
+        data_tests:
           - not_null
       - name: user_id
         description: "{{ doc('user_id') }}"

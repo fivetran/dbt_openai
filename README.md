@@ -14,7 +14,7 @@ This dbt package transforms data from Fivetran's OpenAI Platform/Enterprise conn
   - [DAG](https://fivetran.github.io/dbt_openai/#!/overview?g_v=1)
   - [Changelog](https://github.com/fivetran/dbt_openai/blob/main/CHANGELOG.md)
 - dbt Core™ supported versions
-  - `>=1.3.0, <3.0.0`
+  - `>=1.10.0, <3.0.0`
 
 ## What does this dbt package do?
 This package enables you to analyze OpenAI Platform spend, usage, and Codex Enterprise productivity across your organization. It creates enriched models with metrics focused on daily cost by project and model, per-user activity across every OpenAI product, Codex Enterprise coding productivity, and per-user usage summaries.
@@ -64,7 +64,7 @@ Include the following openai package version in your `packages.yml` file if you 
 ```yml
 packages:
   - package: fivetran/openai
-    version: [">=0.1.0", "<0.2.0"]
+    version: [">=0.2.0", "<0.3.0"]
 ```
 
 ### Define database and schema variables
@@ -281,7 +281,7 @@ The Fivetran team maintaining this package only maintains the [latest version](h
 ### Contributions
 A small team of analytics engineers at Fivetran develops these dbt packages. However, the packages are made better by community contributions.
 
-We highly encourage and welcome contributions to this package. Learn how to contribute to a package in dbt's [Contributing to an external dbt package article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657).
+We highly encourage and welcome contributions to this package. Learn how to contribute to a package by reading the guidelines in our [CONTRIBUTING.md](https://github.com/fivetran/dbt_openai/blob/main/CONTRIBUTING.md) document.
 
 ### Opinionated Modelling Decisions
 This dbt package takes an opinionated stance on a few points worth knowing before you build on top of it — most notably, `openai__compliance_cost_report` and `openai__code_report` both cover Codex activity from different angles (spend versus productivity), and summing spend/credits across the two double-counts Codex. See the [DECISIONLOG](https://github.com/fivetran/dbt_openai/blob/main/DECISIONLOG.md) for this and the rest of our opinionated modeling choices, along with the reasoning behind them.
