@@ -147,7 +147,7 @@ OpenAI billed ChatGPT Enterprise and Codex usage in credits until 2026-10-10, an
 
 ```yml
 vars:
-    openai__credit_rate: 0.04   # USD per credit
+    openai__credit_rate: 0.01   # USD per credit
 ```
 
 This adds two columns, each omitted entirely (not nulled) when the variable isn't set:

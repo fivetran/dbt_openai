@@ -46,7 +46,7 @@ test_scenarios:
 
   - name: "Credit Rate"
     vars:
-      openai__credit_rate: 0.04
+      openai__credit_rate: 0.01
     include_incremental: false
 
   - name: "Passthrough"
