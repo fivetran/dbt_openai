@@ -1,14 +1,38 @@
-event_id,organization_id,costs_log_id,sku,quantity_unit,quantity_value,cost_unit,cost_value,estimated_cost_usd_amount,estimated_cost_usd_currency,_fivetran_deleted,_fivetran_synced
-evt-0001,org-fictionaldental01,clf-0001,chat-gpt4o-text,tokens,1100,credits,0.55,0.0055,usd,false,2025-12-31 08:00:00
-evt-0001,org-fictionaldental01,clf-0002,chat-gpt4o-text,tokens,1650,credits,0.825,0.00825,usd,false,2025-12-31 08:00:00
-evt-0001,org-fictionaldental01,clf-0002,chat-gpt4o-cached,tokens,300,credits,0.03,0.0003,usd,false,2025-12-31 08:00:00
-evt-0002,org-fictionaldental01,clf-0002,chat-gpt4o-text,tokens,1100,credits,0.55,0.0055,usd,false,2025-12-31 08:00:00
-evt-0003,org-fictionaldental01,clf-0002,chat-gpt5-text,tokens,2900,credits,1.45,0.0145,usd,false,2025-12-31 08:00:00
-evt-0003,org-fictionaldental01,clf-0002,chat-gpt5-cached,tokens,500,credits,0.05,0.0005,usd,false,2025-12-31 08:00:00
-evt-0004,org-fictionaldental01,clf-0002,codex-priority-text,tokens,4700,credits,2.35,0.0235,usd,false,2025-12-31 08:00:00
-evt-0005,org-fictionaldental01,clf-0002,chat-gpt4o-text,tokens,800,credits,0.4,0.004,usd,false,2025-12-31 08:00:00
-evt-0006,org-fictionaldental01,clf-0002,image-gpt-image-1,counts,3,credits,1.2,0.12,usd,false,2025-12-31 08:00:00
-evt-0007,org-fictionaldental01,clf-0002,chat-gpt4o-mini-text,tokens,2100,credits,0.21,0.0021,usd,false,2025-12-31 08:00:00
-evt-0008,org-fictionaldental01,clf-0002,codex-standard-text,tokens,2500,credits,1.0,0.01,usd,false,2025-12-31 08:00:00
-evt-0009,org-fictionaldental01,clf-0002,chat-gpt5-text,tokens,3000,credits,1.5,0.015,usd,false,2025-12-31 08:00:00
-evt-0010,org-fictionaldental01,clf-0002,chat-gpt4o-text,tokens,1250,credits,0.625,0.00625,usd,false,2025-12-31 08:00:00
+event_id,organization_id,sku,quantity_unit,quantity_value,cost_unit,cost_value,estimated_cost_usd_amount,estimated_cost_usd_currency,_fivetran_deleted,_fivetran_synced
+evt-0001,org-fictionaldental01,GPT-4o - Input,tokens,1650,CREDITS,0.825,0.05775,USD,false,2025-12-31 08:00:00
+evt-0001,org-fictionaldental01,GPT-4o - Cached Input,tokens,300,CREDITS,0.03,0.0021,USD,false,2025-12-31 08:00:00
+evt-0002,org-fictionaldental01,GPT-4o - Input,tokens,1100,CREDITS,0.55,0.0385,USD,false,2025-12-31 08:00:00
+evt-0003,org-fictionaldental01,GPT-5 - Input,tokens,2900,CREDITS,1.45,0.1015,USD,false,2025-12-31 08:00:00
+evt-0003,org-fictionaldental01,GPT-5 - Cached Input,tokens,500,CREDITS,0.05,0.0035,USD,false,2025-12-31 08:00:00
+evt-0004,org-fictionaldental01,Codex Priority - Input,tokens,4700,CREDITS,2.35,0.1645,USD,false,2025-12-31 08:00:00
+evt-0005,org-fictionaldental01,GPT-4o - Input,tokens,800,CREDITS,0.4,0.028,USD,false,2025-12-31 08:00:00
+evt-0006,org-fictionaldental01,GPT Image 1 - Image Generation,counts,3,CREDITS,1.2,0.084,USD,false,2025-12-31 08:00:00
+evt-0007,org-fictionaldental01,GPT-4o mini - Input,tokens,2100,CREDITS,0.21,0.0147,USD,false,2025-12-31 08:00:00
+evt-0008,org-fictionaldental01,Codex - Input,tokens,2500,CREDITS,1.0,0.07,USD,false,2025-12-31 08:00:00
+evt-0009,org-fictionaldental01,GPT-5 - Input,tokens,3000,CREDITS,1.5,0.105,USD,false,2025-12-31 08:00:00
+evt-0010,org-fictionaldental01,GPT-4o - Input,tokens,1250,CREDITS,0.625,0.04375,USD,false,2025-12-31 08:00:00
+evt-0011,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text input",tokens,1500,USD,0.0019,,,false,2025-12-31 08:00:00
+evt-0011,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text input cached",tokens,300,USD,0.0001,,,false,2025-12-31 08:00:00
+evt-0011,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text output",tokens,500,USD,0.005,,,false,2025-12-31 08:00:00
+evt-0012,org-fictionaldental01,"GPT-5 Codex | processing standard | context standard | regional standard | gen mode single, text input",tokens,4000,USD,0.005,,,false,2025-12-31 08:00:00
+evt-0012,org-fictionaldental01,"GPT-5 Codex | processing standard | context standard | regional standard | gen mode single, text output",tokens,1500,USD,0.015,,,false,2025-12-31 08:00:00
+evt-0013a,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text input",tokens,250,USD,0.0003,,,false,2025-12-31 08:00:00
+evt-0013a,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text output",tokens,100,USD,0.001,,,false,2025-12-31 08:00:00
+evt-0013b,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text input",tokens,250,USD,0.0003,,,false,2025-12-31 08:00:00
+evt-0013b,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text output",tokens,100,USD,0.001,,,false,2025-12-31 08:00:00
+evt-0013c,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text input",tokens,250,USD,0.0003,,,false,2025-12-31 08:00:00
+evt-0013c,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text output",tokens,100,USD,0.001,,,false,2025-12-31 08:00:00
+evt-0013d,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text input",tokens,250,USD,0.0003,,,false,2025-12-31 08:00:00
+evt-0013d,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text output",tokens,100,USD,0.001,,,false,2025-12-31 08:00:00
+costapi_rollback_0013a,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text input",tokens,-250,USD,-0.0003,,,false,2025-12-31 08:00:00
+costapi_rollback_0013a,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text output",tokens,-100,USD,-0.001,,,false,2025-12-31 08:00:00
+costapi_rollback_0013b,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text input",tokens,-250,USD,-0.0003,,,false,2025-12-31 08:00:00
+costapi_rollback_0013b,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text output",tokens,-100,USD,-0.001,,,false,2025-12-31 08:00:00
+costapi_rollback_0013c,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text input",tokens,-250,USD,-0.0003,,,false,2025-12-31 08:00:00
+costapi_rollback_0013c,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text output",tokens,-100,USD,-0.001,,,false,2025-12-31 08:00:00
+costapi_rollback_0013d,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text input",tokens,-250,USD,-0.0003,,,false,2025-12-31 08:00:00
+costapi_rollback_0013d,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text output",tokens,-100,USD,-0.001,,,false,2025-12-31 08:00:00
+evt-0014,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text input",tokens,1000,USD,0.0012,,,false,2025-12-31 08:00:00
+evt-0014,org-fictionaldental01,"GPT-5 | processing standard | context standard | regional standard | gen mode single, text output",tokens,400,USD,0.004,,,false,2025-12-31 08:00:00
+evt-0015,org-fictionaldental01,app.gpt_5.processing_standard.context_standard.regional_standard.gen_mode_single.text_input.v1,tokens,2000,USD,0.0025,,,false,2025-12-31 08:00:00
+evt-0015,org-fictionaldental01,app.gpt_5.processing_standard.context_standard.regional_standard.gen_mode_single.text_output.v1,tokens,800,USD,0.008,,,false,2025-12-31 08:00:00

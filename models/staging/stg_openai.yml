@@ -563,7 +563,7 @@ models:
       - name: user_id
         description: "{{ doc('user_id') }}"
       - name: product
-        description: The ChatGPT Enterprise product this spend belongs to.
+        description: "{{ doc('compliance_product') }}"
       - name: surface
         description: The surface the spend originated from.
       - name: client
@@ -586,7 +586,7 @@ models:
         description: "{{ doc('fivetran_synced') }}"
 
   - name: stg_openai__compliance_cost_billing
-    description: One row per (SKU line item, log file) snapshot billed against a compliance cost event — restated per log file like its parent, so also carries costs_log_id.
+    description: One row per SKU line item billed against a compliance cost event. Cost is split into `credits` and `cost_usd` by `cost_unit`, so the two units are never summed together.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -594,7 +594,6 @@ models:
               - source_relation
               - event_id
               - organization_id
-              - costs_log_id
               - sku
     columns:
       - name: source_relation
@@ -603,20 +602,26 @@ models:
         description: Identifier for the parent cost event.
       - name: organization_id
         description: ChatGPT Enterprise organization identifier.
-      - name: costs_log_id
-        description: Identifier of the log file this billing snapshot came from.
       - name: sku
-        description: The billed SKU.
+        description: "{{ doc('compliance_sku') }}"
       - name: quantity_unit
         description: The unit `quantity` is denominated in. Only additive within a single unit.
       - name: quantity
         description: Quantity consumed, in the unit named by `quantity_unit`.
       - name: cost_unit
-        description: The unit `credits` is denominated in (typically credits).
+        description: "{{ doc('compliance_cost_unit') }}"
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['credits', 'usd']
+              config:
+                severity: warn
       - name: credits
-        description: "{{ doc('credits') }}"
+        description: "{{ doc('compliance_credits') }}"
+      - name: cost_usd
+        description: "{{ doc('compliance_cost_usd') }}"
       - name: estimated_cost_usd_amount
-        description: Connector-estimated USD equivalent of `credits`, provided directly by the source.
+        description: "{{ doc('compliance_estimated_cost_usd_amount') }}"
       - name: estimated_cost_usd_currency
         description: ISO currency code for `estimated_cost_usd_amount`.
       - name: _fivetran_synced

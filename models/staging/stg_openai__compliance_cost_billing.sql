@@ -27,12 +27,13 @@ final as (
         source_relation,
         cast(event_id as {{ dbt.type_string() }}) as event_id,
         cast(organization_id as {{ dbt.type_string() }}) as organization_id,
-        cast(costs_log_id as {{ dbt.type_string() }}) as costs_log_id,
         sku,
         quantity_unit,
         cast(quantity_value as {{ dbt.type_float() }}) as quantity,
-        cost_unit,
-        cast(cost_value as {{ dbt.type_float() }}) as credits,
+        lower(cost_unit) as cost_unit,
+        -- OpenAI switched cost_value from credits to USD on 2026-10-10. Split by cost_unit so the two units are never summed together.
+        case when lower(cost_unit) = 'credits' then cast(cost_value as {{ dbt.type_float() }}) end as credits,
+        case when lower(cost_unit) = 'usd' then cast(cost_value as {{ dbt.type_float() }}) end as cost_usd,
         cast(estimated_cost_usd_amount as {{ dbt.type_float() }}) as estimated_cost_usd_amount,
         estimated_cost_usd_currency,
         _fivetran_synced

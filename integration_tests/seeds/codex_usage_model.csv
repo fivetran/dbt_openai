@@ -277,3 +277,4 @@ codex_usage_start_time,codex_usage_user_id,model,speed,credit,uncached_text_inpu
 2025-12-30 00:00:00,user-kylepla0001,gpt-5.1-codex,standard,0.0138,883,188,501,false,2025-12-31 08:00:00
 2025-12-30 00:00:00,user-kylepla0001,gpt-5.1-codex,fast,0.0466,1978,270,352,false,2025-12-31 08:00:00
 2025-12-30 00:00:00,user-priyaroo0005,gpt-5.1-codex,standard,0.0175,795,167,953,false,2025-12-31 08:00:00
+2025-12-31 00:00:00,user-kylepla0001,gpt-5.1-codex,standard,,1450,320,610,false,2025-12-31 08:00:00

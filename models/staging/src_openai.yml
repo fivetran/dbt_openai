@@ -580,7 +580,7 @@ sources:
           - name: identity_agent_name
             description: Display name of the agent acting on the user's behalf, if applicable.
           - name: product
-            description: The ChatGPT Enterprise product this spend belongs to (for example, chat, codex).
+            description: The ChatGPT Enterprise product this spend belongs to (for example, ChatGPT, codex, Work). Casing varies, since some events from 2026-11-02 use lowercase names.
           - name: surface
             description: The surface the spend originated from (for example, web, desktop, api).
           - name: client
@@ -614,7 +614,7 @@ sources:
 
       - name: compliance_costs_organization_log_billing
         identifier: "{{ var('openai_compliance_costs_organization_log_billing_identifier', 'compliance_costs_organization_log_billing') }}"
-        description: Repeated SKU line items per cost event from the ChatGPT Enterprise Compliance Platform, carrying cost in credits (never USD) plus a connector-estimated USD equivalent. Keyed on (event_id, organization_id, sku) — like its parent, restated per log file, so also carries `costs_log_id`.
+        description: SKU line items per cost event from the ChatGPT Enterprise Compliance Platform. One row per (event_id, organization_id, sku). Unlike its parent, it carries no log file id.
         config:
           enabled: "{{ var('openai__using_compliance_cost', True) and var('openai_sources', []) == [] }}"
         columns:
@@ -622,20 +622,18 @@ sources:
             description: Identifier for the parent cost event. Joins to compliance_costs_organization_log.
           - name: organization_id
             description: ChatGPT Enterprise organization identifier.
-          - name: costs_log_id
-            description: Identifier of the log file this billing snapshot came from. Joins to `compliance_costs_log_file`.
           - name: sku
-            description: The billed SKU (for example, a specific feature or model tier).
+            description: "{{ doc('compliance_sku') }}"
           - name: quantity_unit
-            description: The unit `quantity_value` is denominated in (for example, tokens, counts, duration_s, hours, gib_hours). Only additive within a single unit.
+            description: The unit `quantity_value` is denominated in (for example, tokens, counts, duration_s, second, hours, gib_hours). Only additive within a single unit.
           - name: quantity_value
             description: Quantity consumed, in the unit named by `quantity_unit`.
           - name: cost_unit
-            description: The unit `cost_value` is denominated in (typically credits).
+            description: The unit `cost_value` is denominated in. `CREDITS` before 2026-10-10 and `USD` from then on.
           - name: cost_value
-            description: "{{ doc('credits') }}"
+            description: Cost of this line item, in the unit named by `cost_unit`. Can be negative on rollback events.
           - name: estimated_cost_usd_amount
-            description: Connector-estimated USD equivalent of `cost_value`, provided directly by the source.
+            description: OpenAI's estimated USD equivalent of `cost_value`. Only populated on rows billed in credits.
           - name: estimated_cost_usd_currency
             description: ISO currency code for `estimated_cost_usd_amount`.
           - name: _fivetran_synced
@@ -650,7 +648,7 @@ sources:
           enabled: "{{ var('openai__using_compliance_cost', True) and var('openai_sources', []) == [] }}"
         columns:
           - name: id
-            description: Identifier for the log file. Joins to `costs_log_id` on `compliance_costs_organization_log` and `compliance_costs_organization_log_billing`.
+            description: Identifier for the log file. Joins to `costs_log_id` on `compliance_costs_organization_log`.
           - name: organization_id
             description: ChatGPT Enterprise organization identifier.
           - name: end_time

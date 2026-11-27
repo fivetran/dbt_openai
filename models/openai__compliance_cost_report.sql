@@ -1,6 +1,8 @@
--- Daily ChatGPT Enterprise (Compliance Platform) spend by user, product, and SKU. Only its `codex` rows overlap openai__code_report, and from a cost angle, not productivity — summing both double-counts.
+-- Daily ChatGPT Enterprise (Compliance Platform) spend by user, product, and SKU. Only its `codex` and `work` rows overlap openai__code_report, and from a cost angle, not productivity, so summing both double-counts.
 
 {% set email_enabled = var('openai__using_compliance_users', True) %}
+-- USD per credit, for pricing rows billed in credits (before 2026-10-10). openai__code_report_credit_rate is the earlier name, kept as a fallback.
+{% set credit_rate = var('openai__credit_rate', var('openai__code_report_credit_rate', none)) %}
 
 {{ config(enabled=var('openai__using_compliance_cost', True)) }}
 
@@ -18,7 +20,7 @@ log_file as (
 
 ),
 
-billing_raw as (
+billing as (
 
     select *
     from {{ ref('stg_openai__compliance_cost_billing') }}
@@ -47,19 +49,6 @@ cost_events as (
     select *
     from ranked_cost_events
     where file_recency = 1
-
-),
-
--- Scoped to cost_events' winning costs_log_id, so stale billing lines aren't pulled in alongside the current event.
-billing as (
-
-    select billing_raw.*
-    from billing_raw
-    inner join cost_events
-        on cost_events.source_relation = billing_raw.source_relation
-        and cost_events.organization_id = billing_raw.organization_id
-        and cost_events.event_id = billing_raw.event_id
-        and cost_events.costs_log_id = billing_raw.costs_log_id
 
 ),
 
@@ -95,12 +84,18 @@ final as (
         -- quantity is only additive within a single quantity_unit (different SKUs use tokens, counts, duration_s, hours, gib_hours), so it must stay grouped by unit.
         sum(billing.quantity) as quantity,
         sum(billing.credits) as credits,
+        sum(billing.cost_usd) as cost_usd,
         sum(billing.estimated_cost_usd_amount) as estimated_cost_usd_amount,
         max(billing.estimated_cost_usd_currency) as estimated_cost_usd_currency
+        {% if credit_rate is not none %}
+        , sum(coalesce(billing.cost_usd, 0) + coalesce(billing.credits, 0) * {{ credit_rate }}) as total_cost_usd
+        {% endif %}
         {{ fivetran_utils.persist_pass_through_columns('openai__compliance_cost_billing_passthrough_metrics', identifier='billing', transform='sum') }}
         -- max, not sum: an event-level field is constant across its SKU lines, so max reads it once instead of multiplying it per SKU like sum would.
         {{ fivetran_utils.persist_pass_through_columns('openai__compliance_cost_passthrough_metrics', identifier='cost_events', transform='max') }}
     from cost_events
+    -- Billing is keyed on (event, SKU) and carries no log file id, so it joins on the event alone.
+    -- Rollback events (event_id `costapi_rollback_...`) carry negative cost and are kept, so they net out the events they reverse.
     inner join billing
         on billing.event_id = cost_events.event_id
         and billing.organization_id = cost_events.organization_id

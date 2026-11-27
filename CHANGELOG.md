@@ -1,3 +1,34 @@
+# dbt_openai v0.3.0
+
+[PR #7](https://github.com/fivetran/dbt_openai/pull/7) includes the following updates:
+
+## Schema/Data Change
+**7 total changes • 3 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| `openai__compliance_cost_report`<br>`stg_openai__compliance_cost_billing`<br>(Breaking) | Field value change | `credits` held USD from 2026-10-10 | `credits` holds credits only | OpenAI switched the Compliance cost log from credits to USD on 2026-10-10. `credits` is now null on line items billed in USD. |
+| `openai__compliance_cost_report`<br>`stg_openai__compliance_cost`<br>(Breaking) | Field value change | `product` in mixed case (for example `ChatGPT`, `chatgpt`) | `product` lowercased | OpenAI sent some events from 2026-11-02 with lowercase product names while others kept the original casing. Filters on `product` should use lowercase values. |
+| `openai__code_report`<br>(Breaking) | Field value change | `credits` is 0 when the source reports none | `credits` is null when the source reports none | The Codex Analytics API stopped returning credits on 2026-10-10. `estimated_cost_amount` is also null on those rows. Codex cost from that date is in `openai__compliance_cost_report` (products `codex` and `work`). |
+| `openai__compliance_cost_report`<br>`stg_openai__compliance_cost_billing` | New field |  | `cost_usd` | Cost of line items billed in USD (from 2026-10-10). Null on line items billed in credits. |
+| `openai__compliance_cost_report` | New field |  | `total_cost_usd` | `cost_usd` plus `credits` priced at the new `openai__credit_rate` variable. Only present when that variable is set. |
+| `openai__compliance_cost_report`<br>`stg_openai__compliance_cost_billing` | Field value change | `cost_unit` as sent (`CREDITS`, `USD`) | `cost_unit` lowercased (`credits`, `usd`) | `cost_unit` is also added to the uniqueness test on `openai__compliance_cost_report`, since both units appear on 2026-10-10. |
+| `stg_openai__compliance_cost_billing` | Removed field | `costs_log_id` |  | The `compliance_costs_organization_log_billing` source table has no `costs_log_id` column, so this field was always null. |
+
+## Feature Update
+- Adds the `openai__credit_rate` variable (USD per credit), which prices credits in both `openai__compliance_cost_report` (`total_cost_usd`) and `openai__code_report` (`estimated_cost_amount`). It replaces `openai__code_report_credit_rate`, which is still read when `openai__credit_rate` isn't set. See the [README](https://github.com/fivetran/dbt_openai/blob/main/README.md#pricing-credits-in-usd).
+- Documents the Compliance cost log changes in the DECISIONLOG, including why rollback events with negative cost are kept, and documents the three SKU name formats and how to parse the token type from them.
+
+## Bug Fix
+- Fixes `openai__compliance_cost_report` returning no rows. Billing lines were joined to their cost event on `costs_log_id`, which the billing source table doesn't have, so the join matched nothing. Billing now joins on the event alone.
+- Fixes Compliance cost after 2026-10-10 being reported as credits. OpenAI now bills in USD, so cost is split into `credits` and `cost_usd` by `cost_unit`, and the two units are never summed together.
+- Fixes `openai__code_report` showing 0 credits after 2026-10-10, when the Codex Analytics API stopped returning credits. These rows now show null.
+
+## Under the Hood
+- Adds an `accepted_values` test (warn severity) on `cost_unit` in `stg_openai__compliance_cost_billing`, so a new cost unit is flagged instead of dropped from both cost columns.
+- Updates the Compliance seed data to match the connector schema and adds USD-era line items, mixed-case and new products, and a rollback and re-issue cycle. Adds Codex seed rows with no credits.
+- Adds the `integrity_compliance_cost_report` validation test, which ties `openai__compliance_cost_report` totals to the billing source, and a `Credit Rate` test scenario.
+
 # dbt_openai v0.2.0
 
 [PR #6](https://github.com/fivetran/dbt_openai/pull/6) includes the following updates:
