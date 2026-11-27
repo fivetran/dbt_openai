@@ -4,8 +4,8 @@
 {% set codex_usage_enabled = var('openai__using_codex_usage', True) %}
 {% set codex_usage_model_enabled = var('openai__using_codex_usage_model', True) %}
 -- No universal credits-to-USD rate is available from the source data itself, so estimated cost
--- only appears when a customer sets their own known rate.
-{% set credit_rate = var('openai__code_report_credit_rate', none) %}
+-- only appears when a customer sets their own known rate. openai__code_report_credit_rate is the earlier name, kept as a fallback.
+{% set credit_rate = var('openai__credit_rate', var('openai__code_report_credit_rate', none)) %}
 {% if codex_usage_enabled %}
     {% set credits_expr = 'codex_usage.credits' %}
 {% elif codex_usage_model_enabled %}
@@ -108,20 +108,22 @@ final as (
         , coalesce(model_rollup.count_models_used, 0) as count_models_used
         {{ fivetran_utils.persist_pass_through_columns('openai__codex_usage_model_passthrough_metrics', identifier='model_rollup') }}
         {% endif %}
+        -- credits stay null when the source reports none: the Codex Analytics API stopped returning credits on 2026-10-10,
+        -- and 0 would read as free usage. Codex cost after that date is in openai__compliance_cost_report (products codex and work).
         {% if codex_usage_enabled %}
-        , coalesce(codex_usage.credits, 0) as credits
+        , codex_usage.credits
         , coalesce(codex_usage.input_tokens, 0) as input_tokens
         , coalesce(codex_usage.cache_read_tokens, 0) as cache_read_tokens
         , coalesce(codex_usage.output_tokens, 0) as output_tokens
         {{ fivetran_utils.persist_pass_through_columns('openai__codex_usage_passthrough_metrics', identifier='codex_usage') }}
         {% elif codex_usage_model_enabled %}
-        , coalesce(model_rollup.credits, 0) as credits
+        , model_rollup.credits
         , coalesce(model_rollup.input_tokens, 0) as input_tokens
         , coalesce(model_rollup.cache_read_tokens, 0) as cache_read_tokens
         , coalesce(model_rollup.output_tokens, 0) as output_tokens
         {% endif %}
         {% if credit_rate is not none %}
-        , coalesce({{ credits_expr }}, 0) * {{ credit_rate }} as estimated_cost_amount
+        , {{ credits_expr }} * {{ credit_rate }} as estimated_cost_amount
         {% endif %}
     from spine
     {% if codex_usage_enabled %}

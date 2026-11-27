@@ -4,12 +4,12 @@
 ) }}
 
 with prod as (
-    select {{ dbt_utils.star(from=ref('openai__compliance_cost_report')) }}
+    select {{ dbt_utils.star(from=ref('openai__compliance_cost_report'), except=var('consistency_test_exclude_metrics', [])) }}
     from {{ target.schema }}_openai_prod.openai__compliance_cost_report
 ),
 
 dev as (
-    select {{ dbt_utils.star(from=ref('openai__compliance_cost_report')) }}
+    select {{ dbt_utils.star(from=ref('openai__compliance_cost_report'), except=var('consistency_test_exclude_metrics', [])) }}
     from {{ target.schema }}_openai_dev.openai__compliance_cost_report
 ),
 

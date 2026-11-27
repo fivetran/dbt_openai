@@ -58,6 +58,35 @@ Number of tool calls represented by this usage record.
 Codex credits consumed, the billing unit for Codex Enterprise usage (not USD).
 {% enddocs %}
 
+{% docs compliance_product %}
+The ChatGPT Enterprise product this spend belongs to (for example, `chatgpt`, `codex`, `work`, `hermes`, `chatgpt_agent`, `site_hosting`). Lowercased, because OpenAI sent some events from 2026-11-02 with lowercase names while others kept the original casing (`ChatGPT`, `Work`). OpenAI adds products without notice, so filter on the products you need rather than on a fixed list. `codex` and `work` cover the same activity as `openai__code_report`.
+{% enddocs %}
+
+{% docs compliance_sku %}
+The billed SKU, as OpenAI names it. The format changed twice, so the same SKU can appear under different names over time:
+- Before 2026-10-10: `GPT-5.6 Sol - Cached Input`
+- From 2026-10-10: `GPT-6 Sol | processing standard | context standard | regional standard | gen mode single, text input cached`
+- From 2026-11-02, for some SKUs: `app.gpt_6_sol.processing_standard....text_input_cached.v1`
+
+To group by token type, match phrases all three formats share (reading underscores as spaces): `cache write`, `cached input` or `input cached`, `output`, and `input`, checked in that order.
+{% enddocs %}
+
+{% docs compliance_cost_unit %}
+The unit this line item's cost is billed in, lowercased: `credits` before 2026-10-10 and `usd` from then on. Cost lands in `credits` or `cost_usd` to match.
+{% enddocs %}
+
+{% docs compliance_credits %}
+Cost in ChatGPT Enterprise credits, for line items billed in credits (`cost_unit = 'credits'`, before 2026-10-10). Null on line items billed in USD. Can be negative on rollback events. Never add it to `cost_usd` directly; price it with your credit rate first, or use `total_cost_usd`.
+{% enddocs %}
+
+{% docs compliance_cost_usd %}
+Cost in USD, for line items billed in USD (`cost_unit = 'usd'`, from 2026-10-10). Null on line items billed in credits. Can be negative on rollback events, which net out the events they reverse.
+{% enddocs %}
+
+{% docs compliance_estimated_cost_usd_amount %}
+OpenAI's estimated USD equivalent of `credits`, provided by the source. Only populated on line items billed in credits; null from 2026-10-10. It reflects OpenAI's list price, which can differ from your contracted credit rate.
+{% enddocs %}
+
 {% docs cost_amount %}
 Cost of this line item, as reported by the OpenAI Costs API, in the unit given by `currency_code`.
 {% enddocs %}

@@ -140,7 +140,7 @@ models:
       - name: count_models_used
         description: Distinct Codex models this person used on this day. Only present when the `codex_usage_model` table is synced.
       - name: credits
-        description: "{{ doc('credits') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`."
+        description: "{{ doc('credits') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`. Null when the source reports no credits, which is the case from 2026-10-10, when the Codex Analytics API stopped returning them. For Codex cost from that date, use the `codex` and `work` product rows of `openai__compliance_cost_report`."
       - name: input_tokens
         description: "{{ doc('input_tokens') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`."
       - name: cache_read_tokens
@@ -148,7 +148,7 @@ models:
       - name: output_tokens
         description: "{{ doc('output_tokens') }} From `codex_usage` when enabled, else rolled up from `codex_usage_model`."
       - name: estimated_cost_amount
-        description: "`credits` converted to a monetary amount using the `openai__code_report_credit_rate` variable, in whatever currency that rate is denominated in. Only present when that variable is set — there's no universal credits-to-currency rate in the source data itself."
+        description: "`credits` converted to USD using the `openai__credit_rate` variable (or the earlier `openai__code_report_credit_rate`). Null when `credits` is null. Only present when the variable is set, since the source data has no universal credits-to-USD rate."
 
   - name: openai__user_summary
     description: >
@@ -213,10 +213,12 @@ models:
   - name: openai__compliance_cost_report
     description: >
       Daily ChatGPT Enterprise (Compliance Platform) spend by user, product, surface, model, and
-      SKU. Only its `codex`-product rows cover the same activity as `openai__code_report` — and
-      from a cost angle, not that report's productivity angle — so summing spend across both
-      reports double-counts Codex. Each cost event is re-emitted with a cumulative count in every
-      log file covering its still-open hour; this model keeps only the newest snapshot per event.
+      SKU. Only its `codex` and `work` product rows cover the same activity as `openai__code_report`,
+      and from a cost angle rather than that report's productivity angle, so summing spend across
+      both reports double-counts Codex. Each cost event is re-emitted with a cumulative count in
+      every log file covering its still-open hour; this model keeps only the newest snapshot per
+      event. Rollback events, which carry negative cost, are kept so they net out the events they
+      reverse.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -232,6 +234,8 @@ models:
               - service_tier
               - reasoning
               - sku
+              - quantity_unit
+              - cost_unit
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -246,7 +250,7 @@ models:
       - name: email
         description: "{{ doc('email') }} Only present when the `compliance_users` table is synced."
       - name: product
-        description: The ChatGPT Enterprise product this spend belongs to (e.g. `chat`, `image`, `codex`).
+        description: "{{ doc('compliance_product') }}"
       - name: surface
         description: The surface the spend originated from.
       - name: client
@@ -258,16 +262,20 @@ models:
       - name: reasoning
         description: The reasoning effort level used, if applicable to the model.
       - name: sku
-        description: The billed SKU.
+        description: "{{ doc('compliance_sku') }}"
       - name: quantity_unit
-        description: The unit `quantity` is denominated in (for example, tokens, counts, duration_s, hours, gib_hours). Only additive within a single unit.
+        description: The unit `quantity` is denominated in (for example, tokens, counts, duration_s, second, hours, gib_hours). Only additive within a single unit.
       - name: cost_unit
-        description: The unit `credits` is denominated in (typically credits).
+        description: "{{ doc('compliance_cost_unit') }}"
       - name: quantity
         description: Quantity consumed, in the unit named by `quantity_unit`.
       - name: credits
-        description: "{{ doc('credits') }}"
+        description: "{{ doc('compliance_credits') }}"
+      - name: cost_usd
+        description: "{{ doc('compliance_cost_usd') }}"
       - name: estimated_cost_usd_amount
-        description: Connector-estimated USD equivalent of `credits`, provided directly by the source.
+        description: "{{ doc('compliance_estimated_cost_usd_amount') }}"
       - name: estimated_cost_usd_currency
         description: ISO currency code for `estimated_cost_usd_amount`.
+      - name: total_cost_usd
+        description: "`cost_usd` plus `credits` priced at the `openai__credit_rate` variable (USD per credit), so spend before and after OpenAI's 2026-10-10 switch to USD can be summed. Only present when that variable is set."

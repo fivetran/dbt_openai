@@ -44,6 +44,11 @@ test_scenarios:
       openai__using_cost: false
     include_incremental: false
 
+  - name: "Credit Rate"
+    vars:
+      openai__credit_rate: 0.01
+    include_incremental: false
+
   - name: "Passthrough"
     vars:
       openai__cost_passthrough_metrics:

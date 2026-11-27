@@ -38,7 +38,7 @@ By default, this package materializes the following final tables:
 | [openai__enterprise_user_report](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__enterprise_user_report) | Daily OpenAI Platform activity by user, project, model, and product (completions, embeddings, audio transcription, audio speech, image generation, moderation, web search, and file search). Cost is not available at this grain — the Costs endpoint doesn't report per-user attribution. <br><br>**Example Analytics Questions:**<br><ul><li>Which users are the heaviest consumers of a given product or model?</li><li>How is usage distributed across products (completions, embeddings, image, etc.) day to day?</li><li>Which projects have the most active users?</li></ul> |
 | [openai__code_report](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__code_report) | Daily Codex Enterprise productivity (lines of code added/removed, threads, turns) plus credit and token consumption, one row per source relation, day, and user. Per-model and per-speed detail is rolled up onto this grain rather than fanned out into separate rows. <br><br>**Example Analytics Questions:**<br><ul><li>Who are the most active Codex users by lines of code or threads per day?</li><li>How much credit and token volume is Codex consuming per person over time?</li><li>Is Codex usage trending up or down across the organization?</li></ul> |
 | [openai__user_summary](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__user_summary) | One row per source relation and user, with organization role, project membership, project-level custom roles, API key ownership, invite status, and all-time/month-to-date usage totals. <br><br>**Example Analytics Questions:**<br><ul><li>Which users belong to the most projects or hold the most custom roles?</li><li>Who has been most active this month versus all time?</li><li>Which users haven't been active recently?</li><li>Which users own the most API keys, or haven't accepted their invite yet?</li></ul> |
-| [openai__compliance_cost_report](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__compliance_cost_report) | Daily ChatGPT Enterprise (Compliance Platform) spend by user, product, surface, model, and SKU. Only its `codex`-product rows cover the same activity as `openai__code_report`, and from a cost angle rather than that report's productivity angle — see [Opinionated Modelling Decisions](https://github.com/fivetran/dbt_openai/blob/main/README.md#opinionated-modelling-decisions) for the double-counting caution if you query both. <br><br>**Example Analytics Questions:**<br><ul><li>Which users or products are driving the most ChatGPT Enterprise spend?</li><li>How does spend break down by surface (web, desktop, API) or client?</li><li>Which SKUs or service tiers make up the bulk of Compliance Platform cost?</li></ul> |
+| [openai__compliance_cost_report](https://fivetran.github.io/dbt_openai/#!/model/model.openai.openai__compliance_cost_report) | Daily ChatGPT Enterprise (Compliance Platform) spend by user, product, surface, model, and SKU. Only its `codex` and `work` product rows cover the same activity as `openai__code_report`, and from a cost angle rather than that report's productivity angle — see [Opinionated Modelling Decisions](https://github.com/fivetran/dbt_openai/blob/main/README.md#opinionated-modelling-decisions) for the double-counting caution if you query both. <br><br>**Example Analytics Questions:**<br><ul><li>Which users or products are driving the most ChatGPT Enterprise spend?</li><li>How does spend break down by surface (web, desktop, API) or client?</li><li>Which SKUs or service tiers make up the bulk of Compliance Platform cost?</li></ul> |
 
 ¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 
@@ -142,15 +142,21 @@ vars:
 
 Disabling one table in a pair doesn't disable the whole model — it just drops the columns that table alone can supply. See the column descriptions in [models/openai.yml](https://github.com/fivetran/dbt_openai/blob/main/models/openai.yml) for the full breakdown of which columns depend on which variable.
 
-#### Estimated Codex cost
-`openai__code_report` reports Codex credits, but the source data has no universal credits-to-currency conversion rate. If you know your organization's rate, set it to get an estimated `estimated_cost_amount` column, in whatever currency your rate is denominated in:
+#### Pricing credits in USD
+OpenAI billed ChatGPT Enterprise and Codex usage in credits until 2026-10-10, and in USD from then on. The source data has no universal credits-to-USD rate, so set your organization's contracted rate to price credits:
 
 ```yml
 vars:
-    openai__code_report_credit_rate: 0.01   # currency amount per credit
+    openai__credit_rate: 0.01   # USD per credit
 ```
 
-This column is omitted entirely (not nulled) when the variable isn't set.
+This adds two columns, each omitted entirely (not nulled) when the variable isn't set:
+- `total_cost_usd` in `openai__compliance_cost_report`: `cost_usd` plus `credits` priced at your rate, so spend before and after 2026-10-10 can be summed.
+- `estimated_cost_amount` in `openai__code_report`: `credits` priced at your rate.
+
+`openai__code_report_credit_rate`, the earlier name for this variable, still works if `openai__credit_rate` isn't set.
+
+> The Codex Analytics API stopped returning credits on 2026-10-10, so `credits` and `estimated_cost_amount` in `openai__code_report` are null from that date. For Codex cost from then on, use the `codex` and `work` product rows of `openai__compliance_cost_report`.
 
 #### Inferred cost attribution
 The OpenAI Costs API doesn't report a project-level cost breakdown. To still provide per-project spend, `openai_cost` in `openai__cost_usage_report` is inferred: this package derives an implied per-token rate from the Costs endpoint's daily spend per model and unit type, then applies that rate to each project's share of that day's token volume (from `completion`). Cost that can't be tied back to a matching model/day of completion volume — or that isn't token-based to begin with (e.g. aggregate feature charges like "Assistants API") — lands in a `cost_type = 'other'` row so that `sum(openai_cost)` still ties out to the total in the source `cost` table.

@@ -32,7 +32,8 @@ final as (
         cast({{ dbt.date_trunc('day', 'day') }} as date) as date_day,
         cast(hour as {{ dbt.type_int() }}) as hour,
         cast(identity_user_id as {{ dbt.type_string() }}) as user_id,
-        product,
+        -- OpenAI sent lowercase product names for some events from 2026-11-02 (ChatGPT -> chatgpt, Work -> work), and both casings stay in the log.
+        lower(product) as product,
         surface,
         client,
         model,
